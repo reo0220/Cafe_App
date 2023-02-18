@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     );
                 $dbh -> exec("insert into users(name,mail,password,delete_flag)
                 values('".$_POST['name']."','".$_POST['mail']."','".password_hash($_POST['password'],PASSWORD_DEFAULT)."','0');");
-                $_SESSION['user_id'] = $dbh->lastInsertId();//セッションに登録した「user_id」を代入
+                $_SESSION['user_id'] = $dbh->lastInsertId();//セッションに、登録した「user_id」を代入
                 }
                 catch(PDOException $e){//DB接続エラーが発生した時$db_errorを定義
                     $db_error = "エラーが発生したためアカウント登録できません。";
