@@ -1,6 +1,10 @@
 <?php
     session_start();
-    $user_id = $_SESSION['user_id'];
+    if(!empty($_SESSION['user_id_log'])){
+        $user_id = $_SESSION['user_id_log'];
+    }elseif(!empty($_SESSION['user_id_sign'])){
+        $user_id = $_SESSION['user_id_sign'];
+    }
 
     mb_internal_encoding("utf8");
     $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
@@ -86,7 +90,7 @@
     </head>
     <body>
     <h1 class="heading-lv1 text-center">アカウント編集</h1>
-    <form method = "POST" action = "edit_account.php" enctype="multipart/form-data">
+    <form method = "POST" action = "?" enctype="multipart/form-data">
         <ul>
             <li>
                 <label>プロフィール画像</label>
@@ -135,7 +139,8 @@
                 <label>自己紹介文</label>
                 <textarea name="about_me" name = "about_me" rows="5" cols="33"><?php echo $result['about_me'];?></textarea>
             </li>
-            <li><input type = "submit" class = "submit" value="保存"></li>
+            <li><input type="submit" name="_method"  value="保存" formaction="edit_account.php"></li>
+            <li><input type="submit" name="_method" value="キャンセル" formaction="profile.php"></li>
         </ul>
     </form>
 </body>

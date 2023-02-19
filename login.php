@@ -1,7 +1,10 @@
 <?php 
-        $err = "";
-        $mail_err = "";
-        $pas_err = "";
+    session_start();
+
+
+    $err = "";
+    $mail_err = "";
+    $pas_err = "";
        
         try{
             if ($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -38,7 +41,7 @@
                         $mail = "";
                         $pas = "";
                     }elseif(password_verify($pas, $result['password']) && $mail === $result['mail']){//メールアドレスとパスワードが一致した時
-                        $_SESSION['mail'] = $result['mail'];
+                        $_SESSION['user_id_log'] = $result['user_id'];
                         header("Location:http://localhost/cafe_app/Cafe_App/toppage.php",true,307);
                     }
                 }
@@ -60,9 +63,9 @@
         <h2>ログイン画面</h2>
             <main>
                 <p class = "login_err"><?php if(isset($db_err)){
-                                                        echo $db_err;
-                                                    }elseif(isset($err)){
-                                                        echo $err;}?></p>
+                                                    echo $db_err;
+                                            }elseif(isset($err)){
+                                                    echo $err;}?></p>
                 <form name = "form" action = "login.php" method = "POST">
                     <ul class = "ul2">
                         <li>

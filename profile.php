@@ -1,6 +1,12 @@
 <?php
     session_start();
-    $user_id = $_SESSION['user_id'];
+
+    if(!empty($_SESSION['user_id_log'])){
+        $user_id = $_SESSION['user_id_log'];
+    }elseif(!empty($_SESSION['user_id_sign'])){
+        $user_id = $_SESSION['user_id_sign'];
+    }
+
     
     try{
         mb_internal_encoding("utf8");
