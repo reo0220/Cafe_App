@@ -5,6 +5,8 @@
         $user_id = $_SESSION['user_id_log'];
     }elseif(!empty($_SESSION['user_id_sign'])){
         $user_id = $_SESSION['user_id_sign'];
+    }else{
+        echo "ログインしてない";
     }
 
     
@@ -64,7 +66,7 @@
                 <option></option>
                 <option value= "edit_account.php">アカウント編集</option>
                 <option value="delete_account.php">アカウント削除</option>
-                <option value="toppage.php">ログアウト</option>
+                <option value="logout.php">ログアウト</option>
             </select>
         </form>
 

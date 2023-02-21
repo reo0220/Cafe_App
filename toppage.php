@@ -5,7 +5,6 @@
         unset($_SESSION['user_id_sign']);
     }
 
-
 ?>
 
 
