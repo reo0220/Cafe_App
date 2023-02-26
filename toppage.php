@@ -4,7 +4,7 @@
         unset($_SESSION['user_id_log']);
         unset($_SESSION['user_id_sign']);
     }
-
+    
 ?>
 
 
@@ -17,6 +17,9 @@
     </head>
     <body>
         <h1 class="heading-lv1 text-center">トップページ</h1>
+        
         <a href ="profile.php">プロフィール画面</a>
+        <a href ="create_post.php">投稿作成画面</a>
+
     </body>
 </html>

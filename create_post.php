@@ -1,5 +1,13 @@
 <?php
 
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    mb_internal_encoding("utf8");
+    $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+
+    var_dump($_FILES['file1']['name']);
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -65,10 +73,10 @@
                 </li>
                 <li>
                     <label>投稿写真</label>
-                    <input name="userfile[]" type="file"/><br/>
-                    <input name="userfile[]" type="file"/><br/>
-                    <input name="userfile[]" type="file"/><br/>
-                    <input name="userfile[]" type="file"/><br/>
+                    <input name="file1" type="file"/><br/>
+                    <input name="file2" type="file"/><br/>
+                    <input name="file3" type="file"/><br/>
+                    <input name="file4" type="file"/><br/>
                 </li>
                 <input type="submit" name="_method"  value="投稿" formaction="create_post.php">
                 <input type="submit" name="_method" value="キャンセル" formaction="post_list.php">
