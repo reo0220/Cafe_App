@@ -20,6 +20,7 @@
         
         <a href ="profile.php">プロフィール画面</a>
         <a href ="create_post.php">投稿作成画面</a>
+        <a href ="post_list.php">投稿一覧画面</a>
 
     </body>
 </html>
