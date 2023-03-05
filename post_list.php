@@ -121,6 +121,18 @@ $stmt = $dbh->query($sql);
                 </li>
                 <li><?php echo $row['comment'];?></li>
                 <li><img src="post_medias/<?php echo $row['post_medias_file_name']; ?>" alt="投稿写真" width="80" height="80"></li>
+                <li><?php if($row['user_id'] === (string)$user_id){
+                                echo "<button><a href = 'update_post.php?post_id=$row[post_id]'>編集</a></button>";
+                            }else{
+                                echo "";
+                            }?>
+                </li>
+                <li><?php if($row['user_id'] === (string)$user_id){
+                                echo "<button><a href = 'delete_post.php?post_id=$row[post_id]'>削除</a></button>";
+                            }else{
+                                echo "";
+                            }?>
+                </li>
             </ul>
                
                 
