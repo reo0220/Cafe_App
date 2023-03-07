@@ -40,36 +40,78 @@
         <title>プロフィール画面</title>
     </head>
     <body>
-    <h1 class="heading-lv1 text-center">Profile</h1>
-    <figure class="profile-image">
-            <img src="user_medias/<?php echo $result2['file_name']; ?>" alt="プロフィール写真" width="300" height="300">
-        </figure>
-        <h2 class="heading-lv2 text-center"><?php echo $result['name'];?></h2>
+        <div class="container">
+                <header class="header">
+                    <div class="header__inner">
+                        <h1 class="header__title header-title">
+                            <a href="toppage.php">Cafe23</a>
+                        </h1>
+                        <nav class="header__nav nav" id="js-nav">
+                            <ul class="nav__items nav-items">
+                                <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
+                                <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
+                                <?php 
+                                    if(isset($user_id)){
+                                        echo  "<li class='nav-items__item'><a href='profile.php'>プロフィール</a></li>";
+                                    }else{
+                                        echo  "<li class='nav-items__item'><a href='login.php'>ログインまたは新規登録</a></li>";
+                                    }
+                                ?>
+                            </ul>
+                        </nav>
+                        <button class="header__hamburger hamburger" id="js-hamburger">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <script>
+                                const ham = document.querySelector('#js-hamburger');
+                                const nav = document.querySelector('#js-nav');
 
-        <h3 class="heading-lv3 text-center">好きなジャンル</h3>
-        <p class="text text-center"><?php echo $result['favorite_genre'];?></p>
+                                ham.addEventListener('click', function () {
+                                    ham.classList.toggle('active');
+                                    nav.classList.toggle('active');
+                                });
+                            </script>
+                        </button>
+                    </div>
+                </header>
+            </div>
+            <main>
+                <div class="main">
+                    <h1 class="heading-lv1 text-center">Profile</h1>
+                    <figure class="profile-image">
+                        <img src="user_medias/<?php echo $result2['file_name']; ?>" alt="プロフィール写真" width="300" height="300">
+                    </figure>
+                    <h2 class="heading-lv2 text-center"><?php echo $result['name'];?></h2>
 
-        <h3 class="heading-lv3 text-center">好きなメニュー</h3>
-        <p class="text text-center"><?php echo $result['favorite_menu'];?></p>
+                    <h3 class="heading-lv3 text-center">好きなジャンル</h3>
+                    <p class="text text-center"><?php echo $result['favorite_genre'];?></p>
 
-        <h3 class="heading-lv3 text-center">自己紹介</h3>
-        <p class="text text-center"><?php echo $result['about_me'];?></p>
+                    <h3 class="heading-lv3 text-center">好きなメニュー</h3>
+                    <p class="text text-center"><?php echo $result['favorite_menu'];?></p>
 
-        <script>
-            function screenChange(){
-                pullSellect = document.pullForm.pullMenu.selectedIndex ;
-                location.href = document.pullForm.pullMenu.options[pullSellect].value ;
-            }
-        </script>
-        <form name="pullForm">
-            <select name="pullMenu" onChange="screenChange()">
-                <option></option>
-                <option value= "edit_account.php">アカウント編集</option>
-                <option value="delete_account.php">アカウント削除</option>
-                <option value="logout.php">ログアウト</option>
-            </select>
-        </form>
+                    <h3 class="heading-lv3 text-center">自己紹介</h3>
+                    <p class="text text-center"><?php echo $result['about_me'];?></p>
 
-                
-
-    </body>                
+                    <script>
+                        function screenChange(){
+                            pullSellect = document.pullForm.pullMenu.selectedIndex ;
+                            location.href = document.pullForm.pullMenu.options[pullSellect].value ;
+                        }
+                    </script>
+                    <form name="pullForm">
+                        <select name="pullMenu" onChange="screenChange()">
+                            <option></option>
+                            <option value= "edit_account.php">アカウント編集</option>
+                            <option value="delete_account.php">アカウント削除</option>
+                            <option value="logout.php">ログアウト</option>
+                        </select>
+                    </form>
+                </div>
+            </main>  
+            <footer class="footer">
+                <div>
+                    フッター
+                </div>
+            </footer>  
+        </body>                
