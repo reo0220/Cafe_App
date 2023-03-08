@@ -89,59 +89,104 @@
         <title>アカウント編集画面</title>
     </head>
     <body>
-    <h1 class="heading-lv1 text-center">アカウント編集</h1>
-    <form method = "POST" action = "?" enctype="multipart/form-data">
-        <ul>
-            <li>
-                <label>プロフィール画像</label>
-                <input type="file" name="image" accept='image/*' onchange="previewImage(this);">
-                <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="max-width:200px;">
-                <script>
-                    function previewImage(obj){
-                        var fileReader = new FileReader();
-                        fileReader.onload = (function() {
-                            document.getElementById('preview').src = fileReader.result;
-                        });
-                        fileReader.readAsDataURL(obj.files[0]);
-                    }
-                </script>
-            </li>
-            <li>
-                <label>ニックネーム</label>
-                <input type = "text" name = "name" value = <?php echo $result['name'];?>>
-                <?php if(!empty($error_name)):?>
-                    <p class="text-danger"><?php echo $error_name;?></p>
-                <?php endif; ?>
-            </li>
-            <li>
-                <label>メールアドレス</label>
-                <input type = "text" name = "mail" value = <?php echo $result['mail'];?>>
-                <?php if(!empty($error_mail)):?>
-                    <p class="text-danger"><?php echo $error_mail;?></p>
-                <?php endif; ?>
-            </li>
-            <li>
-                <label>パスワード</label>
-                <input type = "password" name = "password" value = "">
-                <?php if(!empty($error_pas)):?>
-                    <p class="text-danger"><?php echo $error_pas;?></p>
-                <?php endif; ?>
-            </li>
-            <li>
-                <label>好きなジャンル</label>
-                <input type = "text" name = "favorite_genre" value = <?php echo $result['favorite_genre'];?>>
-            </li>
-            <li>
-                <label>好きなメニュー</label>
-                <input type = "text" name = "favorite_menu" value = <?php echo $result['favorite_menu'];?>>
-            </li>
-            <li>
-                <label>自己紹介文</label>
-                <textarea name="about_me" name = "about_me" rows="5" cols="33"><?php echo $result['about_me'];?></textarea>
-            </li>
-            <li><input type="submit" name="_method"  value="保存" formaction="edit_account.php"></li>
-            <li><input type="submit" name="_method" value="キャンセル" formaction="profile.php"></li>
-        </ul>
-    </form>
-</body>
+        <div class="container">
+            <header class="header">
+                <div class="header__inner">
+                    <h1 class="header__title header-title">
+                        <a href="toppage.php">Cafe23</a>
+                    </h1>
+                    <nav class="header__nav nav" id="js-nav">
+                        <ul class="nav__items nav-items">
+                            <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
+                            <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
+                            <?php 
+                                if(isset($user_id)){
+                                    echo  "<li class='nav-items__item'><a href='profile.php'>プロフィール</a></li>";
+                                }else{
+                                    echo  "<li class='nav-items__item'><a href='login.php'>ログインまたは新規登録</a></li>";
+                                }
+                            ?>
+                        </ul>
+                    </nav>
+                    <button class="header__hamburger hamburger" id="js-hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <script>
+                            const ham = document.querySelector('#js-hamburger');
+                            const nav = document.querySelector('#js-nav');
+
+                            ham.addEventListener('click', function () {
+                                ham.classList.toggle('active');
+                                nav.classList.toggle('active');
+                            });
+                        </script>
+                    </button>
+                </div>
+            </header>
+        </div>
+        <main class = "main0">
+            <div class="main2">
+                <h1 class="heading-lv1 text-center">アカウント編集</h1>
+                <form method = "POST" action = "?" enctype="multipart/form-data">
+                    <ul>
+                        <li>
+                            <label>プロフィール画像</label>
+                            <input type="file" name="image" accept='image/*' onchange="previewImage(this);">
+                            <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="max-width:200px;">
+                            <script>
+                                function previewImage(obj){
+                                    var fileReader = new FileReader();
+                                    fileReader.onload = (function() {
+                                        document.getElementById('preview').src = fileReader.result;
+                                    });
+                                    fileReader.readAsDataURL(obj.files[0]);
+                                }
+                            </script>
+                        </li>
+                        <li>
+                            <label>ニックネーム</label>
+                            <input type = "text" name = "name" value = <?php echo $result['name'];?>>
+                            <?php if(!empty($error_name)):?>
+                                <p class="text-danger"><?php echo $error_name;?></p>
+                            <?php endif; ?>
+                        </li>
+                        <li>
+                            <label>メールアドレス</label>
+                            <input type = "text" name = "mail" value = <?php echo $result['mail'];?>>
+                            <?php if(!empty($error_mail)):?>
+                                <p class="text-danger"><?php echo $error_mail;?></p>
+                            <?php endif; ?>
+                        </li>
+                        <li>
+                            <label>パスワード</label>
+                            <input type = "password" name = "password" value = "">
+                            <?php if(!empty($error_pas)):?>
+                                <p class="text-danger"><?php echo $error_pas;?></p>
+                            <?php endif; ?>
+                        </li>
+                        <li>
+                            <label>好きなジャンル</label>
+                            <input type = "text" name = "favorite_genre" value = <?php echo $result['favorite_genre'];?>>
+                        </li>
+                        <li>
+                            <label>好きなメニュー</label>
+                            <input type = "text" name = "favorite_menu" value = <?php echo $result['favorite_menu'];?>>
+                        </li>
+                        <li>
+                            <label>自己紹介文</label>
+                            <textarea name="about_me" name = "about_me" rows="5" cols="33"><?php echo $result['about_me'];?></textarea>
+                        </li>
+                        <li><input type="submit" name="_method"  value="保存" formaction="edit_account.php"></li>
+                        <li><input type="submit" name="_method" value="キャンセル" formaction="profile.php"></li>
+                    </ul>
+                </form>
+            </div>
+        </main>  
+        <footer class="footer">
+            <div>
+                フッター
+            </div>
+        </footer>  
+    </body>
 </html>

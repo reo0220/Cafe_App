@@ -76,8 +76,8 @@
                     </div>
                 </header>
             </div>
-            <main>
-                <div class="main">
+            <main class = "main0">
+                <div class="main2">
                     <h1 class="heading-lv1 text-center">Profile</h1>
                     <figure class="profile-image">
                         <img src="user_medias/<?php echo $result2['file_name']; ?>" alt="プロフィール写真" width="300" height="300">

@@ -96,8 +96,8 @@
                 </div>
             </header>
         </div>
-        <main>
-            <div class="main">
+        <main class = "main0">
+            <div class="main2">
                 <h2>ログイン画面</h2>
                     
                 <p class = "login_err"><?php if(isset($db_err)){

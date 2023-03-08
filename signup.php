@@ -55,32 +55,75 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         <title>アカウント新規登録画面</title>
     </head>
     <body>
-        <div class = "container">
-            <h1>アカウント新規登録</h1>
-            <form class = "form" method='POST' action='signup.php'>
-                <label>ニックネーム</labal>    
-                <input type ="text" name = "name"><br>
-                <?php if(!empty($error1)):?>
-                    <p class="text-danger"><?php echo $error1 ?></p><!--$error1が空じゃないときエラーメッセージ表示-->
-                <?php endif; ?>
-            
-                <label>メールアドレス</labal>    
-                <input type ="text" name = "mail"><br>
-                <p class='text-danger'>
-                <?php if(!empty($error2)){
-                    echo $error2;
-                }elseif(!empty($error4)){
-                    echo $error4;
-                }?></p>
-                    
-                <label>パスワード</labal>    
-                <input type ="password" name = "password"><br>
-                <?php if(!empty($error3)):?>
-                    <p class="text-danger"><?php echo $error3 ?></p>
-                <?php endif; ?>
+        <div class="container">
+            <header class="header">
+                <div class="header__inner">
+                    <h1 class="header__title header-title">
+                        <a href="toppage.php">Cafe23</a>
+                    </h1>
+                    <nav class="header__nav nav" id="js-nav">
+                        <ul class="nav__items nav-items">
+                            <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
+                            <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
+                            <?php 
+                                if(isset($user_id)){
+                                    echo  "<li class='nav-items__item'><a href='profile.php'>プロフィール</a></li>";
+                                }else{
+                                    echo  "<li class='nav-items__item'><a href='login.php'>ログインまたは新規登録</a></li>";
+                                }
+                            ?>
+                        </ul>
+                    </nav>
+                    <button class="header__hamburger hamburger" id="js-hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <script>
+                            const ham = document.querySelector('#js-hamburger');
+                            const nav = document.querySelector('#js-nav');
+
+                            ham.addEventListener('click', function () {
+                                ham.classList.toggle('active');
+                                nav.classList.toggle('active');
+                            });
+                        </script>
+                    </button>
+                </div>
+            </header>
+        </div>
+        <main class = "main0">
+            <div class="main2">
+                <h1>アカウント新規登録</h1>
+                <form class = "form" method='POST' action='signup.php'>
+                    <label>ニックネーム</labal>    
+                    <input type ="text" name = "name"><br>
+                    <?php if(!empty($error1)):?>
+                        <p class="text-danger"><?php echo $error1 ?></p><!--$error1が空じゃないときエラーメッセージ表示-->
+                    <?php endif; ?>
                 
-                <input type = "submit" value = "登録">
-            </form>
-        </div>   
+                    <label>メールアドレス</labal>    
+                    <input type ="text" name = "mail"><br>
+                    <p class='text-danger'>
+                    <?php if(!empty($error2)){
+                        echo $error2;
+                    }elseif(!empty($error4)){
+                        echo $error4;
+                    }?></p>
+                        
+                    <label>パスワード</labal>    
+                    <input type ="password" name = "password"><br>
+                    <?php if(!empty($error3)):?>
+                        <p class="text-danger"><?php echo $error3 ?></p>
+                    <?php endif; ?>
+                    
+                    <input type = "submit" value = "登録">
+                </form>       
+            </div>
+        </main>  
+        <footer class="footer">
+            <div>
+                フッター
+            </div>
+        </footer> 
     </body>
 </html>

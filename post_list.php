@@ -87,8 +87,8 @@ $stmt = $dbh->query($sql);
                 </div>
             </header>
         </div>
-        <main>
-            <div class="main_post_list">
+        <main class = "main1">
+            <div class="main2">
                 <h1 class="heading-lv1 text-center">投稿一覧</h1>
                 
                 <?php foreach($stmt as $row){?>

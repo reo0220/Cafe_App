@@ -60,8 +60,8 @@
                 </div>
             </header>
         </div>
-        <main>
-            <div class="main">
+        <main class = "main0">
+            <div class="main2">
                 <h1 class="heading-lv1 text-center">トップページ</h1>
                 <a href ="create_post.php">投稿作成画面</a>
             </div>
