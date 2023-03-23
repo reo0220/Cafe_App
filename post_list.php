@@ -20,7 +20,10 @@ $sql = "SELECT
             posts.price,
             posts.comment,
             posts.like_count,
-            post_medias.file_name AS post_medias_file_name,
+            post_medias.first_file_name,
+            post_medias.second_file_name,
+            post_medias.third_file_name,
+            post_medias.fourth_file_name,
             users.name AS users_name,
             user_medias.file_name AS user_medias_file_name
         FROM 
@@ -158,7 +161,25 @@ $stmt = $dbh->query($sql);
                             }?>
                         </li>
                         <li><?php echo $row['comment'];?></li>
-                        <li><img src="post_medias/<?php echo $row['post_medias_file_name']; ?>" alt="投稿写真" width="80" height="80"></li>
+                        <li><img src="post_medias/<?php echo $row['first_file_name']; ?>" alt="投稿写真" width="80" height="80"></li>
+                        <?php 
+                            if(!empty($row['second_file_name'])){
+                                $second_file_name = $row['second_file_name'];
+                                echo "<li><img src='post_medias/$second_file_name' alt='投稿写真' width='80' height='80'></li>";
+                            }
+                        ?>
+                        <?php 
+                            if(!empty($row['third_file_name'])){
+                                $third_file_name = $row['third_file_name'];
+                                echo "<li><img src='post_medias/$third_file_name' alt='投稿写真' width='80' height='80'></li>";
+                            }
+                        ?>
+                        <?php 
+                            if(!empty($row['fourth_file_name'])){
+                                $fourth_file_name = $row['fourth_file_name'];
+                                echo "<li><img src='post_medias/$fourth_file_name' alt='投稿写真' width='80' height='80'></li>";
+                            }
+                        ?>
                         <li><?php if($row['user_id'] === (string)$user_id){
                                         echo "<button><a href = 'update_post.php?post_id=$row[post_id]'>編集</a></button>";
                                     }else{

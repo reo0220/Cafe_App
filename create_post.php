@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $image1 = uniqid(mt_rand(), true);//ファイル名をユニーク化
             $image1 .= '.' . substr(strrchr($_FILES['file1']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
             $file1 = "post_medias/$image1";
-            $sql1 = "INSERT INTO post_medias(file_name,post_id) VALUES (:file1,$post_id)";
+            $sql1 = "INSERT INTO post_medias(first_file_name,post_id) VALUES (:file1,$post_id)";
             $stmt1 = $dbh->prepare($sql1);
             $stmt1->bindValue(':file1', $image1, PDO::PARAM_STR);
             move_uploaded_file($_FILES['file1']['tmp_name'], './post_medias/' . $image1);//post_mediasディレクトリにファイル保存
@@ -42,12 +42,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         }
 
         if(!empty($_FILES['file2']['name'])){//file2が選択されているとき、登録処理を行う
+            $id = $dbh->lastInsertId();
             $image2 = uniqid(mt_rand(), true);//ファイル名をユニーク化
             $image2 .= '.' . substr(strrchr($_FILES['file2']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
             $file2 = "post_medias/$image2";
-            $sql2 = "INSERT INTO post_medias(file_name,post_id) VALUES (:file2,$post_id)";
-            $stmt2 = $dbh->prepare($sql1);
-            $stmt2->bindValue(':file1', $image2, PDO::PARAM_STR);
+            $sql2 = "UPDATE post_medias SET second_file_name = :file2 WHERE media_id = $id";
+            $stmt2 = $dbh->prepare($sql2);
+            $stmt2->bindValue(':file2', $image2, PDO::PARAM_STR);
             move_uploaded_file($_FILES['file2']['tmp_name'], './post_medias/' . $image2);//post_mediasディレクトリにファイル保存
             if (exif_imagetype($file2)) {//画像ファイルかのチェック
                     $message2 = '画像をアップロードしました';
@@ -63,7 +64,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $image3 = uniqid(mt_rand(), true);//ファイル名をユニーク化
             $image3 .= '.' . substr(strrchr($_FILES['file3']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
             $file3 = "post_medias/$image3";
-            $sql3 = "INSERT INTO post_medias(file_name,post_id) VALUES (:file3,$post_id)";
+            $sql3 = "UPDATE post_medias SET third_file_name = :file3 WHERE media_id = $id";
             $stmt3 = $dbh->prepare($sql3);
             $stmt3->bindValue(':file3', $image3, PDO::PARAM_STR);
             move_uploaded_file($_FILES['file3']['tmp_name'], './post_medias/' . $image3);//post_mediasディレクトリにファイル保存
@@ -81,7 +82,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $image4 = uniqid(mt_rand(), true);//ファイル名をユニーク化
             $image4 .= '.' . substr(strrchr($_FILES['file4']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
             $file4 = "post_medias/$image4";
-            $sql4 = "INSERT INTO post_medias(file_name,post_id) VALUES (:file4,$post_id)";
+            $sql4 = "UPDATE post_medias SET fourth_file_name = :file4 WHERE media_id = $id";
             $stmt4 = $dbh->prepare($sql4);
             $stmt4->bindValue(':file4', $image4, PDO::PARAM_STR);
             move_uploaded_file($_FILES['file4']['tmp_name'], './post_medias/' . $image4);//post_mediasディレクトリにファイル保存
