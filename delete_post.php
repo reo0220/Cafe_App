@@ -7,8 +7,12 @@
     }
 
     $post_id = $_GET['post_id'];
+    $motourl = $_SERVER['HTTP_REFERER'];
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        $post_id_delete = $_POST['post_id'];
+        $url = $_POST['url'];
+
         try{
             mb_internal_encoding("utf8");
             $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root",
@@ -17,12 +21,14 @@
                         PDO::ATTR_EMULATE_PREPARES => false,
                         )   
                     );
-                    $sql = "UPDATE posts SET delete_flag = 1 WHERE post_id= $post_id";
+                    $sql = "UPDATE posts SET delete_flag = 1 WHERE post_id= $post_id_delete";
                     $stmt = $dbh->query($sql);
             }
             catch(PDOException $e){
                 $db_error = "エラーが発生したためアカウント削除できません。";
-                }
+            }
+            
+            header("Location:$url");
     }
 ?>
 
@@ -75,10 +81,12 @@
                 <h1 class="heading-lv1 text-center">投稿削除</h1>
                 <h2>本当に投稿を削除しますか？</h2>
                 <p>※投稿削除を行なった場合、投稿内容が削除され、復元することができません。</p>
-                <form method ="POST" action ="?">
-                    <input type="submit" name="_method"  value="削除" formaction="delete_post.php">
-                    <input type="submit" name="_method" value="キャンセル" formaction="post_list.php">
+                <form method ="POST" action ="delete_post.php">
+                    <input type="hidden" name="post_id" value= <?php echo $post_id;?>>
+                    <input type="hidden" name="url" value= <?php echo $motourl;?>>
+                    <input type="submit" name="_method" value="削除">
                 </form>
+                <input value="キャンセル" onclick="history.back();" type="button">
             </div>
         </main>  
         <footer class="footer">

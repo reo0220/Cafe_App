@@ -6,27 +6,28 @@ if(!empty($_SESSION['user_id_log'])){
     $user_id = $_SESSION['user_id_sign'];
 }
 
-if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
-    $post_id_good = $_POST['post_id'];
-    $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-    $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
-    $stmt_like = $dbh->query($sql_like_button);
-    $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
-    
-    if($_POST['button'] === "行ってみたい" && empty($result_like)){
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if($_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
+        $post_id_good = $_POST['post_id'];
         $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-        $sql_like_count = "UPDATE posts SET like_count = like_count + 1 WHERE post_id = $post_id_good";
-        $sql_post_like = "INSERT INTO post_likes(user_id,post_id) VALUES($user_id,$post_id_good)";
-        $stmt = $dbh->query($sql_like_count);
-        $stmt = $dbh->query($sql_post_like);
-    }elseif($_POST['button'] === "行ってみたい解除" && !empty($result_like)){
-        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-        $sql_like_count = "UPDATE posts SET like_count = like_count - 1 WHERE post_id = $post_id_good";
-        $sql_post_like = "DELETE from post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
-        $stmt = $dbh->query($sql_like_count);
-        $stmt = $dbh->query($sql_post_like);
+        $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
+        $stmt_like = $dbh->query($sql_like_button);
+        $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+        
+        if($_POST['button'] === "行ってみたい" && empty($result_like)){
+            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+            $sql_like_count = "UPDATE posts SET like_count = like_count + 1 WHERE post_id = $post_id_good";
+            $sql_post_like = "INSERT INTO post_likes(user_id,post_id) VALUES($user_id,$post_id_good)";
+            $stmt = $dbh->query($sql_like_count);
+            $stmt = $dbh->query($sql_post_like);
+        }elseif($_POST['button'] === "行ってみたい解除" && !empty($result_like)){
+            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+            $sql_like_count = "UPDATE posts SET like_count = like_count - 1 WHERE post_id = $post_id_good";
+            $sql_post_like = "DELETE from post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
+            $stmt = $dbh->query($sql_like_count);
+            $stmt = $dbh->query($sql_post_like);
+        }
     }
-
 }
 
 
