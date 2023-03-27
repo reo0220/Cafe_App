@@ -130,8 +130,9 @@ $stmt = $dbh->query($sql_post);
                     <ul>
                         <li><img src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50"></li>
                         <li><?php echo $row['users_name'];?></li>
-                        <li><?php echo $row['posts_name'];?></li>
+                        <li>店名：<?php echo $row['posts_name'];?></li>
                         <li>
+                            場所：
                             <?php if($row['place'] === "1"){
                                         echo "千代田区";
                                     }elseif($row['place'] === "2"){
@@ -180,6 +181,7 @@ $stmt = $dbh->query($sql_post);
                                         echo "江戸川区";
                                     }?>
                         <li>
+                            価格帯：
                             <?php if($row['price'] === "1"){
                                 echo "0円〜500円";
                             }elseif($row['price'] === "2"){
@@ -193,7 +195,12 @@ $stmt = $dbh->query($sql_post);
                             }?>
                         </li>
                         <li><?php echo $row['comment'];?></li>
-                        <li><img src="post_medias/<?php echo $row['first_file_name']; ?>" alt="投稿写真" width="80" height="80"></li>
+                        <?php 
+                            if(!empty($row['first_file_name'])){
+                                $first_file_name = $row['first_file_name'];
+                                echo "<li><img src='post_medias/$first_file_name' alt='投稿写真' width='80' height='80'></li>";
+                            }
+                        ?>
                         <?php 
                             if(!empty($row['second_file_name'])){
                                 $second_file_name = $row['second_file_name'];
