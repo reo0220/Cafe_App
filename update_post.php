@@ -33,17 +33,34 @@ $result_post = $stmt_post->fetch(PDO::FETCH_ASSOC);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $url = $_POST['url'];
+    
     $name = $_POST['name'];
     if($name === ""){
         $error_name = "店名が未入力です。";
     }
     
-    //全て解除されていてもエラーが発生しないから解除されたことがわかるようにしたい
-    if(empty($_FILES['file1']['name']) && empty($_FILES['file2']['name']) && empty($_FILES['file3']['name']) && empty($_FILES['file4']['name']) && empty($result_post['first_file_name'])&& empty($result_post['second_file_name']) && empty($result_post['third_file_name']) && empty($result_post['fourth_file_name'])){
+    $file1_input = $_POST['deselect1'];
+    $file2_input = $_POST['deselect2'];
+    $file3_input = $_POST['deselect3'];
+    $file4_input = $_POST['deselect4'];
+    //画像が空の状態
+    if((!empty($result_post['first_file_name']) && $file1_input === "0") || (empty($result_post['first_file_name']))){
+        $er_file1 = "NULL1";
+    }
+    if((!empty($result_post['second_file_name']) && $file2_input === "0") || (empty($result_post['second_file_name']))){
+        $er_file2 = "NULL2";
+    }
+    if((!empty($result_post['third_file_name']) && $file3_input === "0") || (empty($result_post['third_file_name']))){
+        $er_file3 = "NULL3";
+    }
+    if((!empty($result_post['fourth_file_name']) && $file4_input === "0") || (empty($result_post['fourth_file_name']))){
+        $er_file4 = "NULL4";
+    }
+    if(!empty($er_file1) && !empty($er_file2) && !empty($er_file3) && !empty($er_file4) ){
         $error_file1 = "投稿する写真を一枚以上選択してください";
     }
 
-    if(!isset($error_name) && !isset($error_file1)){
+    if((!empty($_POST['name'])) && (empty($er_file1) || empty($er_file2) || empty($er_file3) || empty($er_file4))){
         $post_id_edit = $_POST['post_id'];
         mb_internal_encoding("utf8");
         $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
@@ -64,7 +81,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             } else {
                     $message1 = '画像ファイルではありません';
             }
-        }//!empty($result['']) && empty($_FILES['file1']['name']) 画像が登録されているけど、解除されているものは削除する
+        }elseif($file1_input === "0"){
+            $sql1_file_delete = "UPDATE post_medias SET first_file_name = '' WHERE post_id = $post_id_edit";
+            $dbh->query($sql1_file_delete);
+        }
+        
+        $file2_input = $_POST['deselect2'];
         var_dump($_FILES['file2']['name']);
         if(!empty($_FILES['file2']['name'])){//file2が選択されているとき、登録処理を行う
             $image2 = uniqid(mt_rand(), true);//ファイル名をユニーク化
@@ -80,8 +102,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             } else {
                     $message2 = '画像ファイルではありません';
             }
+        }elseif($file2_input === "0"){
+            $sql2_file_delete = "UPDATE post_medias SET second_file_name = '' WHERE post_id = $post_id_edit";
+            $dbh->query($sql2_file_delete);
         }
-
+        
+        $file3_input = $_POST['deselect3'];
         if(!empty($_FILES['file3']['name'])){
             $image3 = uniqid(mt_rand(), true);//ファイル名をユニーク化
             $image3 .= '.' . substr(strrchr($_FILES['file3']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
@@ -96,8 +122,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             } else {
                     $message3 = '画像ファイルではありません';
             }
+        }elseif($file3_input === "0"){
+            $sql3_file_delete = "UPDATE post_medias SET third_file_name = '' WHERE post_id = $post_id_edit";
+            $dbh->query($sql3_file_delete);
         }
-
+        
+        $file4_input = $_POST['deselect4'];
         if(!empty($_FILES['file4']['name'])){
             $image4 = uniqid(mt_rand(), true);//ファイル名をユニーク化
             $image4 .= '.' . substr(strrchr($_FILES['file4']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
@@ -112,9 +142,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             } else {
                     $message4 = '画像ファイルではありません';
             }
+        }elseif($file4_input === "0"){
+            $sql4_file_delete = "UPDATE post_medias SET fourth_file_name = '' WHERE post_id = $post_id_edit";
+            $dbh->query($sql4_file_delete);
         }
-    //header("Location:$url");
-}
+        //エラーが起きた時、一覧画面が全画面になってしまう(更新はできてる)
+        header("Location:$url");
+    }
 }
 
 ?>
@@ -172,7 +206,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <form method="POST" action= <?php echo "update_post.php?post_id=$post_id";?> enctype='multipart/form-data'>
                     <ul>
                         <li>
-                            <label>店名</label><?php var_dump($_POST['deselect1']);?>
+                            <label>店名</label>
                             <input type = "text" name = "name" value=<?php echo $result_post['posts_name'];?>>
                             <?php if(!empty($error_name)):?>
                                 <p class="text-danger"><?php echo $error_name;?></p>
@@ -423,14 +457,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                     document.getElementById("image").style.display ="none";
                                     document.getElementById("preview").style.visibility = "hidden";
                                     document.getElementById("file1").value = "";
-                                } 
-                            
-                                //ファイルが解除されている時は0、選択されている時は1を送信
-                                if(document.getElementById("file1").value === ""){
+                                    //ファイルが選択されていないとき、０をvalueに渡す
                                     document.getElementById("deselect1_2").value = "0";
-                                }else{
-                                    document.getElementById("deselect1_2").value = "1";
+
+                                } 
+                                const fileInput = document.getElementById("file1");
+                                //ファイルが選択されているとき、１をvalueに渡す
+                                const handleFileSelect = () => {
+                                    const files = fileInput.files;
+                                    if(files.length === 1){
+                                        document.getElementById("deselect1_2").value = "1";
+                                    }
                                 }
+                                fileInput.addEventListener('change', handleFileSelect);
                             </script>
                         </li>
                         <li>  
@@ -443,6 +482,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                             <img id='preview2' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='80' height='80'></br>
                             <input type="file" name="file2" id="file2" accept='image/*' onchange="previewImage2(this);" onclick="deselect2_0()"/>
                             <input type="button" id="deselect2" value="選択解除" onclick="deselect2_1()">
+                            <input type="hidden" name="deselect2" id="deselect2_2">
                             <script>
                                 function previewImage2(obj){
                                     var fileReader2 = new FileReader();
@@ -463,7 +503,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                     document.getElementById("image2").style.display ="none";
                                     document.getElementById("preview2").style.visibility = "hidden";
                                     document.getElementById("file2").value = "";
+                                    document.getElementById("deselect2_2").value = "0";
                                 } 
+                                const fileInput2 = document.getElementById("file2");
+                                const handleFileSelect2 = () => {
+                                    const files2 = fileInput2.files;
+                                    if(files2.length === 1){
+                                        document.getElementById("deselect2_2").value = "1";
+                                    }
+                                }
+                                fileInput2.addEventListener('change', handleFileSelect2);
                             </script>
                         </li>
                         <li>
@@ -474,8 +523,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                 }
                             ?>
                             <img id='preview3' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='80' height='80'></br>
-                            <input name="file3" type="file" accept='image/*' onchange="previewImage3(this);" onclick="deselect3_0()"/>
+                            <input name="file3" type="file" id="file3"  accept='image/*' onchange="previewImage3(this);" onclick="deselect3_0()"/>
                             <input type="button" id="deselect3" value="選択解除" onclick="deselect3_1()">
+                            <input type="hidden" name="deselect3" id="deselect3_2">
                             <script>
                                 function previewImage3(obj){
                                     var fileReader3 = new FileReader();
@@ -496,7 +546,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                     document.getElementById("image3").style.display ="none";
                                     document.getElementById("preview3").style.visibility = "hidden";
                                     document.getElementById("file3").value = "";
+                                    document.getElementById("deselect3_2").value = "0";
                                 }
+                                const fileInput3 = document.getElementById("file3");
+                                const handleFileSelect3 = () => {
+                                    const files3 = fileInput3.files;
+                                    if(files3.length === 1){
+                                        document.getElementById("deselect3_2").value = "1";
+                                    }
+                                }
+                                fileInput3.addEventListener('change', handleFileSelect3);
                             </script>
                         </li>
                         <li>
@@ -507,8 +566,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                 }
                             ?>
                             <img id='preview4' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='80' height='80'></br>
-                            <input name="file4" type="file" accept='image/*' onchange="previewImage4(this);" onclick="deselect4_0()"/>
+                            <input name="file4" type="file" id="file4" accept='image/*' onchange="previewImage4(this);" onclick="deselect4_0()"/>
                             <input type="button" id="deselect4" value="選択解除" onclick="deselect4_1()">
+                            <input type="hidden" name="deselect4" id="deselect4_2">
                             <script>
                                 function previewImage4(obj){
                                     var fileReader4 = new FileReader();
@@ -529,7 +589,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                     document.getElementById("image4").style.display ="none";
                                     document.getElementById("preview4").style.visibility = "hidden";
                                     document.getElementById("file4").value = "";
+                                    document.getElementById("deselect4_2").value = "0";
                                 }
+                                const fileInput4 = document.getElementById("file4");
+                                const handleFileSelect4 = () => {
+                                    const files4 = fileInput4.files;
+                                    if(files4.length === 1){
+                                        document.getElementById("deselect4_2").value = "1";
+                                    }
+                                }
+                                fileInput4.addEventListener('change', handleFileSelect4);
                             </script>
                         </li>
                     </ul>
