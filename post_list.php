@@ -7,7 +7,7 @@ if(!empty($_SESSION['user_id_log'])){
 }
 
 //お気に入り機能
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['post_id'])){
     if($_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
         $post_id_good = $_POST['post_id'];
         $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
@@ -28,6 +28,46 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $stmt = $dbh->query($sql_like_count);
             $stmt = $dbh->query($sql_post_like);
         }
+    }
+}
+
+if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['search'])){
+    $name_search = $_POST['name_search'];
+    $place_search = $_POST['place_search'];
+    $price_search = $_POST['price_search'];
+    
+    //全部入力されているまたは選択されている場合
+    if(isset($name_search) && $place_search != "0" && $price_search != "0"){
+        $dbh_search = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+        $sql_search = "SELECT
+                            posts.post_id,
+                            posts.user_id,
+                            posts.name AS posts_name,
+                            posts.place,
+                            posts.price,
+                            posts.comment,
+                            posts.like_count,
+                            post_medias.first_file_name,
+                            post_medias.second_file_name,
+                            post_medias.third_file_name,
+                            post_medias.fourth_file_name,
+                            users.name AS users_name,
+                            user_medias.file_name AS user_medias_file_name
+                        FROM 
+                            posts
+                        INNER JOIN
+                            post_medias ON posts.post_id = post_medias.post_id
+                        LEFT JOIN 
+                            users ON posts.user_id = users.user_id
+                        LEFT JOIN
+                            user_medias ON users.user_id = user_medias.user_id
+                        WHERE
+                            posts.delete_flag = '0' && posts.name like '%".$name_search."%' && posts.place = $place_search && posts.price = $price_search
+                        ORDER BY 
+                            posts.registered_time DESC";
+        $stmt_search = $dbh_search->query($sql_search);
+    }elseif(isset($name_search) && $place_search === "0" && $price_search === "0"){//店名のみ入力されている場合
+        
     }
 }
 
@@ -117,9 +157,58 @@ $stmt = $dbh->query($sql_post);
         </div>
         <main class = "main1">
             <div class="main2">
-                <h1 class="heading-lv1 text-center">投稿一覧</h1> 
-                
+                <h1 class="heading-lv1 text-center">投稿一覧</h1>
+                <!--検索フォーム-->
+                <form method = "POST" action = "post_list.php">
+                    <input type="hidden" name="search" value="search">
+                    <label>店名</label>
+                    <input type = "text" name = "name_search">
+                    <label>場所</label>
+                    <select name="place_search">
+                        <option value="0"></option>
+                        <option value="1">千代田区</option>
+                        <option value="2">中央区</option>
+                        <option value="3">港区</option>
+                        <option value="4">新宿区</option>
+                        <option value="5">文京区</option>
+                        <option value="6">台東区</option>
+                        <option value="7">墨田区</option>
+                        <option value="8">江東区</option>
+                        <option value="9">品川区</option>
+                        <option value="10">目黒区</option>
+                        <option value="11">大田区</option>
+                        <option value="12">世田谷区</option>
+                        <option value="13">渋谷区</option>
+                        <option value="14">中野区</option>
+                        <option value="15">杉並区</option>
+                        <option value="16">豊島区</option>
+                        <option value="17">北区</option>
+                        <option value="18">荒川区</option>
+                        <option value="19">板橋区</option>
+                        <option value="20">練馬区</option>
+                        <option value="21">足立区</option>
+                        <option value="22">葛飾区</option>
+                        <option value="23">江戸川区</option>
+                    </select>
+                    <label>価格帯</label>
+                    <select name = "price_search">
+                        <option value="0"></option>
+                        <option value = "1">0円〜500円</option>
+                        <option value = "2">500円〜1000円</option>
+                        <option value = "3">1000円〜1500円</option>
+                        <option value = "4">1500円〜2000円</option>
+                        <option value = "5">2000円〜</option>
+                    </select>
+                    <input type="submit" value="検索">        
+                </form>
+
+                <?php foreach($stmt_search as $row2){?>
+                    <ul>
+                        <li><?php echo $row2['users_name'];?></li>
+                        <li>店名：<?php echo $row2['posts_name'];?></li>
+                <?php }?>
                 <?php foreach($stmt as $row){?>
+
                     <ul>
                         <li><img src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50"></li>
                         <li><?php echo $row['users_name'];?></li>
