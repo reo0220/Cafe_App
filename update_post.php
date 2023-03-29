@@ -86,8 +86,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $dbh->query($sql1_file_delete);
         }
         
-        $file2_input = $_POST['deselect2'];
-        var_dump($_FILES['file2']['name']);
         if(!empty($_FILES['file2']['name'])){//file2が選択されているとき、登録処理を行う
             $image2 = uniqid(mt_rand(), true);//ファイル名をユニーク化
             $image2 .= '.' . substr(strrchr($_FILES['file2']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
@@ -107,7 +105,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $dbh->query($sql2_file_delete);
         }
         
-        $file3_input = $_POST['deselect3'];
         if(!empty($_FILES['file3']['name'])){
             $image3 = uniqid(mt_rand(), true);//ファイル名をユニーク化
             $image3 .= '.' . substr(strrchr($_FILES['file3']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
@@ -127,7 +124,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $dbh->query($sql3_file_delete);
         }
         
-        $file4_input = $_POST['deselect4'];
         if(!empty($_FILES['file4']['name'])){
             $image4 = uniqid(mt_rand(), true);//ファイル名をユニーク化
             $image4 .= '.' . substr(strrchr($_FILES['file4']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
@@ -146,8 +142,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $sql4_file_delete = "UPDATE post_medias SET fourth_file_name = '' WHERE post_id = $post_id_edit";
             $dbh->query($sql4_file_delete);
         }
-        //エラーが起きた時、一覧画面が全画面になってしまう(更新はできてる)
-        header("Location:$url");
+        //エラーが起きた時、編集画面が前画面になってしまう(更新はできてる)
+        header("Location:http://localhost/cafe_app/Cafe_App/post_list.php");
     }
 }
 

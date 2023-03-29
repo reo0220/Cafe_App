@@ -6,6 +6,7 @@ if(!empty($_SESSION['user_id_log'])){
     $user_id = $_SESSION['user_id_sign'];
 }
 
+//お気に入り機能
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if($_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
         $post_id_good = $_POST['post_id'];
@@ -62,15 +63,7 @@ $sql_post = "SELECT
             posts.delete_flag = '0'
         ORDER BY 
             posts.registered_time DESC";
-
-$sql_like_button = "SELECT
-                     * 
-                    FROM 
-                        post_likes 
-                    WHERE 
-                        user_id = $user_id";            
      
-     //$sql.=
 $stmt = $dbh->query($sql_post);
 
 
