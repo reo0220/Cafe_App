@@ -128,7 +128,7 @@
                 <h2 class="heading-lv1 text-center">人気投稿</h2>
                 <?php foreach($stmt as $row){?>
                     <ul>
-                        <li><img src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50"></li>
+                        <li><img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50"></li>
                         <li><?php echo $row['users_name'];?></li>
                         <li>店名：<?php echo $row['posts_name'];?></li>
                         <li>

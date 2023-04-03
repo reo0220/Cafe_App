@@ -1,15 +1,38 @@
 <?php
     session_start();
-
     if(!empty($_SESSION['user_id_log'])){
         $user_id = $_SESSION['user_id_log'];
     }elseif(!empty($_SESSION['user_id_sign'])){
         $user_id = $_SESSION['user_id_sign'];
-    }else{
-        echo "ログインしてない";
     }
 
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if(!empty($_POST['post_id'])){
+            if($_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
+                $post_id_good = $_POST['post_id'];
+                $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
+                $stmt_like = $dbh->query($sql_like_button);
+                $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+                
+                if($_POST['button'] === "行ってみたい" && empty($result_like)){
+                    $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                    $sql_like_count = "UPDATE posts SET like_count = like_count + 1 WHERE post_id = $post_id_good";
+                    $sql_post_like = "INSERT INTO post_likes(user_id,post_id) VALUES($user_id,$post_id_good)";
+                    $stmt = $dbh->query($sql_like_count);
+                    $stmt = $dbh->query($sql_post_like);
+                }elseif($_POST['button'] === "行ってみたい解除" && !empty($result_like)){
+                    $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                    $sql_like_count = "UPDATE posts SET like_count = like_count - 1 WHERE post_id = $post_id_good";
+                    $sql_post_like = "DELETE from post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
+                    $stmt = $dbh->query($sql_like_count);
+                    $stmt = $dbh->query($sql_post_like);
+                }
+            }
+        }
+    }
     
+
     try{
         mb_internal_encoding("utf8");
         $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root",
@@ -18,23 +41,20 @@
                             PDO::ATTR_EMULATE_PREPARES => false,
                             )   
                         );
-        $sql = "SELECT * FROM users WHERE user_id = $user_id";
-        $stmt = $dbh->query($sql);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $sql_user = "SELECT * FROM users WHERE user_id = $user_id";
+        $stmt_user = $dbh->query($sql_user);
+        $result_user = $stmt_user->fetch(PDO::FETCH_ASSOC);
                     }
                     catch(PDOException $e){//DB接続エラーが発生した時$db_errorを定義
                         $db_error = "エラーが発生したためアカウント登録できません。";
                     }
-        $sql2 = "SELECT * FROM user_medias WHERE user_id = $user_id";
-        $stmt2 = $dbh->query($sql2);
-        $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+        $sql_user_media = "SELECT * FROM user_medias WHERE user_id = $user_id";
+        $stmt_user_media = $dbh->query($sql_user_media);
+        $result_user_media = $stmt_user_media->fetch(PDO::FETCH_ASSOC);
 
-        
-
-        //usersテーブルとpostsテーブルとuser_mediasテーブルとpost_mediasテーブルを結合
         $sql_post = "SELECT
+                        post_likes.user_id,
                         posts.post_id,
-                        posts.user_id,
                         posts.name AS posts_name,
                         posts.place,
                         posts.price,
@@ -47,30 +67,29 @@
                         users.name AS users_name,
                         user_medias.file_name AS user_medias_file_name
                     FROM 
-                        posts
+                        post_likes
                     INNER JOIN
-                        post_medias ON posts.post_id = post_medias.post_id
+                        posts ON post_likes.post_id=posts.post_id                       
+                    INNER JOIN
+                        post_medias ON post_likes.post_id = post_medias.post_id
                     LEFT JOIN 
-                        users ON posts.user_id = users.user_id
+                        users ON post_likes.user_id = users.user_id
                     LEFT JOIN
                         user_medias ON users.user_id = user_medias.user_id
                     WHERE
-                        posts.delete_flag = '0' AND posts.user_id = $user_id
+                        posts.delete_flag = '0' AND post_likes.user_id = $user_id
                     ORDER BY 
                         posts.registered_time DESC";
         
         $stmt_post = $dbh->query($sql_post);
-        
-                            
 ?>
-
 
 <!DOCTYPE html>
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
-        <title>プロフィール画面</title>
+        <title>行ってみたいリスト</title>
     </head>
     <body>
         <div class="container">
@@ -109,44 +128,41 @@
                 </div>
             </header>
         </div>
-            <main class = "main1">
-                <div class="main2">
-                    <h1 class="heading-lv1 text-center">Profile</h1>
-                    <figure class="profile-image">
-                        <img src="user_medias/<?php echo $result2['file_name']; ?>" alt="プロフィール写真" width="300" height="300">
-                    </figure>
-                    <h2 class="heading-lv2 text-center"><?php echo $result['name'];?></h2>
+        <main class = "main1">
+            <div class="main2">
+                <h1 class="heading-lv1 text-center">Profile</h1>
+                <figure class="profile-image">
+                    <img src="user_medias/<?php echo $result_user_media['file_name']; ?>" alt="プロフィール写真" width="300" height="300">
+                </figure>
+                <h2 class="heading-lv2 text-center"><?php echo $result_user['name'];?></h2>
+                
+                <h3 class="heading-lv3 text-center">好きなジャンル</h3>
+                <p class="text text-center"><?php echo $result_user['favorite_genre'];?></p>
 
-                    <h3 class="heading-lv3 text-center">好きなジャンル</h3>
-                    <p class="text text-center"><?php echo $result['favorite_genre'];?></p>
+                <h3 class="heading-lv3 text-center">好きなメニュー</h3>
+                <p class="text text-center"><?php echo $result_user['favorite_menu'];?></p>
 
-                    <h3 class="heading-lv3 text-center">好きなメニュー</h3>
-                    <p class="text text-center"><?php echo $result['favorite_menu'];?></p>
+                <h3 class="heading-lv3 text-center">自己紹介</h3>
+                <p class="text text-center"><?php echo $result_user['about_me'];?></p>
 
-                    <h3 class="heading-lv3 text-center">自己紹介</h3>
-                    <p class="text text-center"><?php echo $result['about_me'];?></p>
-
-                    <script>
-                        function screenChange(){
+                <script>
+                    function screenChange(){
                             pullSellect = document.pullForm.pullMenu.selectedIndex ;
                             location.href = document.pullForm.pullMenu.options[pullSellect].value ;
-                        }
-                    </script>
-                    <form name="pullForm">
-                        <select name="pullMenu" onChange="screenChange()">
-                            <option></option>
-                            <option value= "edit_account.php">アカウント編集</option>
-                            <option value="delete_account.php">アカウント削除</option>
-                            <option value="logout.php">ログアウト</option>
-                        </select>
-                    </form>
-                    
-                    <a href="favorite_list.php">行ってみたいリスト</a>
-
-                    <h1 class="heading-lv1 text-center">投稿一覧</h1>
+                                        }
+                </script>
+                <form name="pullForm">
+                    <select name="pullMenu" onChange="screenChange()">
+                        <option></option>
+                        <option value= "edit_account.php">アカウント編集</option>
+                        <option value="delete_account.php">アカウント削除</option>
+                        <option value="logout.php">ログアウト</option>
+                    </select>
+                </form>
+                <h1 class="heading-lv1 text-center">行ってみたいリスト</h1>
                     <?php foreach($stmt_post as $row){?>
                         <ul>
-                            <li><img src="user_medias/<?php echo $row['user_medias_file_name']; ?>" class="profile_img" alt="プロフィール写真" width="50" height="50"></li>
+                            <li><img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50"></li>
                             <li><?php echo $row['users_name'];?></li>
                             <li><?php echo $row['posts_name'];?></li>
                             <li>
@@ -242,14 +258,31 @@
                                             echo "";
                                         }?>
                             </li>
+                            <li>
+                                <form class = "good_count" action = "favorite_list.php" method ="POST">
+                                    <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>
+                                    <input type = "hidden" name = "list_good" value="search_good">
+                                    <?php
+                                        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                                        $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
+                                        $stmt_like = $dbh->query($sql_like_button);
+                                        $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+                                        if(empty($result_like)){
+                                            echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい'><span>$row[like_count]</span>";
+                                        }else{
+                                            echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除'><span>$row[like_count]</span>";
+                                        }
+                                    ?>
+                                </form>
+                            </li>
                         </ul>
-                    <?php }?>
-                </div>
-            </main>  
-            <footer class="footer">
-                <div>
-                    フッター
-                </div>
-            </footer>  
-        </body>
-    </html>                
+                <?php }?>
+            </div>
+        </main>
+        <footer class="footer">
+            <div>
+                フッター
+            </div>
+        </footer>  
+    </body>
+</html>

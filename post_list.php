@@ -510,7 +510,7 @@
                 <?php if((empty($_POST['search']) && empty($_POST['search_good'])) || (!empty($search_er))):?>                      
                     <?php foreach($stmt as $row){?>
                         <ul>
-                            <li><img src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50"></li>
+                            <li><img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50"></li>
                             <li><?php echo $row['users_name'];?></li>
                             <li>店名：<?php echo $row['posts_name'];?></li>
                             <li>
@@ -642,7 +642,7 @@
                 <?php elseif(($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['search']) && $count['cnt'] > 0) || (!empty($_GET['name']))):?>
                     <?php foreach($stmt_search as $row){?>
                         <ul>
-                            <li><img src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50"></li>
+                            <li><img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50"></li>
                             <li><?php echo $row['users_name'];?></li>
                             <li>店名：<?php echo $row['posts_name'];?></li>
                             <li>

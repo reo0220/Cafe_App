@@ -111,16 +111,17 @@
                             <input type = "text" name = "mail" maxlength = "100"value = <?php if(isset($mail)){
                                                                                                     echo $mail;
                                                                                                 }?>>
-                            <p class = "login_err2"><?php echo $mail_err;?></p>
+                            <p class = "text-danger"><?php echo $mail_err;?></p>
                         </li>    
                         <li>
                             <label class = "form_name">パスワード</label>
                             <input type = "password" name = "password" maxlength = "10" value = <?php if(isset($pas)){
                                                                                                             echo $pas;
                                                                                                         }?>>
-                            <p class = "login_err2"><?php echo $pas_err;?></p>
+                            <p class = "text-danger"><?php echo $pas_err;?></p>
                         </li>
                         <li><input type = "submit" class = "submit2" value="ログイン"></li>
+                        <li><a href="signup.php">アカウント新規登録</a></li>
                     </ul>
                 </form>
             </div>    

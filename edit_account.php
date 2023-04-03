@@ -33,7 +33,7 @@
             $error_pas =  "現在のパスワード又は変更後のパスワードを入力して下さい。";
         }
 
-        if(!isset($name_check) && !isset($mail_check) && !isset($pas_check)){
+        if(empty($error_name) && empty($error_mail) && empty($error_pas)){
 
             $dsn = "mysql:host=localhost; dbname=cafe_app; charset=utf8";
             $username = "root";
