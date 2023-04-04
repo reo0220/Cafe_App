@@ -55,6 +55,7 @@
         $sql_post = "SELECT
                         post_likes.user_id,
                         posts.post_id,
+                        posts.user_id,
                         posts.name AS posts_name,
                         posts.place,
                         posts.price,
@@ -73,7 +74,7 @@
                     INNER JOIN
                         post_medias ON post_likes.post_id = post_medias.post_id
                     LEFT JOIN 
-                        users ON post_likes.user_id = users.user_id
+                        users ON posts.user_id = users.user_id
                     LEFT JOIN
                         user_medias ON users.user_id = user_medias.user_id
                     WHERE

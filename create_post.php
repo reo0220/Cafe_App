@@ -43,13 +43,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         if(!empty($_FILES['file2']['name'])){//file2が選択されているとき、登録処理を行う
             $id = $dbh->lastInsertId();
-            $image2 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-            $image2 .= '.' . substr(strrchr($_FILES['file2']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+            $image2 = uniqid(mt_rand(), true);
+            $image2 .= '.' . substr(strrchr($_FILES['file2']['name'], '.'), 1);
             $file2 = "post_medias/$image2";
             $sql2 = "UPDATE post_medias SET second_file_name = :file2 WHERE media_id = $id";
             $stmt2 = $dbh->prepare($sql2);
             $stmt2->bindValue(':file2', $image2, PDO::PARAM_STR);
-            move_uploaded_file($_FILES['file2']['tmp_name'], './post_medias/' . $image2);//post_mediasディレクトリにファイル保存
+            move_uploaded_file($_FILES['file2']['tmp_name'], './post_medias/' . $image2);
             if (exif_imagetype($file2)) {//画像ファイルかのチェック
                     $message2 = '画像をアップロードしました';
                     $stmt2->execute();
@@ -61,14 +61,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         }
 
         if(!empty($_FILES['file3']['name'])){
-            $image3 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-            $image3 .= '.' . substr(strrchr($_FILES['file3']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+            $image3 = uniqid(mt_rand(), true);
+            $image3 .= '.' . substr(strrchr($_FILES['file3']['name'], '.'), 1);
             $file3 = "post_medias/$image3";
             $sql3 = "UPDATE post_medias SET third_file_name = :file3 WHERE media_id = $id";
             $stmt3 = $dbh->prepare($sql3);
             $stmt3->bindValue(':file3', $image3, PDO::PARAM_STR);
-            move_uploaded_file($_FILES['file3']['tmp_name'], './post_medias/' . $image3);//post_mediasディレクトリにファイル保存
-            if (exif_imagetype($file3)) {//画像ファイルかのチェック
+            move_uploaded_file($_FILES['file3']['tmp_name'], './post_medias/' . $image3);
+            if (exif_imagetype($file3)) {
                     $message3 = '画像をアップロードしました';
                     $stmt3->execute();
             } else {
@@ -79,14 +79,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         }
 
         if(!empty($_FILES['file4']['name'])){
-            $image4 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-            $image4 .= '.' . substr(strrchr($_FILES['file4']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+            $image4 = uniqid(mt_rand(), true);
+            $image4 .= '.' . substr(strrchr($_FILES['file4']['name'], '.'), 1);
             $file4 = "post_medias/$image4";
             $sql4 = "UPDATE post_medias SET fourth_file_name = :file4 WHERE media_id = $id";
             $stmt4 = $dbh->prepare($sql4);
             $stmt4->bindValue(':file4', $image4, PDO::PARAM_STR);
-            move_uploaded_file($_FILES['file4']['tmp_name'], './post_medias/' . $image4);//post_mediasディレクトリにファイル保存
-            if (exif_imagetype($file4)) {//画像ファイルかのチェック
+            move_uploaded_file($_FILES['file4']['tmp_name'], './post_medias/' . $image4);
+            if (exif_imagetype($file4)) {
                     $message4 = '画像をアップロードしました';
                     $stmt4->execute();
             } else {
@@ -203,17 +203,143 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                             <textarea name="comment" rows="5" cols="33"></textarea>
                         </li>
                         <li>
-                            <label>投稿写真</label>
-                            <input name="file1" type="file"/><br/>
+                            <label>投稿写真</label></br>
+                            <input name="file1" type="file" id="file1" accept='image/*' onchange="previewImage(this);"></br>
+                            <img id='preview' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='80' height='80'></br>
+                            <input type="button" id="deselect" value="選択解除" onclick="deselect1()"></br>
+                        </li>
+                        <li>
+                            <input name="file2" type="file" id="file2" accept='image/*' onchange="previewImage2(this);"></br>
+                            <img id='preview2' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='80' height='80'></br>
+                            <input type="button" id="deselect2" value="選択解除" onclick="deselect2_1()"></br>
+                        </li>
+                        <li>
+                            <input name="file3" type="file" id="file3" accept='image/*' onchange="previewImage3(this);"></br>
+                            <img id='preview3' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='80' height='80'></br>
+                            <input type="button" id="deselect3" value="選択解除" onclick="deselect3_1()"></br>
+                        </li>
+                        <li>
+                            <input name="file4" type="file" id="file4" accept='image/*' onchange="previewImage4(this);"></br>
+                            <img id='preview4' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='80' height='80'></br>
+                            <input type="button" id="deselect4" value="選択解除" onclick="deselect4_1()"></br>
+                        </li>
+
+                            <script>
+                                //最初は非表示
+                                document.getElementById("deselect").style.visibility = "hidden";
+                                document.getElementById("deselect2").style.visibility = "hidden";
+                                document.getElementById("deselect3").style.visibility = "hidden";
+                                document.getElementById("deselect4").style.visibility = "hidden";
+                                document.getElementById("file2").style.visibility = "hidden";
+                                document.getElementById("file3").style.visibility = "hidden";
+                                document.getElementById("file4").style.visibility = "hidden";
+                                
+                                //プレビューの表示
+                                function previewImage(obj){
+                                    var fileReader = new FileReader();
+                                    fileReader.onload = (function() {
+                                        document.getElementById("preview").style.visibility = "visible";
+                                        document.getElementById('preview').src = fileReader.result;
+                                    });
+                                    fileReader.readAsDataURL(obj.files[0]);
+                                }
+                                function previewImage2(obj){
+                                    var fileReader2 = new FileReader();
+                                    fileReader2.onload = (function() {
+                                        document.getElementById("preview2").style.visibility = "visible";
+                                        document.getElementById('preview2').src = fileReader2.result;
+                                    });
+                                    fileReader2.readAsDataURL(obj.files[0]);
+                                }
+                                function previewImage3(obj){
+                                    var fileReader3 = new FileReader();
+                                    fileReader3.onload = (function() {
+                                        document.getElementById("preview3").style.visibility = "visible";
+                                        document.getElementById('preview3').src = fileReader3.result;
+                                    });
+                                    fileReader3.readAsDataURL(obj.files[0]);
+                                }
+                                function previewImage4(obj){
+                                    var fileReader4 = new FileReader();
+                                    fileReader4.onload = (function() {
+                                        document.getElementById("preview4").style.visibility = "visible";
+                                        document.getElementById('preview4').src = fileReader4.result;
+                                    });
+                                    fileReader4.readAsDataURL(obj.files[0]);
+                                }
+
+                                //選択解除をクリックした時
+                                function deselect1(){
+                                    document.getElementById("preview").style.visibility = "hidden";
+                                    document.getElementById("file1").value = "";
+                                    document.getElementById("file2").style.visibility = "hidden";
+                                    document.getElementById("deselect").style.visibility = "hidden";
+                                }
+                                function deselect2_1(){
+                                    document.getElementById("preview2").style.visibility = "hidden";
+                                    document.getElementById("file2").value = "";
+                                    document.getElementById("file3").style.visibility = "hidden";
+                                    document.getElementById("deselect2").style.visibility = "hidden";
+                                }
+                                function deselect3_1(){
+                                    document.getElementById("preview3").style.visibility = "hidden";
+                                    document.getElementById("file3").value = "";
+                                    document.getElementById("file4").style.visibility = "hidden";
+                                    document.getElementById("deselect3").style.visibility = "hidden";
+                                }
+                                function deselect4_1(){
+                                    document.getElementById("preview4").style.visibility = "hidden";
+                                    document.getElementById("file4").value = "";
+                                    document.getElementById("deselect4").style.visibility = "hidden";
+                                }
+                                
+                                //ファイルを選択した時に表示
+                                const fileInput = document.getElementById("file1");
+                                const handleFileSelect = () => {
+                                    const files = fileInput.files;
+                                    if(files.length === 1){
+                                        document.getElementById("file2").style.visibility = "visible";
+                                        document.getElementById("deselect").style.visibility = "visible";
+                                    }
+                                }
+                                fileInput.addEventListener('change', handleFileSelect);
+                                
+                                const fileInput2 = document.getElementById("file2");
+                                const handleFileSelect2 = () => {
+                                    const files2 = fileInput2.files;
+                                    if(files2.length === 1){
+                                        document.getElementById("file3").style.visibility = "visible";
+                                        document.getElementById("deselect2").style.visibility = "visible";
+                                    }
+                                }
+                                fileInput2.addEventListener('change', handleFileSelect2);
+
+                                const fileInput3 = document.getElementById("file3");
+                                const handleFileSelect3 = () => {
+                                    const files3 = fileInput3.files;
+                                    if(files3.length === 1){
+                                        document.getElementById("file4").style.visibility = "visible";
+                                        document.getElementById("deselect3").style.visibility = "visible";
+                                    }
+                                }
+                                fileInput3.addEventListener('change', handleFileSelect3);
+
+                                const fileInput4 = document.getElementById("file4");
+                                const handleFileSelect4 = () => {
+                                    const files4 = fileInput4.files;
+                                    if(files4.length === 1){
+                                        document.getElementById("deselect4").style.visibility = "visible";
+                                    }
+                                }
+                                fileInput4.addEventListener('change', handleFileSelect4);
+                            </script>
+                        <li>
                             <?php if(!empty($error_file1)):?>
                                 <p class="text-danger"><?php echo $error_file1;?></p>
                             <?php endif; ?>
-                            <input name="file2" type="file"/><br/>
-                            <input name="file3" type="file"/><br/>
-                            <input name="file4" type="file"/><br/>
-                        </li>
-                        <input type="submit" name="_method"  value="投稿" formaction="create_post.php">
-                        <input type="submit" name="_method" value="キャンセル" formaction="post_list.php">
+                        </li>                   
+                        <li><input type="submit" name="_method"  value="投稿" formaction="create_post.php"></li>
+                        <li><input type="submit" name="_method" value="キャンセル" formaction="post_list.php"></li>
                     </ul>
                 </form>
             </div>
