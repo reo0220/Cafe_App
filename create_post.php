@@ -6,18 +6,18 @@ if(!empty($_SESSION['user_id_log'])){
     $user_id = $_SESSION['user_id_sign'];
 }
 
+$comment = "";
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $name = $_POST['name'];
     if($name === ""){
-        $error_name = "店名が未入力です。";
+        $er_name = "店名が未入力です。";
     }
     
-    $file_er = $_FILES['file1']['name'];
-    if($file_er === ""){
-        $error_file1 = "投稿する写真を選択してください";
+    if(empty($_FILES['file1']['name']) && empty($_FILES['file2']['name']) && empty($_FILES['file3']['name']) && empty($_FILES['file4']['name'])){
+        $er_file = "投稿する写真を選択してください";
     }
 
-    if(!isset($error_name) && !isset($error_file1)){
+    if(empty($er_name) && empty($er_file)){
         mb_internal_encoding("utf8");
         $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
 
@@ -42,29 +42,34 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         }
 
         if(!empty($_FILES['file2']['name'])){//file2が選択されているとき、登録処理を行う
-            $id = $dbh->lastInsertId();
             $image2 = uniqid(mt_rand(), true);
             $image2 .= '.' . substr(strrchr($_FILES['file2']['name'], '.'), 1);
             $file2 = "post_medias/$image2";
-            $sql2 = "UPDATE post_medias SET second_file_name = :file2 WHERE media_id = $id";
+            if(empty($_FILES['file1']['name'])){
+                $sql2 = "INSERT INTO post_medias(second_file_name,post_id) VALUES (:file2,$post_id)";
+            }else{
+                $sql2 = "UPDATE post_medias SET second_file_name = :file2 WHERE post_id = $post_id";
+            }
             $stmt2 = $dbh->prepare($sql2);
             $stmt2->bindValue(':file2', $image2, PDO::PARAM_STR);
             move_uploaded_file($_FILES['file2']['tmp_name'], './post_medias/' . $image2);
-            if (exif_imagetype($file2)) {//画像ファイルかのチェック
+            if (exif_imagetype($file2)) {
                     $message2 = '画像をアップロードしました';
                     $stmt2->execute();
             } else {
                     $message2 = '画像ファイルではありません';
             }
-        }else{
-            header("Location:http://localhost/cafe_app/Cafe_App/toppage.php");//file2が選択されていない時、トップページに遷移する
         }
 
         if(!empty($_FILES['file3']['name'])){
             $image3 = uniqid(mt_rand(), true);
             $image3 .= '.' . substr(strrchr($_FILES['file3']['name'], '.'), 1);
             $file3 = "post_medias/$image3";
-            $sql3 = "UPDATE post_medias SET third_file_name = :file3 WHERE media_id = $id";
+            if(empty($_FILES['file1']['name']) && empty($_FILES['file2']['name'])){
+                $sql3 = "INSERT INTO post_medias(third_file_name,post_id) VALUES (:file3,$post_id)";
+            }else{
+                $sql3 = "UPDATE post_medias SET third_file_name = :file3 WHERE post_id = $post_id";
+            }
             $stmt3 = $dbh->prepare($sql3);
             $stmt3->bindValue(':file3', $image3, PDO::PARAM_STR);
             move_uploaded_file($_FILES['file3']['tmp_name'], './post_medias/' . $image3);
@@ -74,15 +79,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             } else {
                     $message3 = '画像ファイルではありません';
             }
-        }else{
-            header("Location:http://localhost/cafe_app/Cafe_App/toppage.php");
         }
 
         if(!empty($_FILES['file4']['name'])){
             $image4 = uniqid(mt_rand(), true);
             $image4 .= '.' . substr(strrchr($_FILES['file4']['name'], '.'), 1);
             $file4 = "post_medias/$image4";
-            $sql4 = "UPDATE post_medias SET fourth_file_name = :file4 WHERE media_id = $id";
+            if(empty($_FILES['file1']['name']) && empty($_FILES['file2']['name']) && empty($_FILES['file3']['name'])){
+                $sql4 = "INSERT INTO post_medias(fourth_file_name,post_id) VALUES (:file4,$post_id)";
+            }else{
+                $sql4 = "UPDATE post_medias SET fourth_file_name = :file4 WHERE post_id = $post_id";
+            }
             $stmt4 = $dbh->prepare($sql4);
             $stmt4->bindValue(':file4', $image4, PDO::PARAM_STR);
             move_uploaded_file($_FILES['file4']['tmp_name'], './post_medias/' . $image4);
@@ -92,13 +99,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             } else {
                     $message4 = '画像ファイルではありません';
             }
-        }else{
-            header("Location:http://localhost/cafe_app/Cafe_App/toppage.php");
         }
 
-        if(!empty($_FILES['file1']['name']) && !empty($_FILES['file2']['name']) && !empty($_FILES['file3']['name']) && !empty($_FILES['file4']['name'])){
-            header("Location:http://localhost/cafe_app/Cafe_App/toppage.php");
-        }
+            header("Location:http://localhost/cafe_app/Cafe_App/post_list.php");
     }
 }
 
@@ -155,52 +158,173 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     <ul>
                         <li>
                             <label>店名</label>
-                            <input type = "text" name = "name">
-                            <?php if(!empty($error_name)):?>
-                                <p class="text-danger"><?php echo $error_name;?></p>
+                            <input type = "text" name = "name" value = <?php 
+                                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
+                                                                                echo $_POST['name'];
+                                                                            }
+                                                                        ?>>
+                            <?php if(!empty($er_name)):?>
+                                <p class="text-danger"><?php echo $er_name;?></p>
                             <?php endif; ?>
                         </li>
                         <li>
                             <label>場所</label>
                             <select name="place">
-                                <option value="1">千代田区</option>
-                                <option value="2">中央区</option>
-                                <option value="3">港区</option>
-                                <option value="4">新宿区</option>
-                                <option value="5">文京区</option>
-                                <option value="6">台東区</option>
-                                <option value="7">墨田区</option>
-                                <option value="8">江東区</option>
-                                <option value="9">品川区</option>
-                                <option value="10">目黒区</option>
-                                <option value="11">大田区</option>
-                                <option value="12">世田谷区</option>
-                                <option value="13">渋谷区</option>
-                                <option value="14">中野区</option>
-                                <option value="15">杉並区</option>
-                                <option value="16">豊島区</option>
-                                <option value="17">北区</option>
-                                <option value="18">荒川区</option>
-                                <option value="19">板橋区</option>
-                                <option value="20">練馬区</option>
-                                <option value="21">足立区</option>
-                                <option value="22">葛飾区</option>
-                                <option value="23">江戸川区</option>
+                                <option value="1" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "1"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>千代田区</option>
+                                <option value="2" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "2"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>中央区</option>
+                                <option value="3" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "3"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>港区</option>
+                                <option value="4" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "4"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>新宿区</option>
+                                <option value="5" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "5"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>文京区</option>
+                                <option value="6" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "6"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>台東区</option>
+                                <option value="7" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "7"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>墨田区</option>
+                                <option value="8" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "8"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>江東区</option>
+                                <option value="9" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "9"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>品川区</option>
+                                <option value="10" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "10"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>目黒区</option>
+                                <option value="11" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "11"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>大田区</option>
+                                <option value="12" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "12"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>世田谷区</option>
+                                <option value="13" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "13"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>渋谷区</option>
+                                <option value="14" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "14"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>中野区</option>
+                                <option value="15" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "15"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>杉並区</option>
+                                <option value="16" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "16"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>豊島区</option>
+                                <option value="17" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "17"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>北区</option>
+                                <option value="18" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "18"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>荒川区</option>
+                                <option value="19" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "19"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>板橋区</option>
+                                <option value="20" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "20"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>練馬区</option>
+                                <option value="21" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "21"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>足立区</option>
+                                <option value="22" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "22"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>葛飾区</option>
+                                <option value="23" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "23"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>江戸川区</option>
                             </select>
                         </li>
                         <li>
                             <label>価格帯</label>
                             <select name = "price">
-                                <option value = "1">0円〜500円</option>
-                                <option value = "2">500円〜1000円</option>
-                                <option value = "3">1000円〜1500円</option>
-                                <option value = "4">1500円〜2000円</option>
-                                <option value = "5">2000円〜</option>
+                                <option value = "1" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "1"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>0円〜500円</option>
+                                <option value = "2" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "2"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>500円〜1000円</option>
+                                <option value = "3" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "3"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>1000円〜1500円</option>
+                                <option value = "4" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "4"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>1500円〜2000円</option>
+                                <option value = "5" <?php
+                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "5"){
+                                                            echo "selected";
+                                                        }
+                                                    ?>>2000円〜</option>
                             </select>
                         </li>
                         <li>
                             <label>コメント</label>
-                            <textarea name="comment" rows="5" cols="33"></textarea>
+                            <?php 
+                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['comment'])){
+                                        $comment = $_POST['comment'];
+                                    }
+                            ?>
+                            <textarea name="comment" rows="5" cols="33"><?php echo $comment;?></textarea>
                         </li>
                         <li>
                             <label>投稿写真</label></br>
@@ -272,19 +396,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                 function deselect1(){
                                     document.getElementById("preview").style.visibility = "hidden";
                                     document.getElementById("file1").value = "";
-                                    document.getElementById("file2").style.visibility = "hidden";
                                     document.getElementById("deselect").style.visibility = "hidden";
                                 }
                                 function deselect2_1(){
                                     document.getElementById("preview2").style.visibility = "hidden";
                                     document.getElementById("file2").value = "";
-                                    document.getElementById("file3").style.visibility = "hidden";
                                     document.getElementById("deselect2").style.visibility = "hidden";
                                 }
                                 function deselect3_1(){
                                     document.getElementById("preview3").style.visibility = "hidden";
                                     document.getElementById("file3").value = "";
-                                    document.getElementById("file4").style.visibility = "hidden";
                                     document.getElementById("deselect3").style.visibility = "hidden";
                                 }
                                 function deselect4_1(){
@@ -334,8 +455,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                                 fileInput4.addEventListener('change', handleFileSelect4);
                             </script>
                         <li>
-                            <?php if(!empty($error_file1)):?>
-                                <p class="text-danger"><?php echo $error_file1;?></p>
+                            <?php if(!empty($er_file)):?>
+                                <p class="text-danger"><?php echo $er_file;?></p>
                             <?php endif; ?>
                         </li>                   
                         <li><input type="submit" name="_method"  value="投稿" formaction="create_post.php"></li>
