@@ -170,6 +170,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         <ul class="nav__items nav-items">
                             <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
                             <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
+                            <li class="nav-items__item"><a href="create_post.php">投稿作成</a></li>
                             <?php 
                                 if(isset($user_id)){
                                     echo  "<li class='nav-items__item'><a href='profile.php'>プロフィール</a></li>";

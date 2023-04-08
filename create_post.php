@@ -125,6 +125,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         <ul class="nav__items nav-items">
                             <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
                             <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
+                            <li class="nav-items__item"><a href="create_post.php">投稿作成</a></li>
                             <?php 
                                 if(isset($user_id)){
                                     echo  "<li class='nav-items__item'><a href='profile.php'>プロフィール</a></li>";
@@ -151,7 +152,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 </div>
             </header>
         </div>
-        <main class = "main0">
+        <main class = "main1">
             <div class="main2">
                 <h1 class="heading-lv1 text-center">投稿作成</h1>
                 <form method = "POST" action = "?" enctype='multipart/form-data'>

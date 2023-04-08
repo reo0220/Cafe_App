@@ -83,6 +83,7 @@
                         <ul class="nav__items nav-items">
                             <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
                             <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
+                            <li class="nav-items__item"><a href="create_post.php">投稿作成</a></li>
                             <?php 
                                 if(isset($user_id)){
                                     echo  "<li class='nav-items__item'><a href='profile.php'>プロフィール</a></li>";
@@ -211,7 +212,12 @@
                                 }?>
                             </li>
                             <li><?php echo $row['comment'];?></li>
-                            <li><img src="post_medias/<?php echo $row['first_file_name']; ?>" alt="投稿写真" width="80" height="80"></li>
+                            <?php 
+                                if(!empty($row['first_file_name'])){
+                                    $first_file_name = $row['first_file_name'];
+                                    echo "<li><img src='post_medias/$first_file_name' alt='投稿写真' width='80' height='80'></li>";
+                                }
+                            ?>
                             <?php 
                                 if(!empty($row['second_file_name'])){
                                     $second_file_name = $row['second_file_name'];

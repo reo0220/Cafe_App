@@ -70,6 +70,7 @@
                         <ul class="nav__items nav-items">
                             <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
                             <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
+                            <li class="nav-items__item"><a href="create_post.php">投稿作成</a></li>
                             <?php 
                                 if(isset($user_id)){
                                     echo  "<li class='nav-items__item'><a href='profile.php'>プロフィール</a></li>";
@@ -100,7 +101,7 @@
             <div class="main2">
                 <h2>ログイン画面</h2>
                     
-                <p class = "login_err"><?php if(isset($db_err)){
+                <p class = "text-danger"><?php if(isset($db_err)){
                                                     echo $db_err;
                                             }elseif(isset($err)){
                                                     echo $err;}?></p>

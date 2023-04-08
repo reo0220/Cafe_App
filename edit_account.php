@@ -99,6 +99,7 @@
                         <ul class="nav__items nav-items">
                             <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
                             <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
+                            <li class="nav-items__item"><a href="create_post.php">投稿作成</a></li>
                             <?php 
                                 if(isset($user_id)){
                                     echo  "<li class='nav-items__item'><a href='profile.php'>プロフィール</a></li>";
@@ -131,9 +132,11 @@
                 <form method = "POST" action = "?" enctype="multipart/form-data">
                     <ul>
                         <li>
+                            <figure class="profile-image">
+                                <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="300" height="300">
+                            </figure>
                             <label>プロフィール画像</label>
                             <input type="file" name="image" accept='image/*' onchange="previewImage(this);">
-                            <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="max-width:200px;">
                             <script>
                                 function previewImage(obj){
                                     var fileReader = new FileReader();
