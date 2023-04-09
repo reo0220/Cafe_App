@@ -138,7 +138,18 @@
                 <h2 class="heading-lv1 text-center">人気投稿</h2>
                 <?php foreach($stmt as $row){?>
                     <ul>
-                        <li><img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50"></li>
+                        <!--投稿者がログインしているアカウントの場合、画像クリック時にプロフィール画面に遷移し、それ以外は投稿者のプロフィール画面に遷移-->
+                        <li>
+                            <?php if($user_id != $row['user_id']):?>
+                                <a href="profile_someone.php?user_id=<?php echo $row['user_id'];?>">
+                                    <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50">
+                                </a>
+                            <?php elseif($user_id === $row['user_id']):?>
+                                <a href="profile.php">
+                                    <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50">
+                                </a>
+                            <?php endif; ?>
+                        </li>
                         <li><?php echo $row['users_name'];?></li>
                         <li>店名：<?php echo $row['posts_name'];?></li>
                         <li>
