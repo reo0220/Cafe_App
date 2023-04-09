@@ -1,154 +1,158 @@
 <?php
-session_start();
-if(!empty($_SESSION['user_id_log'])){
-    $user_id = $_SESSION['user_id_log'];
-}elseif(!empty($_SESSION['user_id_sign'])){
-    $user_id = $_SESSION['user_id_sign'];
-}
-
-$motourl = $_SERVER['HTTP_REFERER'];
-$post_id = $_GET['post_id'];
-
-
-
-$dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-$sql_post = "SELECT 
-                posts.post_id,
-                posts.user_id,
-                posts.name AS posts_name,
-                posts.place, posts.price,
-                posts.comment,
-                post_medias.first_file_name,
-                post_medias.second_file_name,
-                post_medias.third_file_name,
-                post_medias.fourth_file_name
-            FROM 
-                posts 
-            INNER JOIN 
-                post_medias ON posts.post_id = post_medias.post_id 
-            WHERE 
-                posts.post_id = $post_id";
-$stmt_post = $dbh->query($sql_post);
-$result_post = $stmt_post->fetch(PDO::FETCH_ASSOC);
-
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $url = $_POST['url'];
-    
-    $name = $_POST['name'];
-    if($name === ""){
-        $error_name = "店名が未入力です。";
-    }
-    
-    $file1_input = $_POST['deselect1'];
-    $file2_input = $_POST['deselect2'];
-    $file3_input = $_POST['deselect3'];
-    $file4_input = $_POST['deselect4'];
-    //画像が空の状態
-    if((!empty($result_post['first_file_name']) && $file1_input === "0") || (empty($result_post['first_file_name']))){
-        $er_file1 = "NULL1";
-    }
-    if((!empty($result_post['second_file_name']) && $file2_input === "0") || (empty($result_post['second_file_name']))){
-        $er_file2 = "NULL2";
-    }
-    if((!empty($result_post['third_file_name']) && $file3_input === "0") || (empty($result_post['third_file_name']))){
-        $er_file3 = "NULL3";
-    }
-    if((!empty($result_post['fourth_file_name']) && $file4_input === "0") || (empty($result_post['fourth_file_name']))){
-        $er_file4 = "NULL4";
-    }
-    if(!empty($er_file1) && !empty($er_file2) && !empty($er_file3) && !empty($er_file4) ){
-        $error_file1 = "投稿する写真を一枚以上選択してください";
+    session_start();
+    if(!empty($_SESSION['user_id_log'])){
+        $user_id = $_SESSION['user_id_log'];
+    }elseif(!empty($_SESSION['user_id_sign'])){
+        $user_id = $_SESSION['user_id_sign'];
+    }else{
+        $param_json = "";
     }
 
-    if((!empty($_POST['name'])) && (empty($er_file1) || empty($er_file2) || empty($er_file3) || empty($er_file4))){
-        $post_id_edit = $_POST['post_id'];
-        mb_internal_encoding("utf8");
+    if(empty($_GET['post_id']) && !empty($user_id)){
+        $er_update_post = "";
+    }
+
+
+    if(!empty($user_id) && !empty($_GET['post_id'])){
+        $motourl = $_SERVER['HTTP_REFERER'];
+        $post_id = $_GET['post_id'];
         $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-        $sql_post_edit = "UPDATE posts SET name = '$_POST[name]',place='$_POST[place]',price='$_POST[price]',comment='$_POST[comment]' WHERE post_id = $post_id_edit";
-        $stmt_post_edit = $dbh->query($sql_post_edit);
+        $sql_post = "SELECT 
+                        posts.post_id,
+                        posts.user_id,
+                        posts.name AS posts_name,
+                        posts.place, posts.price,
+                        posts.comment,
+                        post_medias.first_file_name,
+                        post_medias.second_file_name,
+                        post_medias.third_file_name,
+                        post_medias.fourth_file_name
+                    FROM 
+                        posts 
+                    INNER JOIN 
+                        post_medias ON posts.post_id = post_medias.post_id 
+                    WHERE 
+                        posts.post_id = $post_id";
+        $stmt_post = $dbh->query($sql_post);
+        $result_post = $stmt_post->fetch(PDO::FETCH_ASSOC);
 
-        if(!empty($_FILES['file1']['name'])){//file1の登録処理
-            $image1 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-            $image1 .= '.' . substr(strrchr($_FILES['file1']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
-            $file1 = "post_medias/$image1";
-            $sql1 = "UPDATE post_medias SET first_file_name = :file1 WHERE post_id = $post_id_edit";
-            $stmt1 = $dbh->prepare($sql1);
-            $stmt1->bindValue(':file1', $image1, PDO::PARAM_STR);
-            move_uploaded_file($_FILES['file1']['tmp_name'], './post_medias/' . $image1);//post_mediasディレクトリにファイル保存
-            if (exif_imagetype($file1)) {//画像ファイルかのチェック
-                    $message1 = '画像をアップロードしました';
-                    $stmt1->execute();
-            } else {
-                    $message1 = '画像ファイルではありません';
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $url = $_POST['url'];
+            
+            $name = $_POST['name'];
+            if($name === ""){
+                $error_name = "店名が未入力です。";
             }
-        }elseif($file1_input === "0"){
-            $sql1_file_delete = "UPDATE post_medias SET first_file_name = '' WHERE post_id = $post_id_edit";
-            $dbh->query($sql1_file_delete);
-        }
-        
-        if(!empty($_FILES['file2']['name'])){//file2が選択されているとき、登録処理を行う
-            $image2 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-            $image2 .= '.' . substr(strrchr($_FILES['file2']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
-            $file2 = "post_medias/$image2";
-            $sql2 = "UPDATE post_medias SET second_file_name = :file2 WHERE post_id = $post_id_edit";
-            $stmt2 = $dbh->prepare($sql2);
-            $stmt2->bindValue(':file2', $image2, PDO::PARAM_STR);
-            move_uploaded_file($_FILES['file2']['tmp_name'], './post_medias/' . $image2);//post_mediasディレクトリにファイル保存
-            if (exif_imagetype($file2)) {//画像ファイルかのチェック
-                    $message2 = '画像をアップロードしました';
-                    $stmt2->execute();
-            } else {
-                    $message2 = '画像ファイルではありません';
+            
+            $file1_input = $_POST['deselect1'];
+            $file2_input = $_POST['deselect2'];
+            $file3_input = $_POST['deselect3'];
+            $file4_input = $_POST['deselect4'];
+            //画像が空の状態
+            if((!empty($result_post['first_file_name']) && $file1_input === "0") || (empty($result_post['first_file_name']))){
+                $er_file1 = "NULL1";
             }
-        }elseif($file2_input === "0"){
-            $sql2_file_delete = "UPDATE post_medias SET second_file_name = '' WHERE post_id = $post_id_edit";
-            $dbh->query($sql2_file_delete);
-        }
-        
-        if(!empty($_FILES['file3']['name'])){
-            $image3 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-            $image3 .= '.' . substr(strrchr($_FILES['file3']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
-            $file3 = "post_medias/$image3";
-            $sql3 = "UPDATE post_medias SET third_file_name = :file3 WHERE post_id = $post_id_edit";
-            $stmt3 = $dbh->prepare($sql3);
-            $stmt3->bindValue(':file3', $image3, PDO::PARAM_STR);
-            move_uploaded_file($_FILES['file3']['tmp_name'], './post_medias/' . $image3);//post_mediasディレクトリにファイル保存
-            if (exif_imagetype($file3)) {//画像ファイルかのチェック
-                    $message3 = '画像をアップロードしました';
-                    $stmt3->execute();
-            } else {
-                    $message3 = '画像ファイルではありません';
+            if((!empty($result_post['second_file_name']) && $file2_input === "0") || (empty($result_post['second_file_name']))){
+                $er_file2 = "NULL2";
             }
-        }elseif($file3_input === "0"){
-            $sql3_file_delete = "UPDATE post_medias SET third_file_name = '' WHERE post_id = $post_id_edit";
-            $dbh->query($sql3_file_delete);
-        }
-        
-        if(!empty($_FILES['file4']['name'])){
-            $image4 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-            $image4 .= '.' . substr(strrchr($_FILES['file4']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
-            $file4 = "post_medias/$image4";
-            $sql4 = "UPDATE post_medias SET fourth_file_name = :file4 WHERE post_id = $post_id_edit";
-            $stmt4 = $dbh->prepare($sql4);
-            $stmt4->bindValue(':file4', $image4, PDO::PARAM_STR);
-            move_uploaded_file($_FILES['file4']['tmp_name'], './post_medias/' . $image4);//post_mediasディレクトリにファイル保存
-            if (exif_imagetype($file4)) {//画像ファイルかのチェック
-                    $message4 = '画像をアップロードしました';
-                    $stmt4->execute();
-            } else {
-                    $message4 = '画像ファイルではありません';
+            if((!empty($result_post['third_file_name']) && $file3_input === "0") || (empty($result_post['third_file_name']))){
+                $er_file3 = "NULL3";
             }
-        }elseif($file4_input === "0"){
-            $sql4_file_delete = "UPDATE post_medias SET fourth_file_name = '' WHERE post_id = $post_id_edit";
-            $dbh->query($sql4_file_delete);
+            if((!empty($result_post['fourth_file_name']) && $file4_input === "0") || (empty($result_post['fourth_file_name']))){
+                $er_file4 = "NULL4";
+            }
+            if(!empty($er_file1) && !empty($er_file2) && !empty($er_file3) && !empty($er_file4) ){
+                $error_file1 = "投稿する写真を一枚以上選択してください";
+            }
+
+            if((!empty($_POST['name'])) && (empty($er_file1) || empty($er_file2) || empty($er_file3) || empty($er_file4))){
+                $post_id_edit = $_POST['post_id'];
+                mb_internal_encoding("utf8");
+                $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                $sql_post_edit = "UPDATE posts SET name = '$_POST[name]',place='$_POST[place]',price='$_POST[price]',comment='$_POST[comment]' WHERE post_id = $post_id_edit";
+                $stmt_post_edit = $dbh->query($sql_post_edit);
+
+                if(!empty($_FILES['file1']['name'])){//file1の登録処理
+                    $image1 = uniqid(mt_rand(), true);//ファイル名をユニーク化
+                    $image1 .= '.' . substr(strrchr($_FILES['file1']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+                    $file1 = "post_medias/$image1";
+                    $sql1 = "UPDATE post_medias SET first_file_name = :file1 WHERE post_id = $post_id_edit";
+                    $stmt1 = $dbh->prepare($sql1);
+                    $stmt1->bindValue(':file1', $image1, PDO::PARAM_STR);
+                    move_uploaded_file($_FILES['file1']['tmp_name'], './post_medias/' . $image1);//post_mediasディレクトリにファイル保存
+                    if (exif_imagetype($file1)) {//画像ファイルかのチェック
+                            $message1 = '画像をアップロードしました';
+                            $stmt1->execute();
+                    } else {
+                            $message1 = '画像ファイルではありません';
+                    }
+                }elseif($file1_input === "0"){
+                    $sql1_file_delete = "UPDATE post_medias SET first_file_name = '' WHERE post_id = $post_id_edit";
+                    $dbh->query($sql1_file_delete);
+                }
+                
+                if(!empty($_FILES['file2']['name'])){//file2が選択されているとき、登録処理を行う
+                    $image2 = uniqid(mt_rand(), true);//ファイル名をユニーク化
+                    $image2 .= '.' . substr(strrchr($_FILES['file2']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+                    $file2 = "post_medias/$image2";
+                    $sql2 = "UPDATE post_medias SET second_file_name = :file2 WHERE post_id = $post_id_edit";
+                    $stmt2 = $dbh->prepare($sql2);
+                    $stmt2->bindValue(':file2', $image2, PDO::PARAM_STR);
+                    move_uploaded_file($_FILES['file2']['tmp_name'], './post_medias/' . $image2);//post_mediasディレクトリにファイル保存
+                    if (exif_imagetype($file2)) {//画像ファイルかのチェック
+                            $message2 = '画像をアップロードしました';
+                            $stmt2->execute();
+                    } else {
+                            $message2 = '画像ファイルではありません';
+                    }
+                }elseif($file2_input === "0"){
+                    $sql2_file_delete = "UPDATE post_medias SET second_file_name = '' WHERE post_id = $post_id_edit";
+                    $dbh->query($sql2_file_delete);
+                }
+                
+                if(!empty($_FILES['file3']['name'])){
+                    $image3 = uniqid(mt_rand(), true);//ファイル名をユニーク化
+                    $image3 .= '.' . substr(strrchr($_FILES['file3']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+                    $file3 = "post_medias/$image3";
+                    $sql3 = "UPDATE post_medias SET third_file_name = :file3 WHERE post_id = $post_id_edit";
+                    $stmt3 = $dbh->prepare($sql3);
+                    $stmt3->bindValue(':file3', $image3, PDO::PARAM_STR);
+                    move_uploaded_file($_FILES['file3']['tmp_name'], './post_medias/' . $image3);//post_mediasディレクトリにファイル保存
+                    if (exif_imagetype($file3)) {//画像ファイルかのチェック
+                            $message3 = '画像をアップロードしました';
+                            $stmt3->execute();
+                    } else {
+                            $message3 = '画像ファイルではありません';
+                    }
+                }elseif($file3_input === "0"){
+                    $sql3_file_delete = "UPDATE post_medias SET third_file_name = '' WHERE post_id = $post_id_edit";
+                    $dbh->query($sql3_file_delete);
+                }
+                
+                if(!empty($_FILES['file4']['name'])){
+                    $image4 = uniqid(mt_rand(), true);//ファイル名をユニーク化
+                    $image4 .= '.' . substr(strrchr($_FILES['file4']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+                    $file4 = "post_medias/$image4";
+                    $sql4 = "UPDATE post_medias SET fourth_file_name = :file4 WHERE post_id = $post_id_edit";
+                    $stmt4 = $dbh->prepare($sql4);
+                    $stmt4->bindValue(':file4', $image4, PDO::PARAM_STR);
+                    move_uploaded_file($_FILES['file4']['tmp_name'], './post_medias/' . $image4);//post_mediasディレクトリにファイル保存
+                    if (exif_imagetype($file4)) {//画像ファイルかのチェック
+                            $message4 = '画像をアップロードしました';
+                            $stmt4->execute();
+                    } else {
+                            $message4 = '画像ファイルではありません';
+                    }
+                }elseif($file4_input === "0"){
+                    $sql4_file_delete = "UPDATE post_medias SET fourth_file_name = '' WHERE post_id = $post_id_edit";
+                    $dbh->query($sql4_file_delete);
+                }
+                //エラーが起きた時、編集画面が前画面になってしまう(更新はできてる)
+                header("Location:http://localhost/cafe_app/Cafe_App/post_list.php");
+            }
         }
-        //エラーが起きた時、編集画面が前画面になってしまう(更新はできてる)
-        header("Location:http://localhost/cafe_app/Cafe_App/post_list.php");
     }
-}
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -157,8 +161,49 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>投稿編集</title>
-        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     </head>
+    <script>
+        //ログインまたはアカウント登録していない場合
+        const param = '<?=$param_json?>';
+        window.onload = function(){
+            if(param == ""){
+                Swal.fire({
+                    title: 'ログインか新規登録を行ってください。',
+                    type : 'warning',
+                    bottons:true,
+                    grow : 'fullscreen',
+                    confirmButtonText:"ログインまたは新規登録",
+                    allowOutsideClick:false
+                }).then((result) =>{//「ログインまたは新規登録」ボタンをクリックした時、ログイン画面へ遷移
+                    if(result.value){
+                        window.location.href ="./login.php";
+                    }
+                });
+            }
+        }
+    </script>
+    <script>
+        //ログインはしているけど、「編集」ボタンから遷移していない時
+        const er_update = '<?=$er_update_post?>';
+        window.onload = function(){
+            if(er_update == ""){
+                Swal.fire({
+                    title: '編集する投稿を選択してください。',
+                    type : 'warning',
+                    bottons:true,
+                    grow : 'fullscreen',
+                    confirmButtonText:"投稿を選択",
+                    allowOutsideClick:false
+                }).then((result) =>{
+                    if(result.value){
+                        window.location.href ="./profile.php";
+                    }
+                });
+            }
+        }
+    </script>
+    </script>
     <body>
         <div class="container">
             <header class="header">

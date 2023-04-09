@@ -6,62 +6,61 @@
     }elseif(!empty($_SESSION['user_id_sign'])){
         $user_id = $_SESSION['user_id_sign'];
     }else{
-        echo "ログインしてない";
+        $param_json = "";
     }
 
-    
-    try{
-        mb_internal_encoding("utf8");
-        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root",
-                        array(
-                            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,//SQL実行失敗の時、例外をスロー
-                            PDO::ATTR_EMULATE_PREPARES => false,
-                            )   
-                        );
-        $sql = "SELECT * FROM users WHERE user_id = $user_id";
-        $stmt = $dbh->query($sql);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                    }
-                    catch(PDOException $e){//DB接続エラーが発生した時$db_errorを定義
-                        $db_error = "エラーが発生したためアカウント登録できません。";
-                    }
-        $sql2 = "SELECT * FROM user_medias WHERE user_id = $user_id";
-        $stmt2 = $dbh->query($sql2);
-        $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+    if(!empty($user_id)){
+        try{
+            mb_internal_encoding("utf8");
+            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root",
+                            array(
+                                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,//SQL実行失敗の時、例外をスロー
+                                PDO::ATTR_EMULATE_PREPARES => false,
+                                )   
+                            );
+            $sql = "SELECT * FROM users WHERE user_id = $user_id";
+            $stmt = $dbh->query($sql);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                        }
+                        catch(PDOException $e){//DB接続エラーが発生した時$db_errorを定義
+                            $db_error = "エラーが発生したためアカウント登録できません。";
+                        }
+            $sql2 = "SELECT * FROM user_medias WHERE user_id = $user_id";
+            $stmt2 = $dbh->query($sql2);
+            $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-        
+            
 
-        //usersテーブルとpostsテーブルとuser_mediasテーブルとpost_mediasテーブルを結合
-        $sql_post = "SELECT
-                        posts.post_id,
-                        posts.user_id,
-                        posts.name AS posts_name,
-                        posts.place,
-                        posts.price,
-                        posts.comment,
-                        posts.like_count,
-                        post_medias.first_file_name,
-                        post_medias.second_file_name,
-                        post_medias.third_file_name,
-                        post_medias.fourth_file_name,
-                        users.name AS users_name,
-                        user_medias.file_name AS user_medias_file_name
-                    FROM 
-                        posts
-                    INNER JOIN
-                        post_medias ON posts.post_id = post_medias.post_id
-                    LEFT JOIN 
-                        users ON posts.user_id = users.user_id
-                    LEFT JOIN
-                        user_medias ON users.user_id = user_medias.user_id
-                    WHERE
-                        posts.delete_flag = '0' AND posts.user_id = $user_id
-                    ORDER BY 
-                        posts.registered_time DESC";
-        
-        $stmt_post = $dbh->query($sql_post);
-        
-                            
+            //usersテーブルとpostsテーブルとuser_mediasテーブルとpost_mediasテーブルを結合
+            $sql_post = "SELECT
+                            posts.post_id,
+                            posts.user_id,
+                            posts.name AS posts_name,
+                            posts.place,
+                            posts.price,
+                            posts.comment,
+                            posts.like_count,
+                            post_medias.first_file_name,
+                            post_medias.second_file_name,
+                            post_medias.third_file_name,
+                            post_medias.fourth_file_name,
+                            users.name AS users_name,
+                            user_medias.file_name AS user_medias_file_name
+                        FROM 
+                            posts
+                        INNER JOIN
+                            post_medias ON posts.post_id = post_medias.post_id
+                        LEFT JOIN 
+                            users ON posts.user_id = users.user_id
+                        LEFT JOIN
+                            user_medias ON users.user_id = user_medias.user_id
+                        WHERE
+                            posts.delete_flag = '0' AND posts.user_id = $user_id
+                        ORDER BY 
+                            posts.registered_time DESC";
+            
+            $stmt_post = $dbh->query($sql_post);
+        }
 ?>
 
 
@@ -71,7 +70,27 @@
         <meta charset="UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>プロフィール画面</title>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     </head>
+    <script>
+            const param = '<?=$param_json?>';
+            window.onload = function(){
+                if(param == ""){
+                    Swal.fire({
+                        title: 'ログインか新規登録を行ってください。',
+                        type : 'warning',
+                        bottons:true,
+                        grow : 'fullscreen',
+                        confirmButtonText:"ログインまたは新規登録",
+                        allowOutsideClick:false
+                    }).then((result) =>{//「ログイン」ボタンをクリックした時、ログイン画面へ遷移
+                        if(result.value){
+                            window.location.href ="./login.php";
+                        }
+                    });
+                }   
+            }
+    </script>
     <body>
         <div class="container">
             <header class="header">

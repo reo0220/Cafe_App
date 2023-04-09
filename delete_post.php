@@ -1,34 +1,42 @@
 <?php
     session_start();
+    
     if(!empty($_SESSION['user_id_log'])){
         $user_id = $_SESSION['user_id_log'];
     }elseif(!empty($_SESSION['user_id_sign'])){
         $user_id = $_SESSION['user_id_sign'];
+    }else{
+        $param_json = "";
     }
+    if(empty($_GET['post_id']) && !empty($user_id)){
+        $er_delete_post = "";
+    }
+//ログインしていない時はエラーが表示されるが、ログインしている時にエラーが出ない
+    if(!empty($user_id) && !empty($_GET['post_id'])){
+        $post_id = $_GET['post_id'];
+        $motourl = $_SERVER['HTTP_REFERER'];
 
-    $post_id = $_GET['post_id'];
-    $motourl = $_SERVER['HTTP_REFERER'];
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $post_id_delete = $_POST['post_id'];
+            $url = $_POST['url'];
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST'){
-        $post_id_delete = $_POST['post_id'];
-        $url = $_POST['url'];
-
-        try{
-            mb_internal_encoding("utf8");
-            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root",
-                    array(
-                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                        PDO::ATTR_EMULATE_PREPARES => false,
-                        )   
-                    );
-                    $sql = "UPDATE posts SET delete_flag = 1 WHERE post_id= $post_id_delete";
-                    $stmt = $dbh->query($sql);
-            }
-            catch(PDOException $e){
-                $db_error = "エラーが発生したためアカウント削除できません。";
-            }
-            
-            header("Location:$url");
+            try{
+                mb_internal_encoding("utf8");
+                $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root",
+                        array(
+                            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                            PDO::ATTR_EMULATE_PREPARES => false,
+                            )   
+                        );
+                        $sql = "UPDATE posts SET delete_flag = 1 WHERE post_id= $post_id_delete";
+                        $stmt = $dbh->query($sql);
+                }
+                catch(PDOException $e){
+                    $db_error = "エラーが発生したためアカウント削除できません。";
+                }
+                
+                header("Location:$url");
+        }
     }
 ?>
 
@@ -38,7 +46,48 @@
         <meta charset="UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>投稿削除画面</title>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     </head>
+    <script>
+        //ログインまたはアカウント登録していない場合
+        const param = '<?=$param_json?>';
+        window.onload = function(){
+            if(param == ""){
+                Swal.fire({
+                    title: 'ログインか新規登録を行ってください。',
+                    type : 'warning',
+                    bottons:true,
+                    grow : 'fullscreen',
+                    confirmButtonText:"ログインまたは新規登録",
+                    allowOutsideClick:false
+                }).then((result) =>{//「ログインまたは新規登録」ボタンをクリックした時、ログイン画面へ遷移
+                    if(result.value){
+                        window.location.href ="./login.php";
+                    }
+                });
+            }
+        }
+    </script>
+    <script>
+        //ログインはしているけど、「削除」ボタンから遷移していない時
+        const del = '<?=$er_delete_post?>';
+        window.onload = function(){
+            if(del == ""){
+                Swal.fire({
+                    title: '削除する投稿を選択してください。',
+                    type : 'warning',
+                    bottons:true,
+                    grow : 'fullscreen',
+                    confirmButtonText:"投稿を選択",
+                    allowOutsideClick:false
+                }).then((result) =>{
+                    if(result.value){
+                        window.location.href ="./profile.php";
+                    }
+                });
+            }
+        }
+    </script>
     <body>
         <div class="container">
             <header class="header">

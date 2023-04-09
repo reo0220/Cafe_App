@@ -5,7 +5,10 @@
         $user_id = $_SESSION['user_id_log'];
     }elseif(!empty($_SESSION['user_id_sign'])){
         $user_id = $_SESSION['user_id_sign'];
+    }else{
+        $user_id = "";
     }
+
      //お気に入り機能
      if($_SERVER['REQUEST_METHOD'] === 'POST'){
         if($_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
@@ -96,9 +99,13 @@
                         <ul class="nav__items nav-items">
                             <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
                             <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
-                            <li class="nav-items__item"><a href="create_post.php">投稿作成</a></li>
+                            <?php
+                                if($user_id != ""){
+                                    echo "<li class='nav-items__item'><a href='create_post.php'>投稿作成</a></li>";
+                                }
+                            ?>
                             <?php 
-                                if(isset($user_id)){
+                                if($user_id != ""){
                                     echo  "<li class='nav-items__item'><a href='profile.php'>プロフィール</a></li>";
                                 }else{
                                     echo  "<li class='nav-items__item'><a href='login.php'>ログインまたは新規登録</a></li>";
@@ -220,30 +227,44 @@
                                 echo "<li><img src='post_medias/$fourth_file_name' alt='投稿写真' width='80' height='80'></li>";
                             }
                         ?>
-                        <li><?php if($row['user_id'] === (string)$user_id){
+                        <li>
+                            <?php 
+                                if($user_id != ""){
+                                    if($row['user_id'] === (string)$user_id){
                                         echo "<button><a href = 'update_post.php?post_id=$row[post_id]'>編集</a></button>";
                                     }else{
                                         echo "";
-                                    }?>
+                                    }
+                                }
+                            ?>
                         </li>
-                        <li><?php if($row['user_id'] === (string)$user_id){
+                        <li>
+                            <?php 
+                                if($user_id != ""){
+                                    if($row['user_id'] === (string)$user_id){
                                         echo "<button><a href = 'delete_post.php?post_id=$row[post_id]'>削除</a></button>";
                                     }else{
                                         echo "";
-                                    }?>
+                                    }
+                                }
+                            ?>
                         </li>
                         <li>
                             <form class = "good_count" action = "toppage.php" method ="POST">
                                 <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>
                                 <?php
-                                    $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-                                    $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
-                                    $stmt_like = $dbh->query($sql_like_button);
-                                    $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
-                                    if(empty($result_like)){
-                                        echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい'><span>$row[like_count]</span>";
+                                    if($user_id != ""){
+                                        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                                        $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
+                                        $stmt_like = $dbh->query($sql_like_button);
+                                        $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+                                        if(empty($result_like)){
+                                            echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい'><span>$row[like_count]</span>";
+                                        }else{
+                                            echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除'><span>$row[like_count]</span>";
+                                        }
                                     }else{
-                                        echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除'><span>$row[like_count]</span>";
+                                        echo "<p>お気に入り件数:$row[like_count]</p>";
                                     }
                                 ?>
                             </form>

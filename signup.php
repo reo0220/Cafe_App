@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+if(!empty($_SESSION['user_id_log'])){
+    unset($_SESSION['user_id_log']);
+}elseif(!empty($_SESSION['user_id_sign'])){
+    unset($_SESSION['user_id_sign']);
+}else{
+    $user_id = "";
+}
+
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $name = $_POST['name'];
     if($name === ""){
@@ -63,15 +71,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     </h1>
                     <nav class="header__nav nav" id="js-nav">
                         <ul class="nav__items nav-items">
+                            <li class="nav-items__item"></li>
                             <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
                             <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
-                            <?php 
-                                if(isset($user_id)){
-                                    echo  "<li class='nav-items__item'><a href='profile.php'>プロフィール</a></li>";
-                                }else{
-                                    echo  "<li class='nav-items__item'><a href='login.php'>ログインまたは新規登録</a></li>";
-                                }
-                            ?>
                         </ul>
                     </nav>
                     <button class="header__hamburger hamburger" id="js-hamburger">

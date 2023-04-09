@@ -4,6 +4,8 @@ if(!empty($_SESSION['user_id_log'])){
     $user_id = $_SESSION['user_id_log'];
 }elseif(!empty($_SESSION['user_id_sign'])){
     $user_id = $_SESSION['user_id_sign'];
+}else{
+    $param_json = "";
 }
 
 $comment = "";
@@ -113,7 +115,28 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         <meta charset="UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>投稿作成画面</title>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     </head>
+    <script>
+            //ログインしていない時、エラー表示
+            const param = '<?=$param_json?>';
+            window.onload = function(){
+                        if(param == ""){
+                            Swal.fire({
+                                title: 'ログインか新規登録を行ってください。',
+                                type : 'warning',
+                                bottons:true,
+                                grow : 'fullscreen',
+                                confirmButtonText:"ログインまたは新規登録",
+                                allowOutsideClick:false
+                            }).then((result) =>{//「ログイン」ボタンをクリックした時、ログイン画面へ遷移
+                                if(result.value){
+                                        window.location.href ="./login.php";
+                                    }
+                            });
+                        }   
+                    }
+    </script>
     <body>
         <div class="container">
             <header class="header">

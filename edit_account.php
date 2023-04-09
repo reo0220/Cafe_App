@@ -4,78 +4,82 @@
         $user_id = $_SESSION['user_id_log'];
     }elseif(!empty($_SESSION['user_id_sign'])){
         $user_id = $_SESSION['user_id_sign'];
+    }else{
+        $param_json = "";
     }
 
-    mb_internal_encoding("utf8");
-    $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-    $sql = "SELECT * FROM users WHERE user_id = $user_id ";//パラメータに渡された[user_id]のidの情報を取り出す
-    $stmt = $dbh->query($sql);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);//カラム名で添字付けた配列を返す
-    
-    
-    $counts = $dbh->query("SELECT COUNT(*) as cnt FROM user_medias WHERE user_id = $user_id");
-    $count = $counts->fetch();//ログインしているアカウントのuser_idが登録されているかのチェック
-
-    if($_SERVER['REQUEST_METHOD'] === 'POST'){
-
-        $name_check = $_POST['name'];
-        if($name_check === ""){
-            $error_name =  "ニックネームは必須項目です。";
-        }
-
-        $mail_check = $_POST['mail'];
-        if($mail_check === ""){
-            $error_mail =  "メールアドレスは必須項目です。";
-        }
+    if(!empty($user_id)){
+        mb_internal_encoding("utf8");
+        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+        $sql = "SELECT * FROM users WHERE user_id = $user_id ";//パラメータに渡された[user_id]のidの情報を取り出す
+        $stmt = $dbh->query($sql);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);//カラム名で添字付けた配列を返す
         
-        $pas_check = $_POST['password'];
-        if($pas_check === ""){
-            $error_pas =  "現在のパスワード又は変更後のパスワードを入力して下さい。";
-        }
+        
+        $counts = $dbh->query("SELECT COUNT(*) as cnt FROM user_medias WHERE user_id = $user_id");
+        $count = $counts->fetch();//ログインしているアカウントのuser_idが登録されているかのチェック
 
-        if(empty($error_name) && empty($error_mail) && empty($error_pas)){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-            $dsn = "mysql:host=localhost; dbname=cafe_app; charset=utf8";
-            $username = "root";
-            $db_password = "root";
-            
-            try {
-                $dbh = new PDO($dsn, $username, $db_password);
-            } catch (PDOException $e) {
-                echo $e->getMessage();
+            $name_check = $_POST['name'];
+            if($name_check === ""){
+                $error_name =  "ニックネームは必須項目です。";
+            }
+
+            $mail_check = $_POST['mail'];
+            if($mail_check === ""){
+                $error_mail =  "メールアドレスは必須項目です。";
             }
             
-                $image = uniqid(mt_rand(), true);//ファイル名をユニーク化
-                $image .= '.' . substr(strrchr($_FILES['image']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
-                $file = "user_medias/$image";
-                if(empty($count['cnt'])){
-                    $sql = "INSERT INTO user_medias(file_name,user_id) VALUES (:image,$user_id)";
-                }else{
-                    $sql = "UPDATE user_medias SET file_name = :image WHERE user_id = $user_id ";
-                }
-                $stmt = $dbh->prepare($sql);
-                $stmt->bindValue(':image', $image, PDO::PARAM_STR);
-                if (!empty($_FILES['image']['name'])) {//ファイルが選択されていれば$imageにファイル名を代入
-                    move_uploaded_file($_FILES['image']['tmp_name'], './user_medias/' . $image);//user_mediasディレクトリにファイル保存
-                    if (exif_imagetype($file)) {//画像ファイルかのチェック
-                        $message = '画像をアップロードしました';
-                        $stmt->execute();
-                    } else {
-                        $message = '画像ファイルではありません';
-                    }
-                }
+            $pas_check = $_POST['password'];
+            if($pas_check === ""){
+                $error_pas =  "現在のパスワード又は変更後のパスワードを入力して下さい。";
+            }
 
-                $name = $_POST['name'];
-                $mail = $_POST['mail'];
-                $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
-                $favorite_genre = $_POST['favorite_genre'];
-                $favorite_menu = $_POST['favorite_menu'];
-                $about_me = $_POST['about_me'];
+            if(empty($error_name) && empty($error_mail) && empty($error_pas)){
+
+                $dsn = "mysql:host=localhost; dbname=cafe_app; charset=utf8";
+                $username = "root";
+                $db_password = "root";
                 
-                $sql2 = "UPDATE users SET name = '$name',mail = '$mail',password  = '$password',favorite_genre ='$favorite_genre',favorite_menu = '$favorite_menu',about_me = '$about_me' WHERE user_id = '$user_id'";
-                $dbh -> exec($sql2);
+                try {
+                    $dbh = new PDO($dsn, $username, $db_password);
+                } catch (PDOException $e) {
+                    echo $e->getMessage();
+                }
+                
+                    $image = uniqid(mt_rand(), true);//ファイル名をユニーク化
+                    $image .= '.' . substr(strrchr($_FILES['image']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+                    $file = "user_medias/$image";
+                    if(empty($count['cnt'])){
+                        $sql = "INSERT INTO user_medias(file_name,user_id) VALUES (:image,$user_id)";
+                    }else{
+                        $sql = "UPDATE user_medias SET file_name = :image WHERE user_id = $user_id ";
+                    }
+                    $stmt = $dbh->prepare($sql);
+                    $stmt->bindValue(':image', $image, PDO::PARAM_STR);
+                    if (!empty($_FILES['image']['name'])) {//ファイルが選択されていれば$imageにファイル名を代入
+                        move_uploaded_file($_FILES['image']['tmp_name'], './user_medias/' . $image);//user_mediasディレクトリにファイル保存
+                        if (exif_imagetype($file)) {//画像ファイルかのチェック
+                            $message = '画像をアップロードしました';
+                            $stmt->execute();
+                        } else {
+                            $message = '画像ファイルではありません';
+                        }
+                    }
 
-                header("Location:http://localhost/cafe_app/Cafe_App/profile.php");
+                    $name = $_POST['name'];
+                    $mail = $_POST['mail'];
+                    $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
+                    $favorite_genre = $_POST['favorite_genre'];
+                    $favorite_menu = $_POST['favorite_menu'];
+                    $about_me = $_POST['about_me'];
+                    
+                    $sql2 = "UPDATE users SET name = '$name',mail = '$mail',password  = '$password',favorite_genre ='$favorite_genre',favorite_menu = '$favorite_menu',about_me = '$about_me' WHERE user_id = '$user_id'";
+                    $dbh -> exec($sql2);
+
+                    header("Location:http://localhost/cafe_app/Cafe_App/profile.php");
+            }
         }
     }
 ?>    
@@ -87,7 +91,27 @@
         <meta charset="UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>アカウント編集画面</title>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     </head>
+    <script>
+            const param = '<?=$param_json?>';
+            window.onload = function(){
+                        if(param == ""){
+                            Swal.fire({
+                                title: 'ログインか新規登録を行ってください。',
+                                type : 'warning',
+                                bottons:true,
+                                grow : 'fullscreen',
+                                confirmButtonText:"ログインまたは新規登録",
+                                allowOutsideClick:false
+                            }).then((result) =>{//「ログイン」ボタンをクリックした時、ログイン画面へ遷移
+                                if(result.value){
+                                        window.location.href ="./login.php";
+                                    }
+                            });
+                    }
+                }
+    </script>
     <body>
         <div class="container">
             <header class="header">
