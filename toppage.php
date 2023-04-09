@@ -86,7 +86,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>トップページ</title>
-        
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="container">
@@ -206,25 +208,25 @@
                         <?php 
                             if(!empty($row['first_file_name'])){
                                 $first_file_name = $row['first_file_name'];
-                                echo "<li><img src='post_medias/$first_file_name' alt='投稿写真' width='80' height='80'></li>";
+                                echo "<li><a href='post_medias/$first_file_name' rel='lightbox'><img src='post_medias/$first_file_name' width='80' height='80'></a></li>";
                             }
                         ?>
                         <?php 
                             if(!empty($row['second_file_name'])){
                                 $second_file_name = $row['second_file_name'];
-                                echo "<li><img src='post_medias/$second_file_name' alt='投稿写真' width='80' height='80'></li>";
+                                echo "<li><a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' width='80' height='80'></a></li>";
                             }
                         ?>
                         <?php 
                             if(!empty($row['third_file_name'])){
                                 $third_file_name = $row['third_file_name'];
-                                echo "<li><img src='post_medias/$third_file_name' alt='投稿写真' width='80' height='80'></li>";
+                                echo "<li><a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' width='80' height='80'></a></li>";
                             }
                         ?>
                         <?php 
                             if(!empty($row['fourth_file_name'])){
                                 $fourth_file_name = $row['fourth_file_name'];
-                                echo "<li><img src='post_medias/$fourth_file_name' alt='投稿写真' width='80' height='80'></li>";
+                                echo "<li><a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' width='80' height='80'></a></li>";
                             }
                         ?>
                         <li>
