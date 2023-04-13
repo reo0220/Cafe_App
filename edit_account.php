@@ -14,7 +14,10 @@
         $sql = "SELECT * FROM users WHERE user_id = $user_id ";//パラメータに渡された[user_id]のidの情報を取り出す
         $stmt = $dbh->query($sql);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);//カラム名で添字付けた配列を返す
-        
+
+        $sql2 = "SELECT * FROM user_medias WHERE user_id = $user_id";
+        $stmt2 = $dbh->query($sql2);
+        $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
         
         $counts = $dbh->query("SELECT COUNT(*) as cnt FROM user_medias WHERE user_id = $user_id");
         $count = $counts->fetch();//ログインしているアカウントのuser_idが登録されているかのチェック
@@ -156,20 +159,59 @@
                 <form method = "POST" action = "?" enctype="multipart/form-data">
                     <ul>
                         <li>
-                            <figure class="profile-image">
+                            <?php if(!empty($result2['file_name'])):?>
+                                <figure class="profile-image">
+                                    <img src='user_medias/<?php echo $result2['file_name'];?>' alt='投稿写真' width='300' height='300' id='image'>
+                                </figure>
+                            <?php endif;?>
+                            
+                            <figure class="profile-image" id="preview2" >
                                 <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="300" height="300">
                             </figure>
-                            <label>プロフィール画像</label>
-                            <input type="file" name="image" accept='image/*' onchange="previewImage(this);">
+                            <input type="file" name="image" id="file1" accept='image/*' onchange="previewImage(this);" onclick="deselect1_0()"/>
+                            <input type="button" id="deselect1" value="選択解除" onclick="deselect1_1()">
+                            <input type="hidden" name="deselect1" id="deselect1_2">
                             <script>
+                                document.getElementById("preview2").style.visibility = "hidden";
                                 function previewImage(obj){
                                     var fileReader = new FileReader();
                                     fileReader.onload = (function() {
+                                        document.getElementById("preview2").style.visibility = "visible";
+                                        document.getElementById("preview").style.visibility = "visible";
+
                                         document.getElementById('preview').src = fileReader.result;
                                     });
                                     fileReader.readAsDataURL(obj.files[0]);
+                                    //imageの非表示処理
+                                    const image = document.getElementById("image");
+                                    image.style.display ="none";
                                 }
+                                function deselect1_0(){
+                                    setTimeout(() => {
+                                        document.getElementById("preview2").style.visibility = "visible";
+                                    document.getElementById("preview").style.visibility = "visible";
+                                    },250);
+                                }
+                                function deselect1_1(){
+                                    document.getElementById("image").style.display ="none";
+                                    document.getElementById("preview").style.visibility = "hidden";
+                                    document.getElementById("preview").style.visibility = "hidden";
+                                    document.getElementById("file1").value = "";
+                                    //ファイルが選択されていないとき、０をvalueに渡す
+                                    document.getElementById("deselect1_2").value = "0";
+
+                                } 
+                                const fileInput = document.getElementById("file1");
+                                //ファイルが選択されているとき、１をvalueに渡す
+                                const handleFileSelect = () => {
+                                    const files = fileInput.files;
+                                    if(files.length === 1){
+                                        document.getElementById("deselect1_2").value = "1";
+                                    }
+                                }
+                                fileInput.addEventListener('change', handleFileSelect);
                             </script>
+                            <label>プロフィール画像</label>
                         </li>
                         <li>
                             <label>ニックネーム</label>

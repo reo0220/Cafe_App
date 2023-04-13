@@ -14,7 +14,6 @@
 
     if(!empty($user_id) && !empty($_GET['post_id'])){
         $post_id = $_GET['post_id'];
-        $motourl = $_SERVER['HTTP_REFERER'];
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $post_id_delete = $_POST['post_id'];
@@ -35,7 +34,7 @@
                     $db_error = "エラーが発生したためアカウント削除できません。";
                 }
                 
-                header("Location:$url");
+                header("Location:http://localhost/cafe_app/Cafe_App/profile.php");
         }
     }
 ?>
@@ -131,12 +130,11 @@
                 <h1 class="heading-lv1 text-center">投稿削除</h1>
                 <h2>本当に投稿を削除しますか？</h2>
                 <p>※投稿削除を行なった場合、投稿内容が削除され、復元することができません。</p>
-                <form method ="POST" action ="delete_post.php?post_id=<?php echo $post_id;?>">
+                <form method ="POST" action ="?">
                     <input type="hidden" name="post_id" value= <?php echo $post_id;?>>
-                    <input type="hidden" name="url" value= <?php echo $motourl;?>>
-                    <input type="submit" name="_method" value="削除">
+                    <li><input type="submit" name="_method" value="削除" formaction=<?php echo "delete_post.php?post_id=$post_id";?>></li>
+                    <li><input type="submit" name="_method" value="キャンセル" formaction="profile.php"></li>
                 </form>
-                <input value="キャンセル" onclick="history.back();" type="button">
             </div>
         </main>  
         <footer class="footer">

@@ -280,18 +280,6 @@
                                     echo "<li><a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' width='80' height='80'></a></li>";
                                 }
                             ?>
-                            <li><?php if($row['user_id'] === $user_id){
-                                            echo "<button><a href = 'update_post.php?post_id=$row[post_id]'>編集</a></button>";
-                                        }else{
-                                            echo "";
-                                        }?>
-                            </li>
-                            <li><?php if($row['user_id'] === $user_id){
-                                            echo "<button><a href = 'delete_post.php?post_id=$row[post_id]'>削除</a></button>";
-                                        }else{
-                                            echo "";
-                                        }?>
-                            </li>
                             <li>
                                 <form class = "good_count" action = "favorite_list.php" method ="POST">
                                     <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>

@@ -14,7 +14,6 @@
 
 
     if(!empty($user_id) && !empty($_GET['post_id'])){
-        $motourl = $_SERVER['HTTP_REFERER'];
         $post_id = $_GET['post_id'];
         $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
         $sql_post = "SELECT 
@@ -148,7 +147,7 @@
                     $dbh->query($sql4_file_delete);
                 }
                 //エラーが起きた時、編集画面が前画面になってしまう(更新はできてる)
-                header("Location:http://localhost/cafe_app/Cafe_App/post_list.php");
+                header("Location:http://localhost/cafe_app/Cafe_App/profile.php");
             }
         }
     }
@@ -245,7 +244,7 @@
         <main class = "main0">
             <div class="main2">
                 <h1 class="heading-lv1 text-center">投稿編集</h1>
-                <form method="POST" action= <?php echo "update_post.php?post_id=$post_id";?> enctype='multipart/form-data'>
+                <form method="POST" action = "?" enctype='multipart/form-data'>
                     <ul>
                         <li>
                             <label>店名</label>
@@ -648,11 +647,10 @@
                             </script>
                         </li>
                     </ul>
-                    <input type="hidden" name="url" value= <?php echo $motourl;?>>
                     <input type="hidden" name="post_id" value= <?php echo $result_post['post_id'];?>>
-                    <input type="submit" value="編集">
+                    <li><input type="submit" name="_method" value="編集" formaction=<?php echo "update_post.php?post_id=$post_id";?>></li>
+                    <li><input type="submit" name="_method" value="キャンセル" formaction="profile.php"></li>
                 </form>
-                <input value="キャンセル" onclick="history.back();" type="button">
             </div>
         </main>  
         <footer class="footer">

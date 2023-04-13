@@ -621,18 +621,6 @@
                                     echo "<li><a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' width='80' height='80'></a></li>";
                                 }
                             ?>
-                            <li><?php if($row['user_id'] === (string)$user_id){
-                                            echo "<button><a href = 'update_post.php?post_id=$row[post_id]'>編集</a></button>";
-                                        }else{
-                                            echo "";
-                                        }?>
-                            </li>
-                            <li><?php if($row['user_id'] === (string)$user_id){
-                                            echo "<button><a href = 'delete_post.php?post_id=$row[post_id]'>削除</a></button>";
-                                        }else{
-                                            echo "";
-                                        }?>
-                            </li>
                             <li>
                                 <form class = "good_count" action = "post_list.php" method ="POST">
                                     <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>
@@ -662,7 +650,7 @@
                 <?php elseif($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['search']) && $count['cnt'] === "0"):?>
                     <h1>該当の投稿がありません。</h1>
                 
-                <!--検索結果がある場合-->    <!--GETが原因-->
+                <!--検索結果がある場合--> 
                 <?php elseif(($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['search']) && $count['cnt'] > 0) || (!empty($_GET['name']))):?>
                     <?php foreach($stmt_search as $row){?>
                         <ul>
@@ -767,18 +755,6 @@
                                     echo "<li><a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' width='80' height='80'></a></li>";
                                 }
                             ?>
-                            <li><?php if($row['user_id'] === (string)$user_id){
-                                            echo "<button><a href = 'update_post.php?post_id=$row[post_id]'>編集</a></button>";
-                                        }else{
-                                            echo "";
-                                        }?>
-                            </li>
-                            <li><?php if($row['user_id'] === (string)$user_id){
-                                            echo "<button><a href = 'delete_post.php?post_id=$row[post_id]'>削除</a></button>";
-                                        }else{
-                                            echo "";
-                                        }?>
-                            </li>
                             <li>
                                 <form class = "good_count" action = "post_list.php?name=<?php echo $name_search;?>&place=<?php echo $place_search;?>&price=<?php echo $price_search;?>" method ="POST">
                                     <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>

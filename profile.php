@@ -9,6 +9,31 @@
         $param_json = "";
     }
 
+    //お気に入り機能
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['button'])){
+        if($_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
+            $post_id_good = $_POST['post_id'];
+            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+            $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
+            $stmt_like = $dbh->query($sql_like_button);
+            $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+            
+            if($_POST['button'] === "行ってみたい" && empty($result_like)){
+                $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                $sql_like_count = "UPDATE posts SET like_count = like_count + 1 WHERE post_id = $post_id_good";
+                $sql_post_like = "INSERT INTO post_likes(user_id,post_id) VALUES($user_id,$post_id_good)";
+                $stmt = $dbh->query($sql_like_count);
+                $stmt = $dbh->query($sql_post_like);
+            }elseif($_POST['button'] === "行ってみたい解除" && !empty($result_like)){
+                $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                $sql_like_count = "UPDATE posts SET like_count = like_count - 1 WHERE post_id = $post_id_good";
+                $sql_post_like = "DELETE from post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
+                $stmt = $dbh->query($sql_like_count);
+                $stmt = $dbh->query($sql_post_like);
+            }
+        }
+    }    
+
     if(!empty($user_id)){
         try{
             mb_internal_encoding("utf8");
@@ -270,6 +295,26 @@
                                         echo "";
                                     }
                             ?>
+                        </li>
+                        <li>
+                            <form class = "good_count" action = "profile_someone.php?user_id=<?php echo $row['user_id'];?>" method ="POST">
+                                <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>
+                                <?php
+                                    if($user_id != ""){
+                                        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                                        $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
+                                        $stmt_like = $dbh->query($sql_like_button);
+                                        $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+                                        if(empty($result_like)){
+                                            echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい'><span>$row[like_count]</span>";
+                                        }else{
+                                            echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除'><span>$row[like_count]</span>";
+                                        }
+                                    }else{
+                                        echo "<p>お気に入り件数:$row[like_count]</p>";
+                                    }
+                                ?>
+                            </form>
                         </li>
                     </ul>
                 <?php }?>
