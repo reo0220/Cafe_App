@@ -17,7 +17,9 @@
         $sql2 = "UPDATE posts SET delete_flag = 1 WHERE user_id = $user_id ";
         $stmt2 = $dbh->query($sql2);
 
-        header("Location:http://localhost/cafe_app/Cafe_App/toppage.php",true,307);
+        $_SESSION['user_delete'] = "delete";
+
+        header("Location:http://localhost/cafe_app/Cafe_App/toppage.php");
     }
 ?>
 

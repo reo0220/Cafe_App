@@ -47,6 +47,10 @@
                         $err = "エラーが発生したためログイン情報を取得できません。";
                         $mail = "";
                         $pas = "";
+                    }elseif($result['delete_flag'] === 1){
+                        $err = "削除されたアカウントのためログインできません。";
+                        $mail = "";
+                        $pas = "";
                     }elseif(password_verify($pas, $result['password']) && $mail === $result['mail']){//メールアドレスとパスワードが一致した時
                         $_SESSION['user_id_log'] = $result['user_id'];
                         header("Location:http://localhost/cafe_app/Cafe_App/toppage.php");

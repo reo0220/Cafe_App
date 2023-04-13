@@ -525,7 +525,7 @@
                                     <a href="profile_someone.php?user_id=<?php echo $row['user_id'];?>">
                                         <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50">
                                     </a>
-                                <?php elseif($user_id === $row['user_id']):?>
+                                <?php else:?>
                                     <a href="profile.php">
                                         <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50">
                                     </a>

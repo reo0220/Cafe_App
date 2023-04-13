@@ -469,6 +469,7 @@
                                 <p class="text-danger"><?php echo $error_file1;?></p>
                         <?php endif; ?>
                         <li>
+                            <!--ファイル１の処理-->
                             <?php 
                                 if(!empty($result_post['first_file_name'])){
                                     $first_file_name = $result_post['first_file_name'];
@@ -514,7 +515,8 @@
                                 fileInput.addEventListener('change', handleFileSelect);
                             </script>
                         </li>
-                        <li>  
+                        <li>
+                            <!--ファイル2の処理-->  
                             <?php 
                                 if(!empty($result_post['second_file_name'])){
                                     $second_file_name = $result_post['second_file_name'];
@@ -558,6 +560,7 @@
                             </script>
                         </li>
                         <li>
+                            <!--ファイル3の処理-->
                             <?php 
                                 if(!empty($result_post['third_file_name'])){
                                     $third_file_name = $result_post['third_file_name'];
@@ -601,6 +604,7 @@
                             </script>
                         </li>
                         <li>
+                            <!--ファイル4の処理-->
                             <?php 
                                 if(!empty($result_post['fourth_file_name'])){
                                     $fourth_file_name = $result_post['fourth_file_name'];

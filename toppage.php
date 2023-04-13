@@ -1,6 +1,16 @@
 <?php 
     session_start();
 
+    //アカウント削除を行なった時
+    if(!empty($_SESSION['user_delete'])){
+        unset($_SESSION['user_delete']);
+        if(!empty($_SESSION['user_id_log'])){
+            unset($_SESSION['user_id_log']);
+        }elseif(!empty($_SESSION['user_id_sign'])){
+            unset($_SESSION['user_id_sign']);
+        }
+    }
+
     if(!empty($_SESSION['user_id_log'])){
         $user_id = $_SESSION['user_id_log'];
     }elseif(!empty($_SESSION['user_id_sign'])){
@@ -11,25 +21,27 @@
 
      //お気に入り機能
      if($_SERVER['REQUEST_METHOD'] === 'POST'){
-        if($_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
-            $post_id_good = $_POST['post_id'];
-            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-            $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
-            $stmt_like = $dbh->query($sql_like_button);
-            $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
-            
-            if($_POST['button'] === "行ってみたい" && empty($result_like)){
+        if(!empty($_POST['post_id'])){
+            if($_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
+                $post_id_good = $_POST['post_id'];
                 $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-                $sql_like_count = "UPDATE posts SET like_count = like_count + 1 WHERE post_id = $post_id_good";
-                $sql_post_like = "INSERT INTO post_likes(user_id,post_id) VALUES($user_id,$post_id_good)";
-                $stmt = $dbh->query($sql_like_count);
-                $stmt = $dbh->query($sql_post_like);
-            }elseif($_POST['button'] === "行ってみたい解除" && !empty($result_like)){
-                $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-                $sql_like_count = "UPDATE posts SET like_count = like_count - 1 WHERE post_id = $post_id_good";
-                $sql_post_like = "DELETE from post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
-                $stmt = $dbh->query($sql_like_count);
-                $stmt = $dbh->query($sql_post_like);
+                $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
+                $stmt_like = $dbh->query($sql_like_button);
+                $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+                
+                if($_POST['button'] === "行ってみたい" && empty($result_like)){
+                    $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                    $sql_like_count = "UPDATE posts SET like_count = like_count + 1 WHERE post_id = $post_id_good";
+                    $sql_post_like = "INSERT INTO post_likes(user_id,post_id) VALUES($user_id,$post_id_good)";
+                    $stmt = $dbh->query($sql_like_count);
+                    $stmt = $dbh->query($sql_post_like);
+                }elseif($_POST['button'] === "行ってみたい解除" && !empty($result_like)){
+                    $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                    $sql_like_count = "UPDATE posts SET like_count = like_count - 1 WHERE post_id = $post_id_good";
+                    $sql_post_like = "DELETE from post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
+                    $stmt = $dbh->query($sql_like_count);
+                    $stmt = $dbh->query($sql_post_like);
+                }
             }
         }
     }    
@@ -154,64 +166,64 @@
                         <li>店名：<?php echo $row['posts_name'];?></li>
                         <li>
                             場所：
-                            <?php if($row['place'] === "1"){
+                            <?php if($row['place'] === 1){
                                         echo "千代田区";
-                                    }elseif($row['place'] === "2"){
+                                    }elseif($row['place'] === 2){
                                         echo "中央区";
-                                    }elseif($row['place'] === "3"){
+                                    }elseif($row['place'] === 3){
                                         echo "港区";
-                                    }elseif($row['place'] === "4"){
+                                    }elseif($row['place'] === 4){
                                         echo "新宿区";
-                                    }elseif($row['place'] === "5"){
+                                    }elseif($row['place'] === 5){
                                         echo "文京区";
-                                    }elseif($row['place'] === "6"){
+                                    }elseif($row['place'] === 6){
                                         echo "台東区";
-                                    }elseif($row['place'] === "7"){
+                                    }elseif($row['place'] === 7){
                                         echo "墨田区";
-                                    }elseif($row['place'] === "8"){
+                                    }elseif($row['place'] === 8){
                                         echo "江東区";
-                                    }elseif($row['place'] === "9"){
+                                    }elseif($row['place'] === 9){
                                         echo "品川区";
-                                    }elseif($row['place'] === "10"){
+                                    }elseif($row['place'] === 10){
                                         echo "目黒区";
-                                    }elseif($row['place'] === "11"){
+                                    }elseif($row['place'] === 11){
                                         echo "大田区";
-                                    }elseif($row['place'] === "12"){
+                                    }elseif($row['place'] === 12){
                                         echo "世田谷区";
-                                    }elseif($row['place'] === "13"){
+                                    }elseif($row['place'] === 13){
                                         echo "渋谷区";
-                                    }elseif($row['place'] === "14"){
+                                    }elseif($row['place'] === 14){
                                         echo "中野区";
-                                    }elseif($row['place'] === "15"){
+                                    }elseif($row['place'] === 15){
                                         echo "杉並区";
-                                    }elseif($row['place'] === "16"){
+                                    }elseif($row['place'] === 16){
                                         echo "豊島区";
-                                    }elseif($row['place'] === "17"){
+                                    }elseif($row['place'] === 17){
                                         echo "北区";
-                                    }elseif($row['place'] === "18"){
+                                    }elseif($row['place'] === 18){
                                         echo "荒川区";
-                                    }elseif($row['place'] === "19"){
+                                    }elseif($row['place'] === 19){
                                         echo "板橋区";
-                                    }elseif($row['place'] === "20"){
+                                    }elseif($row['place'] === 20){
                                         echo "練馬区";
-                                    }elseif($row['place'] === "21"){
+                                    }elseif($row['place'] === 21){
                                         echo "足立区";
-                                    }elseif($row['place'] === "22"){
+                                    }elseif($row['place'] === 22){
                                         echo "葛飾区";
-                                    }elseif($row['place'] === "23"){
+                                    }elseif($row['place'] === 23){
                                         echo "江戸川区";
                                     }?>
                         <li>
                             価格帯：
-                            <?php if($row['price'] === "1"){
+                            <?php if($row['price'] === 1){
                                 echo "0円〜500円";
-                            }elseif($row['price'] === "2"){
+                            }elseif($row['price'] === 2){
                                 echo "500円〜1000円";
-                            }elseif($row['price'] === "3"){
+                            }elseif($row['price'] === 3){
                                 echo "1000円〜1500円";
-                            }elseif($row['price'] === "4"){
+                            }elseif($row['price'] === 4){
                                 echo "1500円〜2000円";
-                            }elseif($row['price'] === "5"){
+                            }elseif($row['price'] === 5){
                                 echo "2000円〜";
                             }?>
                         </li>
@@ -243,7 +255,7 @@
                         <li>
                             <?php 
                                 if($user_id != ""){
-                                    if($row['user_id'] === (string)$user_id){
+                                    if($row['user_id'] === $user_id){
                                         echo "<button><a href = 'update_post.php?post_id=$row[post_id]'>編集</a></button>";
                                     }else{
                                         echo "";
@@ -254,7 +266,7 @@
                         <li>
                             <?php 
                                 if($user_id != ""){
-                                    if($row['user_id'] === (string)$user_id){
+                                    if($row['user_id'] === $user_id){
                                         echo "<button><a href = 'delete_post.php?post_id=$row[post_id]'>削除</a></button>";
                                     }else{
                                         echo "";

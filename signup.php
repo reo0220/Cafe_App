@@ -24,7 +24,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $sql = "SELECT * FROM users WHERE mail = '$mail' ";
         $stmt = $dbh->query($sql);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(!empty($result)){
+        if(!empty($result) && $result['delete_flag'] === "0"){
             $error4 = "既に入力したメールアドレスが存在します。";
         }
     }
@@ -98,19 +98,26 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <h1>アカウント新規登録</h1>
                 <form class = "form" method='POST' action='signup.php'>
                     <label>ニックネーム</labal>    
-                    <input type ="text" name = "name"><br>
+                    <input type ="text" name = "name" value=<?php 
+                                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
+                                                                    echo $_POST['name'];
+                                                                }
+                                                            ?>><br>
                     <?php if(!empty($error1)):?>
-                        <p class="text-danger"><?php echo $error1 ?></p><!--$error1が空じゃないときエラーメッセージ表示-->
+                        <p class="text-danger"><?php echo $error1 ?></p>
                     <?php endif; ?>
                 
                     <label>メールアドレス</labal>    
-                    <input type ="text" name = "mail"><br>
-                    <p class='text-danger'>
-                    <?php if(!empty($error2)){
-                        echo $error2;
-                    }elseif(!empty($error4)){
-                        echo $error4;
-                    }?></p>
+                    <input type ="text" name = "mail" value=<?php 
+                                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
+                                                                    echo $_POST['name'];
+                                                                }
+                                                            ?>><br>
+                    <?php if(!empty($error2)):?>
+                        <p class='text-danger'><?php echo $error2;?></p>
+                    <?php elseif(!empty($error4)):?>
+                        <p class='text-danger'><?php echo $error4;?></p>
+                    <?php endif; ?>
                         
                     <label>パスワード</labal>    
                     <input type ="password" name = "password"><br>

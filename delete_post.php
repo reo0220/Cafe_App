@@ -9,9 +9,9 @@
         $param_json = "";
     }
     if(empty($_GET['post_id']) && !empty($user_id)){
-        $er_delete_post = "";
+        $er_delete_post = "del";
     }
-//ログインしていない時はエラーが表示されるが、ログインしている時にエラーが出ない
+
     if(!empty($user_id) && !empty($_GET['post_id'])){
         $post_id = $_GET['post_id'];
         $motourl = $_SERVER['HTTP_REFERER'];
@@ -72,7 +72,7 @@
         //ログインはしているけど、「削除」ボタンから遷移していない時
         const del = '<?=$er_delete_post?>';
         window.onload = function(){
-            if(del == ""){
+            if(del == "del"){
                 Swal.fire({
                     title: '削除する投稿を選択してください。',
                     type : 'warning',
@@ -131,7 +131,7 @@
                 <h1 class="heading-lv1 text-center">投稿削除</h1>
                 <h2>本当に投稿を削除しますか？</h2>
                 <p>※投稿削除を行なった場合、投稿内容が削除され、復元することができません。</p>
-                <form method ="POST" action ="delete_post.php">
+                <form method ="POST" action ="delete_post.php?post_id=<?php echo $post_id;?>">
                     <input type="hidden" name="post_id" value= <?php echo $post_id;?>>
                     <input type="hidden" name="url" value= <?php echo $motourl;?>>
                     <input type="submit" name="_method" value="削除">
