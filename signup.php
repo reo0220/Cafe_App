@@ -95,38 +95,51 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         </div>
         <main class = "main0">
             <div class="main2">
-                <h1>アカウント新規登録</h1>
-                <form class = "form" method='POST' action='signup.php'>
-                    <label>ニックネーム</labal>    
-                    <input type ="text" name = "name" value=<?php 
-                                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
-                                                                    echo $_POST['name'];
-                                                                }
-                                                            ?>><br>
-                    <?php if(!empty($error1)):?>
-                        <p class="text-danger"><?php echo $error1 ?></p>
-                    <?php endif; ?>
-                
-                    <label>メールアドレス</labal>    
-                    <input type ="text" name = "mail" value=<?php 
-                                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
-                                                                    echo $_POST['name'];
-                                                                }
-                                                            ?>><br>
-                    <?php if(!empty($error2)):?>
-                        <p class='text-danger'><?php echo $error2;?></p>
-                    <?php elseif(!empty($error4)):?>
-                        <p class='text-danger'><?php echo $error4;?></p>
-                    <?php endif; ?>
-                        
-                    <label>パスワード</labal>    
-                    <input type ="password" name = "password"><br>
-                    <?php if(!empty($error3)):?>
-                        <p class="text-danger"><?php echo $error3 ?></p>
-                    <?php endif; ?>
-                    
-                    <input type = "submit" value = "登録">
-                </form>       
+                <h1 class="heading-lv1 text-center">アカウント新規登録画面</h1>
+                <div class="form-wrapper">
+                    <h2 class="log">アカウント新規登録</h2>
+                    <form class = "form" method='POST' action='signup.php'>
+                        <div class="form-item">
+                            <label for="name"></label>
+                            <input type ="text" name = "name" placeholder="ニックネーム" value=<?php 
+                                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
+                                                                        echo $_POST['name'];
+                                                                    }
+                                                                ?>>
+                            </input>
+                            <?php if(!empty($error1)):?>
+                                <p class="text-danger"><?php echo $error1 ?></p>
+                            <?php endif; ?>
+                        </div>
+                        <div class="form-item">
+                            <label for="mail"></label> 
+                            <input type ="text" name = "mail" placeholder="メールアドレス" value=<?php 
+                                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
+                                                                        echo $_POST['name'];
+                                                                    }
+                                                                ?>>
+                            </input>
+                            <?php if(!empty($error2)):?>
+                                <p class='text-danger'><?php echo $error2;?></p>
+                            <?php elseif(!empty($error4)):?>
+                                <p class='text-danger'><?php echo $error4;?></p>
+                            <?php endif; ?>
+                        </div>
+                        <div class="form-item">
+                            <label for="password"></label> 
+                            <input type ="password" name = "password" placeholder="パスワード"></input>
+                            <?php if(!empty($error3)):?>
+                                <p class="text-danger"><?php echo $error3 ?></p>
+                            <?php endif; ?>
+                        </div>
+                        <div class="button-panel">
+                            <input type="submit" class="button" value="登録"></input>
+                        </div>
+                    </form>
+                    <div class="form-footer">
+                        <p><a href="login.php">ログイン</a></p>
+                    </div>
+                </div>
             </div>
         </main>  
         <footer class="footer">

@@ -68,6 +68,7 @@
     <head>
         <meta charset = "UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
+        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
         <title>ログイン画面</title>
     </head>
     <body>
@@ -103,33 +104,57 @@
         </div>
         <main class = "main0">
             <div class="main2">
-                <h2>ログイン画面</h2>
-                    
-                <p class = "text-danger"><?php if(isset($db_err)){
-                                                    echo $db_err;
-                                            }elseif(isset($err)){
-                                                    echo $err;}?></p>
-                <form name = "form" action = "login.php" method = "POST">
-                    <ul class = "ul2">
-                        <li>
-                            <label class = "form_name">メールアドレス</label>
-                            <input type = "text" name = "mail" maxlength = "100"value = <?php if(isset($mail)){
+                <h1 class="heading-lv1 text-center">ログイン画面</h1>
+                <div class="form-wrapper">
+                    <h2 class="log">ログイン</h2>
+                    <p class = "text-danger"><?php if(isset($db_err)){
+                                                                        echo $db_err;
+                                                                }elseif(isset($err)){
+                                                                        echo $err;}?></p>
+                    <form name = "form" action = "login.php" method = "POST">
+                        <div class="form-item">
+                        <label for="mail"></label>
+                        <input type="text" name="mail" placeholder="メールアドレス" value = <?php 
+                                                                                                if(isset($mail)){
                                                                                                     echo $mail;
-                                                                                                }?>>
-                            <p class = "text-danger"><?php echo $mail_err;?></p>
-                        </li>    
-                        <li>
-                            <label class = "form_name">パスワード</label>
-                            <input type = "password" name = "password" maxlength = "10" value = <?php if(isset($pas)){
-                                                                                                            echo $pas;
-                                                                                                        }?>>
-                            <p class = "text-danger"><?php echo $pas_err;?></p>
-                        </li>
-                        <li><input type = "submit" class = "submit2" value="ログイン"></li>
-                        <li><a href="signup.php">アカウント新規登録</a></li>
-                    </ul>
-                </form>
-            </div>    
+                                                                                                }
+                                                                                            ?>>
+                        </input>
+                        <p class = "text-danger"><?php echo $mail_err;?></p>
+                        </div>
+                        <div class="form-item">
+                        <label for="password"></label>
+                        <input type="password" id="textPassword" name="password" placeholder="パスワード" value = <?php 
+                                                                                                    if(isset($pas)){
+                                                                                                        echo $pas;
+                                                                                                    }
+                                                                                                ?>>
+                        </input>
+                        <span id="buttonEye" class="fa fa-eye" onclick="pushHideButton()"></span>
+                        <p class = "text-danger"><?php echo $pas_err;?></p>
+                        </div>
+                        <div class="button-panel">
+                        <input type="submit" class="button" value="ログイン"></input>
+                        </div>
+                    </form>
+                    <div class="form-footer">
+                        <p><a href="signup.php">アカウント新規登録</a></p>
+                    </div>
+                </div>
+            </div>
+            <script language="javascript">
+                function pushHideButton() {
+                    var txtPass = document.getElementById("textPassword");
+                    var btnEye = document.getElementById("buttonEye");
+                    if (txtPass.type === "text") {
+                    txtPass.type = "password";
+                    btnEye.className = "fa fa-eye";
+                    } else {
+                    txtPass.type = "text";
+                    btnEye.className = "fa fa-eye-slash";
+                    }
+                }
+            </script>
         </main>  
         <footer class="footer">
             <div>
