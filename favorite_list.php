@@ -83,7 +83,7 @@
                         WHERE
                             posts.delete_flag = '0' AND post_likes.user_id = $user_id
                         ORDER BY 
-                            posts.registered_time DESC";
+                            post_likes.registered_time DESC";
             
             $stmt_post = $dbh->query($sql_post);
     }

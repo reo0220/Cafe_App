@@ -627,14 +627,18 @@
                                     <input type = "hidden" name = "list_good" value="list_good">
                                     <?php
                                         if($user_id != ""){
-                                            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-                                            $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
-                                            $stmt_like = $dbh->query($sql_like_button);
-                                            $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
-                                            if(empty($result_like)){
-                                                echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい'><span>$row[like_count]</span>";
+                                            if($user_id != $row['user_id']){
+                                                $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                                                $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
+                                                $stmt_like = $dbh->query($sql_like_button);
+                                                $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+                                                if(empty($result_like)){
+                                                    echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい'><span>$row[like_count]</span>";
+                                                }else{
+                                                    echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除'><span>$row[like_count]</span>";
+                                                }
                                             }else{
-                                                echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除'><span>$row[like_count]</span>";
+                                                echo "<p>お気に入り件数:$row[like_count]</p>";
                                             }
                                         }else{
                                             echo "<p>お気に入り件数:$row[like_count]</p>";
@@ -659,12 +663,12 @@
                                     <a href="profile_someone.php?user_id=<?php echo $row['user_id'];?>">
                                         <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50">
                                     </a>
-                                <?php elseif($user_id === $row['user_id']):?>
+                                <?php else:?>
                                     <a href="profile.php">
                                         <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50">
                                     </a>
-                                <?php endif;?>    
-                            </li>                        
+                                <?php endif;?>
+                            </li>       
                             <li><?php echo $row['users_name'];?></li>
                             <li>店名：<?php echo $row['posts_name'];?></li>
                             <li>
@@ -761,14 +765,18 @@
                                     <input type = "hidden" name = "search_good" value="search_good">
                                     <?php
                                         if($user_id != ""){
-                                            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-                                            $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
-                                            $stmt_like = $dbh->query($sql_like_button);
-                                            $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
-                                            if(empty($result_like)){
-                                                echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい'><span>$row[like_count]</span>";
+                                            if($user_id != $row['user_id']){
+                                                $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                                                $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
+                                                $stmt_like = $dbh->query($sql_like_button);
+                                                $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+                                                if(empty($result_like)){
+                                                    echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい'><span>$row[like_count]</span>";
+                                                }else{
+                                                    echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除'><span>$row[like_count]</span>";
+                                                }
                                             }else{
-                                                echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除'><span>$row[like_count]</span>";
+                                                echo "<p>お気に入り件数:$row[like_count]</p>";
                                             }
                                         }else{
                                             echo "<p>お気に入り件数:$row[like_count]</p>";

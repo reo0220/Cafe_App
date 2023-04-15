@@ -301,14 +301,18 @@
                                 <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>
                                 <?php
                                     if($user_id != ""){
-                                        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-                                        $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
-                                        $stmt_like = $dbh->query($sql_like_button);
-                                        $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
-                                        if(empty($result_like)){
-                                            echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい'><span>$row[like_count]</span>";
+                                        if($user_id != $row['user_id']){
+                                            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                                            $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
+                                            $stmt_like = $dbh->query($sql_like_button);
+                                            $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+                                            if(empty($result_like)){
+                                                echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい'><span>$row[like_count]</span>";
+                                            }else{
+                                                echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除'><span>$row[like_count]</span>";
+                                            }
                                         }else{
-                                            echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除'><span>$row[like_count]</span>";
+                                            echo "<p>お気に入り件数:$row[like_count]</p>";
                                         }
                                     }else{
                                         echo "<p>お気に入り件数:$row[like_count]</p>";
