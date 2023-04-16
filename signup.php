@@ -60,6 +60,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     <head>
         <meta charset="UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
+        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
         <title>アカウント新規登録画面</title>
     </head>
     <body>
@@ -114,8 +115,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         <div class="form-item">
                             <label for="mail"></label> 
                             <input type ="text" name = "mail" placeholder="メールアドレス" value=<?php 
-                                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
-                                                                        echo $_POST['name'];
+                                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mail'])){
+                                                                        echo $_POST['mail'];
                                                                     }
                                                                 ?>>
                             </input>
@@ -127,7 +128,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         </div>
                         <div class="form-item">
                             <label for="password"></label> 
-                            <input type ="password" name = "password" placeholder="パスワード"></input>
+                            <input type ="password" id="textPassword" name = "password" placeholder="パスワード" value=<?php 
+                                                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['password'])){
+                                                                                                echo $_POST['password'];
+                                                                                            }
+                                                                                        ?>>
+                            </input>
+                            <span id="buttonEye" class="fa fa-eye" onclick="pushHideButton()"></span>
                             <?php if(!empty($error3)):?>
                                 <p class="text-danger"><?php echo $error3 ?></p>
                             <?php endif; ?>
@@ -141,6 +148,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     </div>
                 </div>
             </div>
+            <script language="javascript">
+                function pushHideButton() {
+                    var txtPass = document.getElementById("textPassword");
+                    var btnEye = document.getElementById("buttonEye");
+                    if (txtPass.type === "text") {
+                    txtPass.type = "password";
+                    btnEye.className = "fa fa-eye";
+                    } else {
+                    txtPass.type = "text";
+                    btnEye.className = "fa fa-eye-slash";
+                    }
+                }
+            </script>
         </main>  
         <footer class="footer">
             <div>

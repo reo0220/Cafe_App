@@ -134,7 +134,7 @@
                         <p class = "text-danger"><?php echo $pas_err;?></p>
                         </div>
                         <div class="button-panel">
-                        <input type="submit" class="button" value="ログイン"></input>
+                            <input type="submit" class="button" value="ログイン"></input>
                         </div>
                     </form>
                     <div class="form-footer">
