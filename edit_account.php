@@ -79,7 +79,7 @@
                     $sql2 = "UPDATE users SET name = '$name',mail = '$mail',password  = '$password',favorite_genre ='$favorite_genre',favorite_menu = '$favorite_menu',about_me = '$about_me' WHERE user_id = '$user_id'";
                     $dbh -> exec($sql2);
 
-                    header("Location:http://localhost/cafe_app/Cafe_App/edit_account.php");
+                    header("Location:http://localhost/cafe_app/Cafe_App/profile.php");
             }
         }
     }
