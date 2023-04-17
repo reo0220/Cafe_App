@@ -177,9 +177,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         </div>
         <main class = "main1">
             <div class="main2">
-                
-                
-
                 <div class="box_con07">
                     <h1 class="heading-lv10 text-center">投稿作成</h1>
                     <form method="post" action = "create_post.php" enctype='multipart/form-data'>

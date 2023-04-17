@@ -18,10 +18,7 @@
         $sql2 = "SELECT * FROM user_medias WHERE user_id = $user_id";
         $stmt2 = $dbh->query($sql2);
         $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-        
-        $counts = $dbh->query("SELECT COUNT(*) as cnt FROM user_medias WHERE user_id = $user_id");
-        $count = $counts->fetch();//ログインしているアカウントのuser_idが登録されているかのチェック
-
+    
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $name_check = $_POST['name'];
@@ -50,27 +47,28 @@
                 } catch (PDOException $e) {
                     echo $e->getMessage();
                 }
-                
-                    $image = uniqid(mt_rand(), true);//ファイル名をユニーク化
-                    $image .= '.' . substr(strrchr($_FILES['image']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+
+                if($_POST['deselect1'] === "1"){
+                    $image = uniqid(mt_rand(), true);
+                    $image .= '.' . substr(strrchr($_FILES['image']['name'], '.'), 1);
                     $file = "user_medias/$image";
-                    if(empty($count['cnt'])){
-                        $sql = "INSERT INTO user_medias(file_name,user_id) VALUES (:image,$user_id)";
-                    }else{
-                        $sql = "UPDATE user_medias SET file_name = :image WHERE user_id = $user_id ";
-                    }
-                    $stmt = $dbh->prepare($sql);
+                    $sql_media = "UPDATE user_medias SET file_name = :image WHERE user_id = $user_id ";
+                    $stmt = $dbh->prepare($sql_media);
                     $stmt->bindValue(':image', $image, PDO::PARAM_STR);
-                    if (!empty($_FILES['image']['name'])) {//ファイルが選択されていれば$imageにファイル名を代入
-                        move_uploaded_file($_FILES['image']['tmp_name'], './user_medias/' . $image);//user_mediasディレクトリにファイル保存
-                        if (exif_imagetype($file)) {//画像ファイルかのチェック
+                    if (!empty($_FILES['image']['name'])) {
+                        move_uploaded_file($_FILES['image']['tmp_name'], './user_medias/' . $image);
+                        if (exif_imagetype($file)) {
                             $message = '画像をアップロードしました';
                             $stmt->execute();
                         } else {
                             $message = '画像ファイルではありません';
                         }
                     }
-
+                }elseif($_POST['deselect1'] === "2" && $result2['file_name'] != "1785292757643d43c85cb494.66990750.PNG"){//デフォルトのプロ画ではなく、選択解除が行われた時
+                    $sql_media_reset = "UPDATE user_medias SET file_name = '1785292757643d43c85cb494.66990750.PNG' WHERE user_id = $user_id";
+                    $stmt_media = $dbh->prepare($sql_media_reset);
+                    $stmt_media->execute();
+                }
                     $name = $_POST['name'];
                     $mail = $_POST['mail'];
                     $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
@@ -81,7 +79,7 @@
                     $sql2 = "UPDATE users SET name = '$name',mail = '$mail',password  = '$password',favorite_genre ='$favorite_genre',favorite_menu = '$favorite_menu',about_me = '$about_me' WHERE user_id = '$user_id'";
                     $dbh -> exec($sql2);
 
-                    header("Location:http://localhost/cafe_app/Cafe_App/profile.php");
+                    header("Location:http://localhost/cafe_app/Cafe_App/edit_account.php");
             }
         }
     }
@@ -153,103 +151,152 @@
                 </div>
             </header>
         </div>
-        <main class = "main0">
+        <main class = "main1">
             <div class="main2">
-                <h1 class="heading-lv1 text-center">アカウント編集</h1>
-                <form method = "POST" action = "?" enctype="multipart/form-data">
-                    <ul>
-                        <li>
-                            <?php if(!empty($result2['file_name'])):?>
-                                <figure class="profile-image">
-                                    <img src='user_medias/<?php echo $result2['file_name'];?>' alt='投稿写真' width='300' height='300' id='image'>
-                                </figure>
-                            <?php endif;?>
+                <div class="box_con07">
+                    <h1 class="heading-lv10 text-center">アカウント編集</h1>
+                    <?php
+                     if($_SERVER['REQUEST_METHOD'] === 'POST'){
+                        var_dump($count['cnt']);
+                        var_dump($_POST['deselect1']);
+                     }
+                     ?>
+
+                    <form method="post" action = "?" enctype='multipart/form-data'>
+                        <ul class="formTable">
+                            <li>
+                                <p class="title"><em>プロフィール画像</em></p>
+                                <div class="box_det2">
+                                    <?php if(!empty($result2['file_name'])):?>
+                                        <figure class="profile-image">
+                                            <img src='user_medias/<?php echo $result2['file_name'];?>' alt='投稿写真' width='300' height='300' id='image'>
+                                        </figure>
+                                    <?php endif;?>
                             
-                            <figure class="profile-image" id="preview2" >
-                                <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="300" height="300">
-                            </figure>
-                            <input type="file" name="image" id="file1" accept='image/*' onchange="previewImage(this);" onclick="deselect1_0()"/>
-                            <input type="button" id="deselect1" value="選択解除" onclick="deselect1_1()">
-                            <input type="hidden" name="deselect1" id="deselect1_2">
-                            <script>
-                                document.getElementById("preview2").style.visibility = "hidden";
-                                function previewImage(obj){
-                                    var fileReader = new FileReader();
-                                    fileReader.onload = (function() {
-                                        document.getElementById("preview2").style.visibility = "visible";
-                                        document.getElementById("preview").style.visibility = "visible";
+                                    <figure class="profile-image" id="preview2" >
+                                        <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="300" height="300">
+                                    </figure>
+                                    <input type="file" name="image" id="file1" accept='image/*' onchange="previewImage(this);" onclick="deselect1_0()"/>
+                                    <input type="button" id="deselect1" value="選択解除" onclick="deselect1_1()">
+                                    <input type="hidden" name="deselect1" id="deselect1_2">
+                                </div>
+                            </li>
 
-                                        document.getElementById('preview').src = fileReader.result;
-                                    });
-                                    fileReader.readAsDataURL(obj.files[0]);
-                                    //imageの非表示処理
-                                    const image = document.getElementById("image");
-                                    image.style.display ="none";
-                                }
-                                function deselect1_0(){
-                                    setTimeout(() => {
-                                        document.getElementById("preview2").style.visibility = "visible";
-                                    document.getElementById("preview").style.visibility = "visible";
-                                    },250);
-                                }
-                                function deselect1_1(){
-                                    document.getElementById("image").style.display ="none";
-                                    document.getElementById("preview").style.visibility = "hidden";
-                                    document.getElementById("preview").style.visibility = "hidden";
-                                    document.getElementById("file1").value = "";
-                                    //ファイルが選択されていないとき、０をvalueに渡す
-                                    document.getElementById("deselect1_2").value = "0";
-
-                                } 
-                                const fileInput = document.getElementById("file1");
-                                //ファイルが選択されているとき、１をvalueに渡す
-                                const handleFileSelect = () => {
-                                    const files = fileInput.files;
-                                    if(files.length === 1){
-                                        document.getElementById("deselect1_2").value = "1";
+                            <li>
+                                <p class="title"><em>ニックネーム</em></p>
+                                <div class="box_det">
+                                    <input type = "text" class="wide" name = "name" size="20" value = <?php 
+                                                                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
+                                                                                                                echo $_POST['name'];
+                                                                                                            }else{
+                                                                                                                echo $result['name'];
+                                                                                                            }
+                                                                                                        ?>>
+                                    <?php if(!empty($error_name)):?>
+                                        <p class="text-danger"><?php echo $error_name;?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </li>
+                            <li>
+                                <p class="title"><em>メールアドレス</em></p>
+                                <div class="box_det">
+                                    <input type = "text" class="wide" name = "mail" size="20" value = <?php 
+                                                                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mail'])){
+                                                                                                                echo $_POST['mail'];
+                                                                                                            }else{
+                                                                                                                echo $result['mail'];
+                                                                                                            }
+                                                                                                        ?>>
+                                    <?php if(!empty($error_mail)):?>
+                                        <p class="text-danger"><?php echo $error_mail;?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </li>
+                            <li>
+                                <p class="title"><em>パスワード</em></p>
+                                <div class="box_det">
+                                    <input type = "password" class="wide" name = "password" size="20">
+                                    <?php if(!empty($error_pas)):?>
+                                        <p class="text-danger"><?php echo $error_pas;?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </li>
+                            <li>
+                                <p class="title"><em>好きなジャンル</em></p>
+                                <div class="box_det">
+                                    <input type = "text" class="wide" name = "favorite_genre" size="20" value =<?php 
+                                                                                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['favorite_genre'])){
+                                                                                                                        echo $_POST['favorite_genre'];
+                                                                                                                    }else{
+                                                                                                                        echo $result['favorite_genre'];
+                                                                                                                    }
+                                                                                                                ?>>
+                                </div>
+                            </li>
+                            <li>
+                                <p class="title"><em>好きなメニュー</em></p>
+                                <div class="box_det">
+                                    <input type = "text" class="wide" name = "favorite_menu" size="20" value =<?php
+                                                                                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['favorite_menu'])){
+                                                                                                                        echo $_POST['favorite_menu'];
+                                                                                                                    }else{
+                                                                                                                        echo $result['favorite_menu'];
+                                                                                                                    }
+                                                                                                                ?>>
+                                </div>
+                            </li>
+                            <li>
+                                <p class="title"><em>自己紹介文</em></p>
+                                <?php 
+                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['about_me'])){
+                                        $comment = $_POST['about_me'];
+                                    }else{
+                                        $comment = $result['about_me'];
                                     }
+                                ?>
+                                <div class="box_det"><textarea name="about_me" cols="10" rows="5"><?php echo $comment;?></textarea></div>
+                            </li>
+                        </ul>
+                        <div class="button-panel">
+                            <input type="submit" name="_method" class="button1" value="編集" formaction="edit_account.php"></input>
+                            <input type="submit" name="_method" class="button1" value="キャンセル" formaction="profile.php"></input>
+                        </div>
+                    </form>
+                    <script>
+                        document.getElementById("preview2").style.display = "none";
+                            function previewImage(obj){
+                                var fileReader = new FileReader();
+                                fileReader.onload = (function() {
+                                    document.getElementById("preview").style.visibility = "visible";
+                                    document.getElementById('preview').src = fileReader.result;
+                                });
+                                fileReader.readAsDataURL(obj.files[0]);
+                                //imageの非表示処理
+                                const image = document.getElementById("image");
+                                image.style.display ="none";
+                            }
+                            function deselect1_1(){
+                                document.getElementById("image").style.visibility ="hidden";
+                                document.getElementById("preview").style.visibility = "hidden";
+                                document.getElementById("preview2").style.visibility = "hidden";
+                                document.getElementById("file1").value = "";
+                                //ファイルが選択されていないとき、０をvalueに渡す
+                                document.getElementById("deselect1_2").value = "2";
+                            } 
+                            const fileInput = document.getElementById("file1");
+                            //ファイルが選択されているとき、１をvalueに渡す
+                            const handleFileSelect = () => {
+                                const files = fileInput.files;
+                                if(files.length === 1){
+                                    document.getElementById("deselect1_2").value = "1";
+                                    document.getElementById("preview2").style.display = "block";
+                                    document.getElementById("preview").style.visibility = "visible";
+                                    
                                 }
-                                fileInput.addEventListener('change', handleFileSelect);
-                            </script>
-                            <label>プロフィール画像</label>
-                        </li>
-                        <li>
-                            <label>ニックネーム</label>
-                            <input type = "text" name = "name" value = <?php echo $result['name'];?>>
-                            <?php if(!empty($error_name)):?>
-                                <p class="text-danger"><?php echo $error_name;?></p>
-                            <?php endif; ?>
-                        </li>
-                        <li>
-                            <label>メールアドレス</label>
-                            <input type = "text" name = "mail" value = <?php echo $result['mail'];?>>
-                            <?php if(!empty($error_mail)):?>
-                                <p class="text-danger"><?php echo $error_mail;?></p>
-                            <?php endif; ?>
-                        </li>
-                        <li>
-                            <label>パスワード</label>
-                            <input type = "password" name = "password" value = "">
-                            <?php if(!empty($error_pas)):?>
-                                <p class="text-danger"><?php echo $error_pas;?></p>
-                            <?php endif; ?>
-                        </li>
-                        <li>
-                            <label>好きなジャンル</label>
-                            <input type = "text" name = "favorite_genre" value = <?php echo $result['favorite_genre'];?>>
-                        </li>
-                        <li>
-                            <label>好きなメニュー</label>
-                            <input type = "text" name = "favorite_menu" value = <?php echo $result['favorite_menu'];?>>
-                        </li>
-                        <li>
-                            <label>自己紹介文</label>
-                            <textarea name="about_me" name = "about_me" rows="5" cols="33"><?php echo $result['about_me'];?></textarea>
-                        </li>
-                        <li><input type="submit" name="_method"  value="保存" formaction="edit_account.php"></li>
-                        <li><input type="submit" name="_method" value="キャンセル" formaction="profile.php"></li>
-                    </ul>
-                </form>
+                            }
+                            fileInput.addEventListener('change', handleFileSelect);
+                    </script>
+                </div>       
             </div>
         </main>  
         <footer class="footer">

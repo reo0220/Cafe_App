@@ -46,10 +46,18 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 $dbh -> exec("insert into users(name,mail,password,delete_flag)
                 values('".$_POST['name']."','".$_POST['mail']."','".password_hash($_POST['password'],PASSWORD_DEFAULT)."','0');");
                 $_SESSION['user_id_sign'] = $dbh->lastInsertId();//セッションに、登録した「user_id」を代入
+                $user_id_media = $_SESSION['user_id_sign'];
+                
                 }
                 catch(PDOException $e){//DB接続エラーが発生した時$db_errorを定義
                     $db_error = "エラーが発生したためアカウント登録できません。";
                 }
+                $image = "1785292757643d43c85cb494.66990750.PNG";
+                mb_internal_encoding("utf8");
+                $dbh1 = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                $sql_media = "INSERT INTO user_medias(file_name,user_id) VALUES ('$image','$user_id_media')";
+                $stmt1 = $dbh1->prepare($sql_media);
+                $stmt1->execute();
                 header("Location:http://localhost/cafe_app/Cafe_App/profile.php");
     }
 }
