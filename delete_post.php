@@ -127,14 +127,18 @@
         </div>
         <main class = "main0">
             <div class="main2">
-                <h1 class="heading-lv1 text-center">投稿削除</h1>
-                <h2>本当に投稿を削除しますか？</h2>
-                <p>※投稿削除を行なった場合、投稿内容が削除され、復元することができません。</p>
-                <form method ="POST" action ="?">
-                    <input type="hidden" name="post_id" value= <?php echo $post_id;?>>
-                    <li><input type="submit" name="_method" value="削除" formaction=<?php echo "delete_post.php?post_id=$post_id";?>></li>
-                    <li><input type="submit" name="_method" value="キャンセル" formaction="profile.php"></li>
-                </form>
+                <div class="del_post">
+                    <h1 class="del_post_h1">投稿削除</h1></br>
+                    <h2 class="del_post_h2">本当に投稿を削除しますか？</h2></br>
+                    <p class="del_post_p">※投稿削除を行なった場合、投稿内容が削除され、復元することができません。</p>
+                    <form method ="POST" action ="?">
+                        <input type="hidden" name="post_id" value= <?php echo $post_id;?>>
+                        <div class="button-panel">
+                            <input type="submit" class="button2" name="_method" value="削除" formaction=<?php echo "delete_post.php?post_id=$post_id";?>>
+                            <input type="submit" class="button1" name="_method" value="キャンセル" formaction="profile.php">
+                        <div>
+                    </form>
+                </div>
             </div>
         </main>  
         <footer class="footer">

@@ -42,7 +42,7 @@
                                 grow : 'fullscreen',
                                 confirmButtonText:"ログインまたは新規登録",
                                 allowOutsideClick:false
-                            }).then((result) =>{//「ログイン」ボタンをクリックした時、ログイン画面へ遷移
+                            }).then((result) =>{//「ログインまたは新規登録」ボタンをクリックした時、ログイン画面へ遷移
                                 if(result.value){
                                         window.location.href ="./login.php";
                                     }
@@ -90,13 +90,17 @@
         </div>
         <main class = "main0">
             <div class="main2">
-                <h1 class="heading-lv1 text-center">アカウント削除</h1>
-                <h2>本当にアカウントを削除しますか？</h2>
-                <p>※アカウント削除を行なった場合、現在のアカウント情報と投稿内容が削除され、復元することができません。</p>
-                <form method ="POST" action ="?">
-                    <input type="submit" name="_method"  value="削除" formaction="delete_account.php">
-                    <input type="submit" name="_method" value="キャンセル" formaction="profile.php">
-                </form>
+                <div class="del_post">
+                    <h1 class="del_post_h1">アカウント削除</h1>
+                    <h2 class="del_post_h2">本当にアカウントを削除しますか？</h2>
+                    <p class="del_post_p">※アカウント削除を行なった場合、現在のアカウント情報と投稿内容が削除され、復元することができません。</p>
+                    <form method ="POST" action ="?">
+                        <div class="button-panel">
+                            <input type="submit" class="button2" name="_method"  value="削除" formaction="delete_account.php">
+                            <input type="submit" class="button1" name="_method" value="キャンセル" formaction="profile.php">
+                        </div>
+                    </form>
+                </div>
             </div>
         </main>  
         <footer class="footer">
