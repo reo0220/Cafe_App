@@ -60,6 +60,16 @@ form {
 #file1{
   margin-bottom: 10px;
 }
+#file2{
+  margin-bottom: 10px;
+}
+#file3{
+  margin-bottom: 10px;
+}
+#file4{
+  margin-bottom: 10px;
+}
+
 
 .button-panel {
   margin: 2em 0 0;
@@ -412,6 +422,18 @@ i {
   box-sizing: border-box;
   margin-top: 160px;
 }
+
+.box_det10{
+  width: 70%;
+  position: relative;
+  padding: 1em;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-top: 50px; 
+}
+
+
 .box_con07 form ul li .box_det2 {
   width: 70%;
   position: relative;
@@ -427,6 +449,8 @@ i {
     width: 100%;
   }
 }
+
+
 .box_con07 form ul li .box_br {
   display: block;
 }

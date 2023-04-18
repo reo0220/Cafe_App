@@ -12,7 +12,6 @@
         $er_update_post = "";
     }
 
-
     if(!empty($user_id) && !empty($_GET['post_id'])){
         $post_id = $_GET['post_id'];
         $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
@@ -36,7 +35,6 @@
         $result_post = $stmt_post->fetch(PDO::FETCH_ASSOC);
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
-            $url = $_POST['url'];
             
             $name = $_POST['name'];
             if($name === ""){
@@ -47,6 +45,7 @@
             $file2_input = $_POST['deselect2'];
             $file3_input = $_POST['deselect3'];
             $file4_input = $_POST['deselect4'];
+            
             //画像が空の状態
             if((!empty($result_post['first_file_name']) && $file1_input === "0") || (empty($result_post['first_file_name']))){
                 $er_file1 = "NULL1";
@@ -91,14 +90,14 @@
                 }
                 
                 if(!empty($_FILES['file2']['name'])){//file2が選択されているとき、登録処理を行う
-                    $image2 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-                    $image2 .= '.' . substr(strrchr($_FILES['file2']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+                    $image2 = uniqid(mt_rand(), true);
+                    $image2 .= '.' . substr(strrchr($_FILES['file2']['name'], '.'), 1);
                     $file2 = "post_medias/$image2";
                     $sql2 = "UPDATE post_medias SET second_file_name = :file2 WHERE post_id = $post_id_edit";
                     $stmt2 = $dbh->prepare($sql2);
                     $stmt2->bindValue(':file2', $image2, PDO::PARAM_STR);
-                    move_uploaded_file($_FILES['file2']['tmp_name'], './post_medias/' . $image2);//post_mediasディレクトリにファイル保存
-                    if (exif_imagetype($file2)) {//画像ファイルかのチェック
+                    move_uploaded_file($_FILES['file2']['tmp_name'], './post_medias/' . $image2);
+                    if (exif_imagetype($file2)) {
                             $message2 = '画像をアップロードしました';
                             $stmt2->execute();
                     } else {
@@ -110,14 +109,14 @@
                 }
                 
                 if(!empty($_FILES['file3']['name'])){
-                    $image3 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-                    $image3 .= '.' . substr(strrchr($_FILES['file3']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+                    $image3 = uniqid(mt_rand(), true);
+                    $image3 .= '.' . substr(strrchr($_FILES['file3']['name'], '.'), 1);
                     $file3 = "post_medias/$image3";
                     $sql3 = "UPDATE post_medias SET third_file_name = :file3 WHERE post_id = $post_id_edit";
                     $stmt3 = $dbh->prepare($sql3);
                     $stmt3->bindValue(':file3', $image3, PDO::PARAM_STR);
-                    move_uploaded_file($_FILES['file3']['tmp_name'], './post_medias/' . $image3);//post_mediasディレクトリにファイル保存
-                    if (exif_imagetype($file3)) {//画像ファイルかのチェック
+                    move_uploaded_file($_FILES['file3']['tmp_name'], './post_medias/' . $image3);
+                    if (exif_imagetype($file3)) {
                             $message3 = '画像をアップロードしました';
                             $stmt3->execute();
                     } else {
@@ -129,14 +128,14 @@
                 }
                 
                 if(!empty($_FILES['file4']['name'])){
-                    $image4 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-                    $image4 .= '.' . substr(strrchr($_FILES['file4']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+                    $image4 = uniqid(mt_rand(), true);
+                    $image4 .= '.' . substr(strrchr($_FILES['file4']['name'], '.'), 1);
                     $file4 = "post_medias/$image4";
                     $sql4 = "UPDATE post_medias SET fourth_file_name = :file4 WHERE post_id = $post_id_edit";
                     $stmt4 = $dbh->prepare($sql4);
                     $stmt4->bindValue(':file4', $image4, PDO::PARAM_STR);
-                    move_uploaded_file($_FILES['file4']['tmp_name'], './post_medias/' . $image4);//post_mediasディレクトリにファイル保存
-                    if (exif_imagetype($file4)) {//画像ファイルかのチェック
+                    move_uploaded_file($_FILES['file4']['tmp_name'], './post_medias/' . $image4);
+                    if (exif_imagetype($file4)) {
                             $message4 = '画像をアップロードしました';
                             $stmt4->execute();
                     } else {
@@ -146,7 +145,6 @@
                     $sql4_file_delete = "UPDATE post_medias SET fourth_file_name = '' WHERE post_id = $post_id_edit";
                     $dbh->query($sql4_file_delete);
                 }
-                //エラーが起きた時、編集画面が前画面になってしまう(更新はできてる)
                 header("Location:http://localhost/cafe_app/Cafe_App/profile.php");
             }
         }
@@ -241,416 +239,430 @@
                 </div>
             </header>
         </div>
-        <main class = "main0">
+        <main class = "main1">
             <div class="main2">
-                <h1 class="heading-lv1 text-center">投稿編集</h1>
-                <form method="POST" action = "?" enctype='multipart/form-data'>
-                    <ul>
-                        <li>
-                            <label>店名</label>
-                            <input type = "text" name = "name" value=<?php echo $result_post['posts_name'];?>>
-                            <?php if(!empty($error_name)):?>
-                                <p class="text-danger"><?php echo $error_name;?></p>
-                            <?php endif; ?>
-                        </li>
-                        <li>
-                            <label>場所</label>
-                            <select name="place">
-                                <option value="1" <?php 
-                                                        if($result_post['place'] === "1"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>千代田区</option>
-                                <option value="2" <?php 
-                                                        if($result_post['place'] === "2"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>中央区</option>
-                                <option value="3" <?php 
-                                                        if($result_post['place'] === "3"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>港区</option>
-                                <option value="4" <?php 
-                                                        if($result_post['place'] === "4"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>新宿区</option>
-                                <option value="5" <?php 
-                                                        if($result_post['place'] === "5"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>文京区</option>
-                                <option value="6" <?php 
-                                                        if($result_post['place'] === "6"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>台東区</option>
-                                <option value="7" <?php 
-                                                        if($result_post['place'] === "7"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>墨田区</option>
-                                <option value="8" <?php 
-                                                        if($result_post['place'] === "8"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>江東区</option>
-                                <option value="9" <?php 
-                                                        if($result_post['place'] === "9"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>品川区</option>
-                                <option value="10" <?php 
-                                                        if($result_post['place'] === "10"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>目黒区</option>
-                                <option value="11" <?php 
-                                                        if($result_post['place'] === "11"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>大田区</option>
-                                <option value="12" <?php 
-                                                        if($result_post['place'] === "12"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>世田谷区</option>
-                                <option value="13"<?php 
-                                                        if($result_post['place'] === "13"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>渋谷区</option>
-                                <option value="14" <?php 
-                                                        if($result_post['place'] === "14"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>中野区</option>
-                                <option value="15" <?php 
-                                                        if($result_post['place'] === "15"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>杉並区</option>
-                                <option value="16" <?php 
-                                                        if($result_post['place'] === "16"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>豊島区</option>
-                                <option value="17" <?php 
-                                                        if($result_post['place'] === "17"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>北区</option>
-                                <option value="18" <?php 
-                                                        if($result_post['place'] === "18"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>荒川区</option>
-                                <option value="19" <?php 
-                                                        if($result_post['place'] === "19"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>板橋区</option>
-                                <option value="20" <?php 
-                                                        if($result_post['place'] === "20"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>練馬区</option>
-                                <option value="21" <?php 
-                                                        if($result_post['place'] === "21"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>足立区</option>
-                                <option value="22" <?php 
-                                                        if($result_post['place'] === "22"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>葛飾区</option>
-                                <option value="23" <?php 
-                                                        if($result_post['place'] === "23"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>江戸川区</option>
-                            </select>
-                        </li>
-                        <li>
-                            <label>価格帯</label>
-                            <select name = "price">
-                                <option value = "1" <?php 
-                                                        if($result_post['price'] === "1"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>0円〜500円</option>
-                                <option value = "2" <?php 
-                                                        if($result_post['price'] === "2"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>500円〜1000円</option>
-                                <option value = "3" <?php 
-                                                        if($result_post['price'] === "3"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>1000円〜1500円</option>
-                                <option value = "4" <?php 
-                                                        if($result_post['price'] === "4"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>1500円〜2000円</option>
-                                <option value = "5" <?php 
-                                                        if($result_post['price'] === "5"){
-                                                            echo "selected";
-                                                        }else{
-                                                            echo "";
-                                                        }
-                                                    ?>>2000円〜</option>
-                            </select>
-                        </li>
-                        <li>
-                            <label>コメント</label>
-                            <textarea name="comment" rows="5" cols="33"><?php echo $result_post['comment'];?></textarea>
-                        </li>
-                        <li><label>投稿写真</label></li>
-                        <?php if(!empty($error_file1)):?>
-                                <p class="text-danger"><?php echo $error_file1;?></p>
-                        <?php endif; ?>
-                        <li>
-                            <!--ファイル１の処理-->
-                            <?php 
-                                if(!empty($result_post['first_file_name'])){
-                                    $first_file_name = $result_post['first_file_name'];
-                                    echo "<img src='post_medias/$first_file_name' alt='投稿写真' width='80' height='80' id='image'>";
-                                }
-                            ?>    
-                            <img id='preview' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='80' height='80'></br>
-                            <input type="file" name="file1" id="file1" accept='image/*' onchange="previewImage(this);" onclick="deselect1_0()"/>
-                            <input type="button" id="deselect1" value="選択解除" onclick="deselect1_1()">
-                            <input type="hidden" name="deselect1" id="deselect1_2">
-                            <script>
-                                function previewImage(obj){
-                                    var fileReader = new FileReader();
-                                    fileReader.onload = (function() {
-                                        document.getElementById('preview').src = fileReader.result;
-                                    });
-                                    fileReader.readAsDataURL(obj.files[0]);
-                                    //imageの非表示処理
-                                    const image = document.getElementById("image");
-                                    image.style.display ="none";
-                                }
-                                function deselect1_0(){
-                                    setTimeout(() => {
-                                    document.getElementById("preview").style.visibility = "visible";
-                                    },250);
-                                }
-                                function deselect1_1(){
-                                    document.getElementById("image").style.display ="none";
-                                    document.getElementById("preview").style.visibility = "hidden";
-                                    document.getElementById("file1").value = "";
-                                    //ファイルが選択されていないとき、０をvalueに渡す
-                                    document.getElementById("deselect1_2").value = "0";
+                <div class="box_con07">
+                    <h1 class="heading-lv10 text-center">投稿編集</h1>
+                    <form method="post" action = "create_post.php" enctype='multipart/form-data'>
+                        <ul class="formTable">
+                            <li>
+                                <p class="title"><em>店名</em></p>
+                                <div class="box_det">
+                                    <input size="20" type="text" class="wide" name="name" value = <?php 
+                                                                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
+                                                                                                                echo $_POST['name'];
+                                                                                                        }else{
+                                                                                                                echo $result_post['posts_name'];
+                                                                                                        }
+                                                                                                    ?>>
+                                    <?php if(!empty($error_name)):?>
+                                        <p class="text-danger"><?php echo $error_name;?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </li>
+                            <li>
+                                <p class="title"><em>場所</em></p>
+                                <div class="box_det"><select name="place">
+                                    <option value="1" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "1"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "1"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>千代田区</option>
+                                    <option value="2" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "2"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "2"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>中央区</option>
+                                    <option value="3" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "3"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "3"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>港区</option>
+                                    <option value="4" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "4"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "4"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>新宿区</option>
+                                    <option value="5" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "5"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "5"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>文京区</option>
+                                    <option value="6" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "6"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "6"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>台東区</option>
+                                    <option value="7" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "7"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "7"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>墨田区</option>
+                                    <option value="8" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "8"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "8"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>江東区</option>
+                                    <option value="9" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "9"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "9"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>品川区</option>
+                                    <option value="10" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "10"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "10"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>目黒区</option>
+                                    <option value="11" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "11"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "11"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>大田区</option>
+                                    <option value="12" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "12"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "12"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>世田谷区</option>
+                                    <option value="13" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "13"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "13"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>渋谷区</option>
+                                    <option value="14" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "14"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "14"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>中野区</option>
+                                    <option value="15" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "15"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "15"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>杉並区</option>
+                                    <option value="16" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "16"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "16"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>豊島区</option>
+                                    <option value="17" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "17"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "17"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>北区</option>
+                                    <option value="18" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "18"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "18"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>荒川区</option>
+                                    <option value="19" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "19"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "19"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>板橋区</option>
+                                    <option value="20" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "20"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "20"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>練馬区</option>
+                                    <option value="21" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "21"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "21"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>足立区</option>
+                                    <option value="22" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "22"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "22"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>葛飾区</option>
+                                    <option value="23" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "23"){
+                                                                echo "selected";
+                                                            }elseif($result_post['place'] === "23"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>江戸川区</option>
+                                </select></td>
+                            </li>
+                            <li>
+                                <p class="title"><em>価格帯</em></p>
+                                <div class="box_det"><select name="price">
+                                    <option value = "1" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "1"){
+                                                                echo "selected";
+                                                            }elseif($result_post['price'] === "1"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>0円〜500円</option>
+                                    <option value = "2" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "2"){
+                                                                echo "selected";
+                                                            }elseif($result_post['price'] === "2"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>500円〜1000円</option>
+                                    <option value = "3" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "3"){
+                                                                echo "selected";
+                                                            }elseif($result_post['price'] === "3"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>1000円〜1500円</option>
+                                    <option value = "4" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "4"){
+                                                                echo "selected";
+                                                            }elseif($result_post['price'] === "4"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>1500円〜2000円</option>
+                                    <option value = "5" <?php
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "5"){
+                                                                echo "selected";
+                                                            }elseif($result_post['price'] === "5"){
+                                                                echo "selected";
+                                                            }
+                                                        ?>>2000円〜</option>
+                                </select></td>
+                            </li>     
+                            <li>
+                                <p class="title"><em>コメント</em></p>
+                                <?php 
+                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['comment'])){
+                                        $comment = $_POST['comment'];
+                                    }else{
+                                        $comment = $result_post['comment'];
+                                    }
+                                ?>
+                                <div class="box_det"><textarea name="comment" cols="10" rows="5"><?php echo $comment;?></textarea></div>
+                            </li>
+                            <li>
+                                <p class="title"><em>投稿写真</em></p></br>
+                                <div class="box_det10">
+                                    <?php if(!empty($error_file1)):?>
+                                        <p class="text-danger"><?php echo $error_file1;?></p>
+                                    <?php endif; ?>
+                                    <!--ファイル１の処理-->
+                                    <input type="file" name="file1" id="file1" accept='image/*' onchange="previewImage(this);" onclick="deselect1_0()"/>
+                                    <?php 
+                                            $first_file_name = $result_post['first_file_name'];
+                                            echo "<img src='post_medias/$first_file_name' title='投稿写真' width='160' height='160' id='image'>";
+                                    ?>    
+                                    <img id='preview' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='160' height='160'></br>
+                                    <input type="button" id="deselect1" value="選択解除" onclick="deselect1_1()">
+                                    <input type="hidden" name="deselect1" id="deselect1_2">
+                                    <script>
+                                        document.getElementById("preview").style.display ="none";
+                                        function previewImage(obj){
+                                            var fileReader = new FileReader();
+                                            fileReader.onload = (function() {
+                                                document.getElementById("preview").style.visibility = "visible";
+                                                document.getElementById('preview').src = fileReader.result;
+                                            });
+                                            fileReader.readAsDataURL(obj.files[0]);
+                                            //imageの非表示処理
+                                            const image = document.getElementById("image");
+                                            image.style.display ="none";
+                                        }
+                                        function deselect1_1(){
+                                            document.getElementById("image").style.visibility ="hidden";
+                                            document.getElementById("preview").style.visibility = "hidden";
+                                            document.getElementById("file1").value = "";
+                                            //ファイルが選択されていないとき、０をvalueに渡す
+                                            document.getElementById("deselect1_2").value = "0";
 
-                                } 
-                                const fileInput = document.getElementById("file1");
-                                //ファイルが選択されているとき、１をvalueに渡す
-                                const handleFileSelect = () => {
-                                    const files = fileInput.files;
-                                    if(files.length === 1){
-                                        document.getElementById("deselect1_2").value = "1";
-                                    }
-                                }
-                                fileInput.addEventListener('change', handleFileSelect);
-                            </script>
-                        </li>
-                        <li>
-                            <!--ファイル2の処理-->  
-                            <?php 
-                                if(!empty($result_post['second_file_name'])){
-                                    $second_file_name = $result_post['second_file_name'];
-                                    echo "<img src='post_medias/$second_file_name' alt='投稿写真' width='80' height='80' id='image2'>";
-                                }
-                            ?>
-                            <img id='preview2' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='80' height='80'></br>
-                            <input type="file" name="file2" id="file2" accept='image/*' onchange="previewImage2(this);" onclick="deselect2_0()"/>
-                            <input type="button" id="deselect2" value="選択解除" onclick="deselect2_1()">
-                            <input type="hidden" name="deselect2" id="deselect2_2">
-                            <script>
-                                function previewImage2(obj){
-                                    var fileReader2 = new FileReader();
-                                    fileReader2.onload = (function() {
-                                        document.getElementById('preview2').src = fileReader2.result;
-                                    });
-                                    fileReader2.readAsDataURL(obj.files[0]);
-                                    //imageの非表示処理
-                                    const image2 = document.getElementById("image2");
-                                    image2.style.display ="none";
-                                }
-                                function deselect2_0(){
-                                    setTimeout(() => {
-                                    document.getElementById("preview2").style.visibility = "visible";
-                                    },250);
-                                }
-                                function deselect2_1(){
-                                    document.getElementById("image2").style.display ="none";
-                                    document.getElementById("preview2").style.visibility = "hidden";
-                                    document.getElementById("file2").value = "";
-                                    document.getElementById("deselect2_2").value = "0";
-                                } 
-                                const fileInput2 = document.getElementById("file2");
-                                const handleFileSelect2 = () => {
-                                    const files2 = fileInput2.files;
-                                    if(files2.length === 1){
-                                        document.getElementById("deselect2_2").value = "1";
-                                    }
-                                }
-                                fileInput2.addEventListener('change', handleFileSelect2);
-                            </script>
-                        </li>
-                        <li>
-                            <!--ファイル3の処理-->
-                            <?php 
-                                if(!empty($result_post['third_file_name'])){
-                                    $third_file_name = $result_post['third_file_name'];
-                                    echo "<img src='post_medias/$third_file_name' alt='投稿写真' width='80' height='80' id='image3'>";
-                                }
-                            ?>
-                            <img id='preview3' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='80' height='80'></br>
-                            <input name="file3" type="file" id="file3"  accept='image/*' onchange="previewImage3(this);" onclick="deselect3_0()"/>
-                            <input type="button" id="deselect3" value="選択解除" onclick="deselect3_1()">
-                            <input type="hidden" name="deselect3" id="deselect3_2">
-                            <script>
-                                function previewImage3(obj){
-                                    var fileReader3 = new FileReader();
-                                    fileReader3.onload = (function() {
-                                        document.getElementById('preview3').src = fileReader3.result;
-                                    });
-                                    fileReader3.readAsDataURL(obj.files[0]);
-                                    //imageの非表示処理
-                                    const image3 = document.getElementById("image3");
-                                    image3.style.display ="none";
-                                }
-                                function deselect3_0(){
-                                    setTimeout(() => {
-                                    document.getElementById("preview3").style.visibility = "visible";
-                                    },250);
-                                }
-                                function deselect3_1(){
-                                    document.getElementById("image3").style.display ="none";
-                                    document.getElementById("preview3").style.visibility = "hidden";
-                                    document.getElementById("file3").value = "";
-                                    document.getElementById("deselect3_2").value = "0";
-                                }
-                                const fileInput3 = document.getElementById("file3");
-                                const handleFileSelect3 = () => {
-                                    const files3 = fileInput3.files;
-                                    if(files3.length === 1){
-                                        document.getElementById("deselect3_2").value = "1";
-                                    }
-                                }
-                                fileInput3.addEventListener('change', handleFileSelect3);
-                            </script>
-                        </li>
-                        <li>
-                            <!--ファイル4の処理-->
-                            <?php 
-                                if(!empty($result_post['fourth_file_name'])){
-                                    $fourth_file_name = $result_post['fourth_file_name'];
-                                    echo "<img src='post_medias/$fourth_file_name' alt='投稿写真' width='80' height='80' id='image4'>";
-                                }
-                            ?>
-                            <img id='preview4' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='80' height='80'></br>
-                            <input name="file4" type="file" id="file4" accept='image/*' onchange="previewImage4(this);" onclick="deselect4_0()"/>
-                            <input type="button" id="deselect4" value="選択解除" onclick="deselect4_1()">
-                            <input type="hidden" name="deselect4" id="deselect4_2">
-                            <script>
-                                function previewImage4(obj){
-                                    var fileReader4 = new FileReader();
-                                    fileReader4.onload = (function() {
-                                        document.getElementById('preview4').src = fileReader4.result;
-                                    });
-                                    fileReader4.readAsDataURL(obj.files[0]);
-                                    //imageの非表示処理
-                                    const image4 = document.getElementById("image4");
-                                    image4.style.display ="none";
-                                }
-                                function deselect4_0(){
-                                    setTimeout(() => {
-                                    document.getElementById("preview4").style.visibility = "visible";
-                                    },250);
-                                }
-                                function deselect4_1(){
-                                    document.getElementById("image4").style.display ="none";
-                                    document.getElementById("preview4").style.visibility = "hidden";
-                                    document.getElementById("file4").value = "";
-                                    document.getElementById("deselect4_2").value = "0";
-                                }
-                                const fileInput4 = document.getElementById("file4");
-                                const handleFileSelect4 = () => {
-                                    const files4 = fileInput4.files;
-                                    if(files4.length === 1){
-                                        document.getElementById("deselect4_2").value = "1";
-                                    }
-                                }
-                                fileInput4.addEventListener('change', handleFileSelect4);
-                            </script>
-                        </li>
-                    </ul>
-                    <input type="hidden" name="post_id" value= <?php echo $result_post['post_id'];?>>
-                    <li><input type="submit" name="_method" value="編集" formaction=<?php echo "update_post.php?post_id=$post_id";?>></li>
-                    <li><input type="submit" name="_method" value="キャンセル" formaction="profile.php"></li>
-                </form>
+                                        } 
+                                        const fileInput = document.getElementById("file1");
+                                        //ファイルが選択されているとき、１をvalueに渡す
+                                        const handleFileSelect = () => {
+                                            const files = fileInput.files;
+                                            if(files.length === 1){
+                                                document.getElementById("deselect1_2").value = "1";
+                                                document.getElementById("preview").style.display ="block";
+                                            }
+                                        }
+                                        fileInput.addEventListener('change', handleFileSelect);
+                                    </script>
+                                </div>
+                            </li>
+                            <li>
+                                <p class="title2"><em></em></p></br>
+                                <div class="box_det2">
+                                    <!--ファイル2の処理-->  
+                                    <input type="file" name="file2" id="file2" accept='image/*' onchange="previewImage2(this);" onclick="deselect2_0()"/>
+                                    <?php 
+                                            $second_file_name = $result_post['second_file_name'];
+                                            echo "<img src='post_medias/$second_file_name' title='投稿写真' width='160' height='160' id='image2'>";
+                                    ?>
+                                    <img id='preview2' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='160' height='160'></br>
+                                    <input type="button" id="deselect2" value="選択解除" onclick="deselect2_1()">
+                                    <input type="hidden" name="deselect2" id="deselect2_2">
+                                    <script>
+                                        document.getElementById("preview2").style.display ="none";
+                                        function previewImage2(obj){
+                                            var fileReader2 = new FileReader();
+                                            fileReader2.onload = (function() {
+                                                document.getElementById("preview2").style.visibility = "visible";
+                                                document.getElementById('preview2').src = fileReader2.result;
+                                            });
+                                            fileReader2.readAsDataURL(obj.files[0]);
+                                            //imageの非表示処理
+                                            const image2 = document.getElementById("image2");
+                                            image2.style.display ="none";
+                                        }
+                                        function deselect2_1(){
+                                            document.getElementById("image2").style.visibility = "hidden";
+                                            document.getElementById("preview2").style.visibility = "hidden";
+                                            document.getElementById("file2").value = "";
+                                            document.getElementById("deselect2_2").value = "0";
+                                        } 
+                                        const fileInput2 = document.getElementById("file2");
+                                        const handleFileSelect2 = () => {
+                                            const files2 = fileInput2.files;
+                                            if(files2.length === 1){
+                                                document.getElementById("preview2").style.display ="block";
+                                                document.getElementById("deselect2_2").value = "1";
+                                            }
+                                        }
+                                        fileInput2.addEventListener('change', handleFileSelect2);
+                                    </script>
+                                </div>
+                            </li>
+                            <li>
+                                <p class="title2"><em></em></p></br>
+                                <div class="box_det2">
+                                    <!--ファイル3の処理-->
+                                    <input name="file3" type="file" id="file3"  accept='image/*' onchange="previewImage3(this);" onclick="deselect3_0()"/>
+                                    <?php 
+                                            $third_file_name = $result_post['third_file_name'];
+                                            echo "<img src='post_medias/$third_file_name' title='投稿写真' width='160' height='160' id='image3'>";
+                                    ?>
+                                    <img id='preview3' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='160' height='160'></br>
+                                    <input type="button" id="deselect3" value="選択解除" onclick="deselect3_1()">
+                                    <input type="hidden" name="deselect3" id="deselect3_2">
+                                    <script>
+                                        document.getElementById("preview3").style.display ="none";
+                                        function previewImage3(obj){
+                                            var fileReader3 = new FileReader();
+                                            fileReader3.onload = (function() {
+                                                document.getElementById("preview3").style.visibility = "visible";
+                                                document.getElementById('preview3').src = fileReader3.result;
+                                            });
+                                            fileReader3.readAsDataURL(obj.files[0]);
+                                            //imageの非表示処理
+                                            const image3 = document.getElementById("image3");
+                                            image3.style.display ="none";
+                                        }
+                                        function deselect3_1(){
+                                            document.getElementById("image3").style.visibility = "hidden";
+                                            document.getElementById("preview3").style.visibility = "hidden";
+                                            document.getElementById("file3").value = "";
+                                            document.getElementById("deselect3_2").value = "0";
+                                        }
+                                        const fileInput3 = document.getElementById("file3");
+                                        const handleFileSelect3 = () => {
+                                            const files3 = fileInput3.files;
+                                            if(files3.length === 1){
+                                                document.getElementById("preview3").style.display ="block";
+                                                document.getElementById("deselect3_2").value = "1";
+                                            }
+                                        }
+                                        fileInput3.addEventListener('change', handleFileSelect3);
+                                    </script>
+                                </div>
+                            </li>
+                            <li>
+                                <p class="title2"><em></em></p></br>
+                                <div class="box_det2">
+                                    <!--ファイル4の処理-->
+                                    <input name="file4" type="file" id="file4" accept='image/*' onchange="previewImage4(this);" onclick="deselect4_0()"/>
+                                    <?php 
+                                            $fourth_file_name = $result_post['fourth_file_name'];
+                                            echo "<img src='post_medias/$fourth_file_name' title='投稿写真' width='160' height='160' id='image4'>";
+                                    ?>
+                                    <img id='preview4' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='160' height='160'></br>
+                                    <input type="button" id="deselect4" value="選択解除" onclick="deselect4_1()">
+                                    <input type="hidden" name="deselect4" id="deselect4_2">
+                                    <script>
+                                        document.getElementById("preview4").style.display ="none";
+                                        function previewImage4(obj){
+                                            var fileReader4 = new FileReader();
+                                            fileReader4.onload = (function() {
+                                                document.getElementById("preview4").style.visibility = "visible";
+                                                document.getElementById('preview4').src = fileReader4.result;
+                                            });
+                                            fileReader4.readAsDataURL(obj.files[0]);
+                                            //imageの非表示処理
+                                            const image4 = document.getElementById("image4");
+                                            image4.style.display ="none";
+                                        }
+                                        function deselect4_1(){
+                                            document.getElementById("image4").style.visibility ="hidden";
+                                            document.getElementById("preview4").style.visibility = "hidden";
+                                            document.getElementById("file4").value = "";
+                                            document.getElementById("deselect4_2").value = "0";
+                                        }
+                                        const fileInput4 = document.getElementById("file4");
+                                        const handleFileSelect4 = () => {
+                                            const files4 = fileInput4.files;
+                                            if(files4.length === 1){
+                                                document.getElementById("preview4").style.display ="block";
+                                                document.getElementById("deselect4_2").value = "1";
+                                            }
+                                        }
+                                        fileInput4.addEventListener('change', handleFileSelect4);
+                                    </script>
+                                </div>
+                            </li>
+                        </ul>
+                        <input type="hidden" name="post_id" value= <?php echo $result_post['post_id'];?>>
+                        <div class="button-panel">
+                        <input type="submit" class="button1"name="_method" value="編集" formaction=<?php echo "update_post.php?post_id=$post_id";?>>
+                        <input type="submit" class="button1" name="_method" value="キャンセル" formaction="profile.php">
+                        </div>
+                    </form>
+                </div>
             </div>
         </main>  
         <footer class="footer">
