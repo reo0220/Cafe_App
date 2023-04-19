@@ -146,7 +146,13 @@
         </div>
         <main class = "main1">
             <div class="main2">
-                <h1 class="heading-lv1 text-center">トップページ</h1>
+                <div class="back_img">
+                    <div class="back_img_text">
+                        <h1 class="back_img_text1">東京23区のカフェを投稿・検索できるアプリです。</br>ぜひご活用ください。</h1>
+                    </div>
+                </div>
+                <div>
+                
                 <h2 class="heading-lv1 text-center">人気投稿</h2>
                 <?php foreach($stmt as $row){?>
                     <ul>
@@ -278,6 +284,7 @@
                         </li>
                     </ul>
                 <?php }?>
+            </div>
             </div>
         </main>  
         <footer class="footer">

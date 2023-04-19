@@ -618,6 +618,8 @@ i {
   
   .main2 {
     margin: auto;
+    height: 100%;
+    width: 100%;
   }
   
   .footer {
@@ -833,3 +835,24 @@ i {
     color: red;
   }
   
+  .back_img{
+   display: flex;
+   justify-content: left;
+   align-items: end;
+   margin-bottom: 50px;
+   text-align: center;
+   background-image: url(back_img_media/23778479_s.jpg);
+   background-repeat:  no-repeat;   
+   background-size: cover;
+  height: 500px;
+  }
+
+.back_img_text{
+  padding-left: 15px;
+  padding-bottom: 15px;
+}
+
+.back_img_text1{
+  color: #FFFF88	;
+  font-size:18px;
+}
