@@ -34,7 +34,7 @@
         $stmt_post = $dbh->query($sql_post);
         $result_post = $stmt_post->fetch(PDO::FETCH_ASSOC);
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['post_id'])){
             
             $name = $_POST['name'];
             if($name === ""){
@@ -264,161 +264,161 @@
                                 <p class="title"><em>場所</em></p>
                                 <div class="box_det"><select name="place">
                                     <option value="1" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "1"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "1"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "1"){
                                                                 echo "selected";
                                                             }
                                                         ?>>千代田区</option>
                                     <option value="2" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "2"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "2"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "2"){
                                                                 echo "selected";
                                                             }
                                                         ?>>中央区</option>
                                     <option value="3" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "3"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "3"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "3"){
                                                                 echo "selected";
                                                             }
                                                         ?>>港区</option>
                                     <option value="4" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "4"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "4"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "4"){
                                                                 echo "selected";
                                                             }
                                                         ?>>新宿区</option>
                                     <option value="5" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "5"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "5"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "5"){
                                                                 echo "selected";
                                                             }
                                                         ?>>文京区</option>
                                     <option value="6" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "6"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "6"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "6"){
                                                                 echo "selected";
                                                             }
                                                         ?>>台東区</option>
                                     <option value="7" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "7"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "7"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "7"){
                                                                 echo "selected";
                                                             }
                                                         ?>>墨田区</option>
                                     <option value="8" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "8"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "8"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "8"){
                                                                 echo "selected";
                                                             }
                                                         ?>>江東区</option>
                                     <option value="9" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "9"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "9"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "9"){
                                                                 echo "selected";
                                                             }
                                                         ?>>品川区</option>
                                     <option value="10" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "10"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "10"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "10"){
                                                                 echo "selected";
                                                             }
                                                         ?>>目黒区</option>
                                     <option value="11" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "11"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "11"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "11"){
                                                                 echo "selected";
                                                             }
                                                         ?>>大田区</option>
                                     <option value="12" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "12"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "12"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "12"){
                                                                 echo "selected";
                                                             }
                                                         ?>>世田谷区</option>
                                     <option value="13" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "13"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "13"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "13"){
                                                                 echo "selected";
                                                             }
                                                         ?>>渋谷区</option>
                                     <option value="14" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "14"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "14"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "14"){
                                                                 echo "selected";
                                                             }
                                                         ?>>中野区</option>
                                     <option value="15" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "15"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "15"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "15"){
                                                                 echo "selected";
                                                             }
                                                         ?>>杉並区</option>
                                     <option value="16" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "16"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "16"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "16"){
                                                                 echo "selected";
                                                             }
                                                         ?>>豊島区</option>
                                     <option value="17" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "17"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "17"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "17"){
                                                                 echo "selected";
                                                             }
                                                         ?>>北区</option>
                                     <option value="18" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "18"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "18"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "18"){
                                                                 echo "selected";
                                                             }
                                                         ?>>荒川区</option>
                                     <option value="19" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "19"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "19"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "19"){
                                                                 echo "selected";
                                                             }
                                                         ?>>板橋区</option>
                                     <option value="20" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "20"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "20"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "20"){
                                                                 echo "selected";
                                                             }
                                                         ?>>練馬区</option>
                                     <option value="21" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "21"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "21"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "21"){
                                                                 echo "selected";
                                                             }
                                                         ?>>足立区</option>
                                     <option value="22" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "22"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "22"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "22"){
                                                                 echo "selected";
                                                             }
                                                         ?>>葛飾区</option>
                                     <option value="23" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['place'] === "23"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['place']) && $_POST['place'] === "23"){
                                                                 echo "selected";
                                                             }elseif($result_post['place'] === "23"){
                                                                 echo "selected";
@@ -430,35 +430,35 @@
                                 <p class="title"><em>価格帯</em></p>
                                 <div class="box_det"><select name="price">
                                     <option value = "1" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "1"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['price']) && $_POST['price'] === "1"){
                                                                 echo "selected";
                                                             }elseif($result_post['price'] === "1"){
                                                                 echo "selected";
                                                             }
                                                         ?>>0円〜500円</option>
                                     <option value = "2" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "2"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['price']) && $_POST['price'] === "2"){
                                                                 echo "selected";
                                                             }elseif($result_post['price'] === "2"){
                                                                 echo "selected";
                                                             }
                                                         ?>>500円〜1000円</option>
                                     <option value = "3" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "3"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['price']) && $_POST['price'] === "3"){
                                                                 echo "selected";
                                                             }elseif($result_post['price'] === "3"){
                                                                 echo "selected";
                                                             }
                                                         ?>>1000円〜1500円</option>
                                     <option value = "4" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "4"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['price']) && $_POST['price'] === "4"){
                                                                 echo "selected";
                                                             }elseif($result_post['price'] === "4"){
                                                                 echo "selected";
                                                             }
                                                         ?>>1500円〜2000円</option>
                                     <option value = "5" <?php
-                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['price'] === "5"){
+                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['price']) && $_POST['price'] === "5"){
                                                                 echo "selected";
                                                             }elseif($result_post['price'] === "5"){
                                                                 echo "selected";
@@ -658,8 +658,8 @@
                         </ul>
                         <input type="hidden" name="post_id" value= <?php echo $result_post['post_id'];?>>
                         <div class="button-panel">
-                        <input type="submit" class="button1"name="_method" value="編集" formaction=<?php echo "update_post.php?post_id=$post_id";?>>
-                        <input type="submit" class="button1" name="_method" value="キャンセル" formaction="profile.php">
+                            <input type="submit" class="button1"name="_method" value="編集" formaction=<?php echo "update_post.php?post_id=$post_id";?>>
+                            <input type="submit" class="button1" name="_method" value="キャンセル" formaction="profile.php">
                         </div>
                     </form>
                 </div>

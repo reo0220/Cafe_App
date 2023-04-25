@@ -15,7 +15,7 @@
     if(!empty($user_id) && !empty($_GET['post_id'])){
         $post_id = $_GET['post_id'];
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['post_id'])){
             $post_id_delete = $_POST['post_id'];
             $url = $_POST['url'];
 
