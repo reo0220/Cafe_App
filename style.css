@@ -939,7 +939,13 @@ i {
 }
 
 .post_img2_pro img{
-  margin: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.post_img_img{
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 .pro_botton{

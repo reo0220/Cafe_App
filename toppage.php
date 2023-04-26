@@ -160,26 +160,31 @@
                                     if(!empty($row['first_file_name'])){
                                         $first_file_name = $row['first_file_name'];
                                         echo "<a href='post_medias/$first_file_name' rel='lightbox'><img src='post_medias/$first_file_name' width='250' height='250'></a>";
+                                    }elseif(!empty($row['second_file_name'])){
+                                        $second_file_name = $row['second_file_name'];
+                                        echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' width='250' height='250'></a>";
+                                    }elseif(!empty($row['third_file_name'])){
+                                        $third_file_name = $row['third_file_name'];
+                                        echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' width='250' height='250'></a>";
+                                    }elseif(!empty($row['fourth_file_name'])){
+                                        $fourth_file_name = $row['fourth_file_name'];
+                                        echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' width='250' height='250'></a>";
                                     }
                                 ?>
                             </div>
                             <div class="post_img2">
                                 <?php 
-                                    if(!empty($row['second_file_name'])){
+                                    if(!empty($row['first_file_name']) && !empty($row['second_file_name'])){
                                         $second_file_name = $row['second_file_name'];
-                                        echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' width='80' height='80'></a>";
+                                        echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' class='post_img_img' width='80' height='80'></a>";
                                     }
-                                ?>
-                                <?php 
-                                    if(!empty($row['third_file_name'])){
+                                    if((!empty($row['first_file_name']) && !empty($row['third_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']))){
                                         $third_file_name = $row['third_file_name'];
-                                        echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' width='80' height='80'></a>";
+                                        echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' class='post_img_img' width='80' height='80'></a>";
                                     }
-                                ?>
-                                <?php 
-                                    if(!empty($row['fourth_file_name'])){
+                                    if((!empty($row['first_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && empty($row['third_file_name']) && !empty($row['fourth_file_name']))){
                                         $fourth_file_name = $row['fourth_file_name'];
-                                        echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' width='80' height='80'></a>";
+                                        echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' class='post_img_img' width='80' height='80'></a>";
                                     }
                                 ?>
                             </div>
