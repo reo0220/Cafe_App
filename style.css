@@ -175,6 +175,7 @@ form {
 .heading-lv2 {
     font-size: 24px;
     margin-top: 15px;
+    margin-bottom: 35px;
 }
 
 .heading-lv3 {
@@ -886,6 +887,13 @@ i {
   place-items: center;
 }
 
+.top_post1{
+  text-align: center;
+  display: grid;
+  place-items: center;
+  margin-top: 50px;
+}
+
 .post_img{
   display: flex;
   flex-direction: column;
@@ -965,4 +973,51 @@ i {
 	background: #27acd9;
 	border: 2px solid #fff;
 	transform: translateY(3px);
+}
+
+.pro_link{
+  margin-top: 50px;
+  display: flex;
+}
+
+.pro_link_h2{
+  font: 400 110.5%/0.7em 'Open Sans', sans-serif;
+}
+
+.pro_link a{
+  margin-left: 70px;
+  background-image: linear-gradient(
+    to right,
+    #54b3d6,
+    #54b3d6 50%,
+    #000 50%
+);
+  background-size: 200% 100%;
+  background-position: -100%;
+  display: inline-block;
+  padding: 5px 0;
+  position: relative;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.pro_link a:before{
+  content: '';
+  background: #54b3d6;
+  display: block;
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+.pro_link a:hover {
+  background-position: 0;
+}
+
+.pro_link a:hover::before{
+  width: 100%;
 }

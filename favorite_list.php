@@ -159,152 +159,188 @@
         </div>
         <main class = "main1">
             <div class="main2">
-                <h1 class="heading-lv1 text-center">Profile</h1>
+            <h1 class="heading-lv10 text-center">Profile</h1>
                 <figure class="profile-image">
                     <a href="user_medias/<?php echo $result_user_media['file_name']; ?>" rel='lightbox'><img src="user_medias/<?php echo $result_user_media['file_name']; ?>" width="300" height="300"></a>
                 </figure>
                 <h2 class="heading-lv2 text-center"><?php echo $result_user['name'];?></h2>
-                
+
                 <h3 class="heading-lv3 text-center">好きなジャンル</h3>
                 <p class="text text-center"><?php echo $result_user['favorite_genre'];?></p>
 
                 <h3 class="heading-lv3 text-center">好きなメニュー</h3>
                 <p class="text text-center"><?php echo $result_user['favorite_menu'];?></p>
-
                 <h3 class="heading-lv3 text-center">自己紹介</h3>
                 <p class="text text-center"><?php echo $result_user['about_me'];?></p>
 
-                <script>
-                    function screenChange(){
-                            pullSellect = document.pullForm.pullMenu.selectedIndex ;
-                            location.href = document.pullForm.pullMenu.options[pullSellect].value ;
-                                        }
-                </script>
-                <form name="pullForm">
-                    <select name="pullMenu" onChange="screenChange()">
-                        <option></option>
-                        <option value= "edit_account.php">アカウント編集</option>
-                        <option value="delete_account.php">アカウント削除</option>
-                        <option value="logout.php">ログアウト</option>
-                    </select>
-                </form>
-                <h1 class="heading-lv1 text-center">行ってみたいリスト</h1>
+                <div class="top_post1">
+                    <div class="pro_link">
+                        <h1 class="heading-lv1 text-center">行ってみたいリスト</h1>
+                        <a class="pro_link_a" href="profile.php"><h2 class="pro_link_h2">自分の投稿一覧へ</h2></a>
+                    </div>
                     <?php foreach($stmt_post as $row){?>
-                        <ul>
-                            <li><img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="50" height="50"></li>
-                            <li><?php echo $row['users_name'];?></li>
-                            <li><?php echo $row['posts_name'];?></li>
-                            <li>
-                                <?php if($row['place'] === 1){
-                                            echo "千代田区";
-                                        }elseif($row['place'] === 2){
-                                            echo "中央区";
-                                        }elseif($row['place'] === 3){
-                                            echo "港区";
-                                        }elseif($row['place'] === 4){
-                                            echo "新宿区";
-                                        }elseif($row['place'] === 5){
-                                            echo "文京区";
-                                        }elseif($row['place'] === 6){
-                                            echo "台東区";
-                                        }elseif($row['place'] === 7){
-                                            echo "墨田区";
-                                        }elseif($row['place'] === 8){
-                                            echo "江東区";
-                                        }elseif($row['place'] === 9){
-                                            echo "品川区";
-                                        }elseif($row['place'] === 10){
-                                            echo "目黒区";
-                                        }elseif($row['place'] === 11){
-                                            echo "大田区";
-                                        }elseif($row['place'] === 12){
-                                            echo "世田谷区";
-                                        }elseif($row['place'] === 13){
-                                            echo "渋谷区";
-                                        }elseif($row['place'] === 14){
-                                            echo "中野区";
-                                        }elseif($row['place'] === 15){
-                                            echo "杉並区";
-                                        }elseif($row['place'] === 16){
-                                            echo "豊島区";
-                                        }elseif($row['place'] === 17){
-                                            echo "北区";
-                                        }elseif($row['place'] === 18){
-                                            echo "荒川区";
-                                        }elseif($row['place'] === 19){
-                                            echo "板橋区";
-                                        }elseif($row['place'] === 20){
-                                            echo "練馬区";
-                                        }elseif($row['place'] === 21){
-                                            echo "足立区";
-                                        }elseif($row['place'] === 22){
-                                            echo "葛飾区";
-                                        }elseif($row['place'] === 23){
-                                            echo "江戸川区";
-                                        }?>
-                            <li>
-                                <?php if($row['price'] === 1){
-                                    echo "0円〜500円";
-                                }elseif($row['price'] === 2){
-                                    echo "500円〜1000円";
-                                }elseif($row['price'] === 3){
-                                    echo "1000円〜1500円";
-                                }elseif($row['price'] === 4){
-                                    echo "1500円〜2000円";
-                                }elseif($row['price'] === 5){
-                                    echo "2000円〜";
-                                }?>
-                            </li>
-                            <li><?php echo $row['comment'];?></li>
-                            <?php 
-                                if(!empty($row['first_file_name'])){
-                                    $first_file_name = $row['first_file_name'];
-                                    echo "<li><a href='post_medias/$first_file_name' rel='lightbox'><img src='post_medias/$first_file_name' width='80' height='80'></a></li>";
-                                }
-                            ?>
-                            <?php 
-                                if(!empty($row['second_file_name'])){
-                                    $second_file_name = $row['second_file_name'];
-                                    echo "<li><a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' width='80' height='80'></a></li>";
-                                }
-                            ?>
-                            <?php 
-                                if(!empty($row['third_file_name'])){
-                                    $third_file_name = $row['third_file_name'];
-                                    echo "<li><a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' width='80' height='80'></a></li>";
-                                }
-                            ?>
-                            <?php 
-                                if(!empty($row['fourth_file_name'])){
-                                    $fourth_file_name = $row['fourth_file_name'];
-                                    echo "<li><a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' width='80' height='80'></a></li>";
-                                }
-                            ?>
-                            <li>
-                                <form class = "good_count" action = "favorite_list.php" method ="POST">
-                                    <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>
-                                    <input type = "hidden" name = "list_good" value="search_good">
-                                    <?php
-                                        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-                                        $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
-                                        $stmt_like = $dbh->query($sql_like_button);
-                                        $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
-                                        if(empty($result_like)){
-                                            echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい'><span>$row[like_count]</span>";
-                                        }else{
-                                            echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除'><span>$row[like_count]</span>";
+                        <div class="post">
+                            <div class="post_img">
+                                <div class="post_img1">
+                                    <?php 
+                                        if(!empty($row['first_file_name'])){
+                                            $first_file_name = $row['first_file_name'];
+                                            echo "<a href='post_medias/$first_file_name' rel='lightbox'><img src='post_medias/$first_file_name' width='250' height='250'></a>";
+                                        }elseif(!empty($row['second_file_name'])){
+                                            $second_file_name = $row['second_file_name'];
+                                            echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' width='250' height='250'></a>";
+                                        }elseif(!empty($row['third_file_name'])){
+                                            $third_file_name = $row['third_file_name'];
+                                            echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' width='250' height='250'></a>";
+                                        }elseif(!empty($row['fourth_file_name'])){
+                                            $fourth_file_name = $row['fourth_file_name'];
+                                            echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' width='250' height='250'></a>";
                                         }
                                     ?>
-                                </form>
-                            </li>
-                        </ul>
-                <?php }?>
+                                </div>
+                                <div class="post_img2_pro">
+                                    <?php 
+                                        if(!empty($row['first_file_name']) && !empty($row['second_file_name'])){
+                                            $second_file_name = $row['second_file_name'];
+                                            echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' class='post_img_img' width='80' height='80'></a>";
+                                        }
+                                        if((!empty($row['first_file_name']) && !empty($row['third_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']))){
+                                            $third_file_name = $row['third_file_name'];
+                                            echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' class='post_img_img' width='80' height='80'></a>";
+                                        }
+                                        if((!empty($row['first_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && empty($row['third_file_name']) && !empty($row['fourth_file_name']))){
+                                            $fourth_file_name = $row['fourth_file_name'];
+                                            echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' class='post_img_img' width='80' height='80'></a>";
+                                        }
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="post_content">
+                                <table class="top_table">
+                                    <tr>
+                                        <th>
+                                            <img src="user_medias/<?php echo $row['user_medias_file_name']; ?>" class="profile_img" alt="プロフィール写真" width="100" height="100">
+                                        </th>
+                                        <th>
+                                            <?php echo $row['users_name'];?>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <b>店名：<?php echo $row['posts_name'];?></b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <b>場所：<?php if($row['place'] === 1){
+                                                                echo "千代田区";
+                                                            }elseif($row['place'] === 2){
+                                                                echo "中央区";
+                                                            }elseif($row['place'] === 3){
+                                                                echo "港区";
+                                                            }elseif($row['place'] === 4){
+                                                                echo "新宿区";
+                                                            }elseif($row['place'] === 5){
+                                                                echo "文京区";
+                                                            }elseif($row['place'] === 6){
+                                                                echo "台東区";
+                                                            }elseif($row['place'] === 7){
+                                                                echo "墨田区";
+                                                            }elseif($row['place'] === 8){
+                                                                echo "江東区";
+                                                            }elseif($row['place'] === 9){
+                                                                echo "品川区";
+                                                            }elseif($row['place'] === 10){
+                                                                echo "目黒区";
+                                                            }elseif($row['place'] === 11){
+                                                                echo "大田区";
+                                                            }elseif($row['place'] === 12){
+                                                                echo "世田谷区";
+                                                            }elseif($row['place'] === 13){
+                                                                echo "渋谷区";
+                                                            }elseif($row['place'] === 14){
+                                                                echo "中野区";
+                                                            }elseif($row['place'] === 15){
+                                                                echo "杉並区";
+                                                            }elseif($row['place'] === 16){
+                                                                echo "豊島区";
+                                                            }elseif($row['place'] === 17){
+                                                                echo "北区";
+                                                            }elseif($row['place'] === 18){
+                                                                echo "荒川区";
+                                                            }elseif($row['place'] === 19){
+                                                                echo "板橋区";
+                                                            }elseif($row['place'] === 20){
+                                                                echo "練馬区";
+                                                            }elseif($row['place'] === 21){
+                                                                echo "足立区";
+                                                            }elseif($row['place'] === 22){
+                                                                echo "葛飾区";
+                                                            }elseif($row['place'] === 23){
+                                                                echo "江戸川区";
+                                                            }?></b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <b>店名：<?php if($row['price'] === 1){
+                                                        echo "0円〜500円";
+                                                        }elseif($row['price'] === 2){
+                                                            echo "500円〜1000円";
+                                                        }elseif($row['price'] === 3){
+                                                            echo "1000円〜1500円";
+                                                        }elseif($row['price'] === 4){
+                                                            echo "1500円〜2000円";
+                                                        }elseif($row['price'] === 5){
+                                                            echo "2000円〜";
+                                                        }
+                                                    ?></b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="width:300px;">
+                                            <?php echo $row['comment'];?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <form class = "good_count" action = "favorite_list.php" method ="POST">
+                                                <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>
+                                                <?php
+                                                    if($user_id != ""){
+                                                        if($user_id != $row['user_id']){
+                                                            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                                                            $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
+                                                            $stmt_like = $dbh->query($sql_like_button);
+                                                            $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+                                                            if(empty($result_like)){
+                                                                echo "<input type = 'submit' class = 'good_btn' value = '行ってみたい（$row[like_count]）'>";
+                                                                echo "<input type='hidden' name='button' value='行ってみたい'>";
+                                                            }else{
+                                                                echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除（$row[like_count]）'>";
+                                                                echo "<input type='hidden' name='button' value='行ってみたい解除'>";
+                                                            }
+                                                        }else{
+                                                            echo "<p>お気に入り件数:$row[like_count]</p>";
+                                                        }
+                                                    }else{
+                                                        echo "<p>お気に入り件数:$row[like_count]</p>";
+                                                    }
+                                                ?>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    <?php }?>
+                </div>
             </div>
-        </main>
+        </main>  
         <footer class="footer">
             <div>
                 フッター
             </div>
         </footer>  
     </body>
-</html>
+</html>                

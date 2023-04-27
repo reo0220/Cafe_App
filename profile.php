@@ -186,10 +186,11 @@
                         <option value="logout.php">ログアウト</option>
                     </select>
                 </form>
-                    
-                <a href="favorite_list.php">行ってみたいリスト</a>
             <div class="top_post">
-                <h1 class="heading-lv1 text-center">投稿一覧</h1>
+                <div class="pro_link">
+                    <h1 class="heading-lv1 text-center">投稿一覧</h1>
+                    <a class="pro_link_a" href="favorite_list.php"><h2 class="pro_link_h2">行ってみたいリストへ</h2></a>
+                </div>
                 <?php foreach($stmt_post as $row){?>
                     <div class="post">
                         <div class="post_img">
