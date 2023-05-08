@@ -868,7 +868,7 @@
         </main>  
         <footer class="footer">
             <div>
-                フッター
+                <p>&copy; ReoKodama. 2023.</p>
             </div>
         </footer>  
     </body>

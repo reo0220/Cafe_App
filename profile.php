@@ -188,7 +188,7 @@
                 </form>
             <div class="top_post">
                 <div class="pro_link">
-                    <h1 class="heading-lv1 text-center">投稿一覧</h1>
+                    <h1 class="heading-lv1 text-center3">投稿一覧</h1>
                     <a class="pro_link_a" href="favorite_list.php"><h2 class="pro_link_h2">行ってみたいリストへ</h2></a>
                 </div>
                 <?php foreach($stmt_post as $row){?>
@@ -339,7 +339,7 @@
         </main>  
         <footer class="footer">
             <div>
-                フッター
+                <p>&copy; ReoKodama. 2023.</p>
             </div>
         </footer>  
     </body>
