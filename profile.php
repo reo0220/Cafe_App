@@ -85,6 +85,15 @@
                             posts.registered_time DESC";
             
             $stmt_post = $dbh->query($sql_post);
+
+            $sql_counts = "SELECT
+                                COUNT(*) as cnt
+                            FROM 
+                                posts
+                            WHERE
+                             delete_flag = '0' AND posts.user_id = $user_id";
+            $counts = $dbh->query($sql_counts);
+            $count = $counts->fetch();
         }
 ?>
 
@@ -118,6 +127,7 @@
                     });
                 }   
             }
+            
     </script>
     <body>
         <div class="container">
@@ -152,6 +162,15 @@
                                 ham.classList.toggle('active');
                                 nav.classList.toggle('active');
                             });
+                            $(document).ready(function() {
+                            $(window).scroll(function() {
+                                if ($(this).scrollTop() > 0) {
+                                $('header').css('opacity', 0.8);
+                                } else {
+                                $('header').css('opacity', 1);
+                                }
+                                });
+                            });
                         </script>
                     </button>
                 </div>
@@ -165,12 +184,12 @@
                 </figure>
                 <h2 class="heading-lv2 text-center"><?php echo $result['name'];?></h2>
 
-                <h3 class="heading-lv3 text-center">好きなジャンル</h3>
+                <h3 class="heading-lv3 text-center">【好きなジャンル】</h3>
                 <p class="text text-center"><?php echo $result['favorite_genre'];?></p>
 
-                <h3 class="heading-lv3 text-center">好きなメニュー</h3>
+                <h3 class="heading-lv3 text-center">【好きなメニュー】</h3>
                 <p class="text text-center"><?php echo $result['favorite_menu'];?></p>
-                <h3 class="heading-lv3 text-center">自己紹介</h3>
+                <h3 class="heading-lv3 text-center">【自己紹介】</h3>
                 <p class="text text-center"><?php echo $result['about_me'];?></p>
                 <script>
                     function screenChange(){
@@ -178,19 +197,24 @@
                         location.href = document.pullForm.pullMenu.options[pullSellect].value ;
                     }
                 </script>
-                <form name="pullForm">
-                    <select name="pullMenu" onChange="screenChange()">
-                        <option>アカウント操作</option>
-                        <option value= "edit_account.php">アカウント編集</option>
-                        <option value="delete_account.php">アカウント削除</option>
-                        <option value="logout.php">ログアウト</option>
-                    </select>
-                </form>
+                <div class="cp_ipselect cp_sl01">
+                    <form name="pullForm">
+                        <select name="pullMenu" onChange="screenChange()">
+                            <option>アカウント操作</option>
+                            <option value= "edit_account.php">アカウント編集</option>
+                            <option value="delete_account.php">アカウント削除</option>
+                            <option value="logout.php">ログアウト</option>
+                        </select>
+                    </form>
+                </div>
             <div class="top_post">
                 <div class="pro_link">
                     <h1 class="heading-lv1 text-center3">投稿一覧</h1>
                     <a class="pro_link_a" href="favorite_list.php"><h2 class="pro_link_h2">行ってみたいリストへ</h2></a>
                 </div>
+                <?php if($count['cnt'] === 0){
+                                echo "<div class='zero' style='height:300px;'>まだ投稿がありません。</div>";
+                            }?>
                 <?php foreach($stmt_post as $row){?>
                     <div class="post">
                         <div class="post_img">
@@ -332,9 +356,8 @@
                             </table>
                         </div>
                     </div>
-                
+                </div>
                 <?php }?>
-            </div>
             </div>
         </main>  
         <footer class="footer">

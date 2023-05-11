@@ -160,6 +160,16 @@
                                 ham.classList.toggle('active');
                                 nav.classList.toggle('active');
                             });
+
+                            $(document).ready(function() {
+                            $(window).scroll(function() {
+                                if ($(this).scrollTop() > 0) {
+                                $('header').css('opacity', 0.8);
+                                } else {
+                                $('header').css('opacity', 1);
+                                }
+                                });
+                            });
                         </script>
                     </button>
                 </div>
@@ -173,12 +183,12 @@
                 </figure>
                 <h2 class="heading-lv2 text-center"><?php echo $result['name'];?></h2>
 
-                <h3 class="heading-lv3 text-center">好きなジャンル</h3>
+                <h3 class="heading-lv3 text-center">【好きなジャンル】</h3>
                 <p class="text text-center"><?php echo $result['favorite_genre'];?></p>
 
-                <h3 class="heading-lv3 text-center">好きなメニュー</h3>
+                <h3 class="heading-lv3 text-center">【好きなメニュー】</h3>
                 <p class="text text-center"><?php echo $result['favorite_menu'];?></p>
-                <h3 class="heading-lv3 text-center">自己紹介</h3>
+                <h3 class="heading-lv3 text-center">【自己紹介】</h3>
                 <p class="text text-center"><?php echo $result['about_me'];?></p>
 
                 <div class="top_post1">

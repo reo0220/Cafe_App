@@ -287,6 +287,16 @@
                                 ham.classList.toggle('active');
                                 nav.classList.toggle('active');
                             });
+
+                            $(document).ready(function() {
+                            $(window).scroll(function() {
+                                if ($(this).scrollTop() > 0) {
+                                $('header').css('opacity', 0.8);
+                                } else {
+                                $('header').css('opacity', 1);
+                                }
+                                });
+                            });
                         </script>
                     </button>
                 </div>
@@ -296,574 +306,577 @@
             <div class="main2">
                 <div class="top_post">
                     <h1 class="heading-lv1 text-center2">投稿一覧</h1>
-                <!--検索フォーム-->
-                <form method = "POST" action = "post_list.php">
-                    <input type="hidden" name="search" value="search1">
-                    <label>店名</label>
-                    <input type = "text" name = "name_search" value=<?php //検索条件を入力して検索を行った時、検索条件をそのまま表示
-                                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1"){
-                                                                            echo $_POST['name_search'];
-                                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2"){
-                                                                            echo $_GET['name'];
-                                                                        }
-                                                                    ?>>
-                    <label>場所</label>
-                    <select name="place_search">
-                        <option value="0"></option>
-                        <option value="1" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "1"){
+                    <!--検索フォーム-->
+                    <form method = "POST" action = "post_list.php">
+                        <input type="hidden" name="search" value="search1">
+                        <label>店名</label>
+                        <input type = "text" name = "name_search" value=<?php //検索条件を入力して検索を行った時、検索条件をそのまま表示
+                                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1"){
+                                                                                echo $_POST['name_search'];
+                                                                            }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2"){
+                                                                                echo $_GET['name'];
+                                                                            }
+                                                                        ?>>
+                        <label>場所</label>
+                        <select name="place_search">
+                            <option value="0"></option>
+                            <option value="1" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "1"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="1"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="1"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>千代田区</option>
-                        <option value="2" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "2"){
+                                                        }
+                                                ?>>千代田区</option>
+                            <option value="2" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "2"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="2"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="2"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>中央区</option>
-                        <option value="3" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "3"){
+                                                        }
+                                                ?>>中央区</option>
+                            <option value="3" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "3"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="3"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="3"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>港区</option>
-                        <option value="4" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "4"){
+                                                        }
+                                                ?>>港区</option>
+                            <option value="4" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "4"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="4"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="4"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>新宿区</option>
-                        <option value="5" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "5"){
+                                                        }
+                                                ?>>新宿区</option>
+                            <option value="5" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "5"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="5"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="5"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>文京区</option>
-                        <option value="6" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "6"){
+                                                        }
+                                                ?>>文京区</option>
+                            <option value="6" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "6"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="6"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="6"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>台東区</option>
-                        <option value="7" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "7"){
+                                                        }
+                                                ?>>台東区</option>
+                            <option value="7" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "7"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="7"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="7"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>墨田区</option>
-                        <option value="8" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "8"){
+                                                        }
+                                                ?>>墨田区</option>
+                            <option value="8" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "8"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="8"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="8"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>江東区</option>
-                        <option value="9" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "9"){
+                                                        }
+                                                ?>>江東区</option>
+                            <option value="9" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "9"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="9"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="9"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>品川区</option>
-                        <option value="10" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "10"){
+                                                        }
+                                                ?>>品川区</option>
+                            <option value="10" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "10"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="10"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="10"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>目黒区</option>
-                        <option value="11" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "11"){
+                                                        }
+                                                ?>>目黒区</option>
+                            <option value="11" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "11"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="11"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="11"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>大田区</option>
-                        <option value="12" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "12"){
+                                                        }
+                                                ?>>大田区</option>
+                            <option value="12" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "12"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="12"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="12"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>世田谷区</option>
-                        <option value="13" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "13"){
+                                                        }
+                                                ?>>世田谷区</option>
+                            <option value="13" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "13"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="13"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="13"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>渋谷区</option>
-                        <option value="14" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "14"){
+                                                        }
+                                                ?>>渋谷区</option>
+                            <option value="14" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "14"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="14"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="14"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>中野区</option>
-                        <option value="15" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "15"){
+                                                        }
+                                                ?>>中野区</option>
+                            <option value="15" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "15"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="15"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="15"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>杉並区</option>
-                        <option value="16" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "16"){
+                                                        }
+                                                ?>>杉並区</option>
+                            <option value="16" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "16"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="16"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="16"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>豊島区</option>
-                        <option value="17" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "17"){
+                                                        }
+                                                ?>>豊島区</option>
+                            <option value="17" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "17"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="17"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="17"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>北区</option>
-                        <option value="18" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "18"){
+                                                        }
+                                                ?>>北区</option>
+                            <option value="18" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "18"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="18"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="18"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>荒川区</option>
-                        <option value="19" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "19"){
+                                                        }
+                                                ?>>荒川区</option>
+                            <option value="19" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "19"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="19"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="19"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>板橋区</option>
-                        <option value="20" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "20"){
+                                                        }
+                                                ?>>板橋区</option>
+                            <option value="20" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "20"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="20"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="20"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>練馬区</option>
-                        <option value="21" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "21"){
+                                                        }
+                                                ?>>練馬区</option>
+                            <option value="21" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "21"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="21"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="21"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>足立区</option>
-                        <option value="22" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "23"){
+                                                        }
+                                                ?>>足立区</option>
+                            <option value="22" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "23"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="22"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="22"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>葛飾区</option>
-                        <option value="23" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "24"){
+                                                        }
+                                                ?>>葛飾区</option>
+                            <option value="23" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "24"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="23"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="23"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>江戸川区</option>
-                    </select>
-                    <label>価格帯</label>
-                    <select name = "price_search">
-                        <option value="0"></option>
-                        <option value = "1" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['price_search'] === "1"){
+                                                        }
+                                                ?>>江戸川区</option>
+                        </select>
+                        <label>価格帯</label>
+                        <select name = "price_search">
+                            <option value="0"></option>
+                            <option value = "1" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['price_search'] === "1"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['price'] ==="1"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['price'] ==="1"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>0円〜500円</option>
-                        <option value = "2" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['price_search'] === "2"){
+                                                        }
+                                                ?>>0円〜500円</option>
+                            <option value = "2" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['price_search'] === "2"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['price'] ==="2"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['price'] ==="2"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>500円〜1000円</option>
-                        <option value = "3" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['price_search'] === "3"){
+                                                        }
+                                                ?>>500円〜1000円</option>
+                            <option value = "3" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['price_search'] === "3"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['price'] ==="3"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['price'] ==="3"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>1000円〜1500円</option>
-                        <option value = "4" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['price_search'] === "4"){
+                                                        }
+                                                ?>>1000円〜1500円</option>
+                            <option value = "4" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['price_search'] === "4"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['price'] ==="4"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['price'] ==="4"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>1500円〜2000円</option>
-                        <option value = "5" <?php 
-                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['price_search'] === "5"){
+                                                        }
+                                                ?>>1500円〜2000円</option>
+                            <option value = "5" <?php 
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['price_search'] === "5"){
+                                                                echo "selected";
+                                                        }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['price'] ==="5"){
                                                             echo "selected";
-                                                    }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['price'] ==="5"){
-                                                        echo "selected";
-                                                    }
-                                            ?>>2000円〜</option>
-                    </select>
-                    <input type="submit" value="検索">        
-                </form>
-                <?php if(!empty($search_er)):?>
-                    <p class="text-danger"><?php echo $search_er;?></p>
-                <?php endif; ?>
-                
-                <!-- 投稿一覧画面のデフォルト表示 -->  
-                <?php if((empty($_POST['search']) && empty($_POST['search_good'])) || ($_POST['search'] === "search0") || (!empty($search_er))):?>                      
-                    <?php foreach($stmt as $row){?>
-                        <div class="post">
-                            <div class="post_img">
-                                <div class="post_img1">
-                                    <?php 
-                                        if(!empty($row['first_file_name'])){
-                                            $first_file_name = $row['first_file_name'];
-                                            echo "<a href='post_medias/$first_file_name' rel='lightbox'><img src='post_medias/$first_file_name' width='250' height='250'></a>";
-                                        }elseif(!empty($row['second_file_name'])){
-                                            $second_file_name = $row['second_file_name'];
-                                            echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' width='250' height='250'></a>";
-                                        }elseif(!empty($row['third_file_name'])){
-                                            $third_file_name = $row['third_file_name'];
-                                            echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' width='250' height='250'></a>";
-                                        }elseif(!empty($row['fourth_file_name'])){
-                                            $fourth_file_name = $row['fourth_file_name'];
-                                            echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' width='250' height='250'></a>";
-                                        }
-                                    ?>
+                                                        }
+                                                ?>>2000円〜</option>
+                        </select>
+                        <input type="submit" value="検索">        
+                    </form>
+                    <?php if(!empty($search_er)):?>
+                        <p class="text-danger"><?php echo $search_er;?></p>
+                    <?php endif; ?>
+                    
+                    <!-- 投稿一覧画面のデフォルト表示 -->  
+                    <?php if((empty($_POST['search']) && empty($_POST['search_good'])) || ($_POST['search'] === "search0") || (!empty($search_er))):?>                      
+                        <?php foreach($stmt as $row){?>
+                            <div class="post">
+                                <div class="post_img">
+                                    <div class="post_img1">
+                                        <?php 
+                                            if(!empty($row['first_file_name'])){
+                                                $first_file_name = $row['first_file_name'];
+                                                echo "<a href='post_medias/$first_file_name' rel='lightbox'><img src='post_medias/$first_file_name' width='250' height='250'></a>";
+                                            }elseif(!empty($row['second_file_name'])){
+                                                $second_file_name = $row['second_file_name'];
+                                                echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' width='250' height='250'></a>";
+                                            }elseif(!empty($row['third_file_name'])){
+                                                $third_file_name = $row['third_file_name'];
+                                                echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' width='250' height='250'></a>";
+                                            }elseif(!empty($row['fourth_file_name'])){
+                                                $fourth_file_name = $row['fourth_file_name'];
+                                                echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' width='250' height='250'></a>";
+                                            }
+                                        ?>
+                                    </div>
+                                    <div class="post_img2">
+                                        <?php 
+                                            if(!empty($row['first_file_name']) && !empty($row['second_file_name'])){
+                                                $second_file_name = $row['second_file_name'];
+                                                echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' class='post_img_img' width='80' height='80'></a>";
+                                            }
+                                            if((!empty($row['first_file_name']) && !empty($row['third_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']))){
+                                                $third_file_name = $row['third_file_name'];
+                                                echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' class='post_img_img' width='80' height='80'></a>";
+                                            }
+                                            if((!empty($row['first_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && empty($row['third_file_name']) && !empty($row['fourth_file_name']))){
+                                                $fourth_file_name = $row['fourth_file_name'];
+                                                echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' class='post_img_img' width='80' height='80'></a>";
+                                            }
+                                        ?>
+                                    </div>
                                 </div>
-                                <div class="post_img2">
-                                    <?php 
-                                        if(!empty($row['first_file_name']) && !empty($row['second_file_name'])){
-                                            $second_file_name = $row['second_file_name'];
-                                            echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' class='post_img_img' width='80' height='80'></a>";
-                                        }
-                                        if((!empty($row['first_file_name']) && !empty($row['third_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']))){
-                                            $third_file_name = $row['third_file_name'];
-                                            echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' class='post_img_img' width='80' height='80'></a>";
-                                        }
-                                        if((!empty($row['first_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && empty($row['third_file_name']) && !empty($row['fourth_file_name']))){
-                                            $fourth_file_name = $row['fourth_file_name'];
-                                            echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' class='post_img_img' width='80' height='80'></a>";
-                                        }
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="post_content">
-                                <table class="top_table">
-                                    <tr>
-                                        <th>
-                                            <?php if($user_id != $row['user_id']):?>
-                                                <a href="profile_someone.php?user_id=<?php echo $row['user_id'];?>">
-                                                    <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
-                                                </a>
-                                            <?php else:?>
-                                                <a href="profile.php">
-                                                    <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
-                                                </a>
-                                            <?php endif;?>
-                                        </th>
-                                        <th>
-                                            <?php echo $row['users_name'];?>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <b>店名：<?php echo $row['posts_name'];?></b>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <b>場所：
-                                            <?php if($row['place'] === "1"){
-                                                        echo "千代田区";
-                                                    }elseif($row['place'] === "2"){
-                                                        echo "中央区";
-                                                    }elseif($row['place'] === "3"){
-                                                        echo "港区";
-                                                    }elseif($row['place'] === "4"){
-                                                        echo "新宿区";
-                                                    }elseif($row['place'] === "5"){
-                                                        echo "文京区";
-                                                    }elseif($row['place'] === "6"){
-                                                        echo "台東区";
-                                                    }elseif($row['place'] === "7"){
-                                                        echo "墨田区";
-                                                    }elseif($row['place'] === "8"){
-                                                        echo "江東区";
-                                                    }elseif($row['place'] === "9"){
-                                                        echo "品川区";
-                                                    }elseif($row['place'] === "10"){
-                                                        echo "目黒区";
-                                                    }elseif($row['place'] === "11"){
-                                                        echo "大田区";
-                                                    }elseif($row['place'] === "12"){
-                                                        echo "世田谷区";
-                                                    }elseif($row['place'] === "13"){
-                                                        echo "渋谷区";
-                                                    }elseif($row['place'] === "14"){
-                                                        echo "中野区";
-                                                    }elseif($row['place'] === "15"){
-                                                        echo "杉並区";
-                                                    }elseif($row['place'] === "16"){
-                                                        echo "豊島区";
-                                                    }elseif($row['place'] === "17"){
-                                                        echo "北区";
-                                                    }elseif($row['place'] === "18"){
-                                                        echo "荒川区";
-                                                    }elseif($row['place'] === "19"){
-                                                        echo "板橋区";
-                                                    }elseif($row['place'] === "20"){
-                                                        echo "練馬区";
-                                                    }elseif($row['place'] === "21"){
-                                                        echo "足立区";
-                                                    }elseif($row['place'] === "22"){
-                                                        echo "葛飾区";
-                                                    }elseif($row['place'] === "23"){
-                                                        echo "江戸川区";
-                                                    }?></b>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <b>価格帯：
-                                            <?php if($row['price'] === "1"){
-                                                echo "0円〜500円";
-                                            }elseif($row['price'] === "2"){
-                                                echo "500円〜1000円";
-                                            }elseif($row['price'] === "3"){
-                                                echo "1000円〜1500円";
-                                            }elseif($row['price'] === "4"){
-                                                echo "1500円〜2000円";
-                                            }elseif($row['price'] === "5"){
-                                                echo "2000円〜";
-                                            }?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" style="width:300px;">
-                                            <?php echo $row['comment'];?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <form class = "good_count" action = "post_list.php" method ="POST">
-                                                <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>
-                                                <input type = "hidden" name = "list_good" value="list_good">
-                                                <input type="hidden" name="search" value="search0">
-                                                <?php
-                                                    if($user_id != ""){
-                                                        if($user_id != $row['user_id']){
-                                                            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-                                                            $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
-                                                            $stmt_like = $dbh->query($sql_like_button);
-                                                            $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
-                                                            if(empty($result_like)){
-                                                                echo "<input type = 'submit' name='button' class = 'good_btn' value = '行ってみたい（$row[like_count]）'>";
-                                                                echo "<input type='hidden' name='button' value='行ってみたい'>";
+                                <div class="post_content">
+                                    <table class="top_table">
+                                        <tr>
+                                            <th>
+                                                <?php if($user_id != $row['user_id']):?>
+                                                    <a href="profile_someone.php?user_id=<?php echo $row['user_id'];?>">
+                                                        <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
+                                                    </a>
+                                                <?php else:?>
+                                                    <a href="profile.php">
+                                                        <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
+                                                    </a>
+                                                <?php endif;?>
+                                            </th>
+                                            <th>
+                                                <?php echo $row['users_name'];?>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <b>店名：<?php echo $row['posts_name'];?></b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <b>場所：
+                                                <?php if($row['place'] === "1"){
+                                                            echo "千代田区";
+                                                        }elseif($row['place'] === "2"){
+                                                            echo "中央区";
+                                                        }elseif($row['place'] === "3"){
+                                                            echo "港区";
+                                                        }elseif($row['place'] === "4"){
+                                                            echo "新宿区";
+                                                        }elseif($row['place'] === "5"){
+                                                            echo "文京区";
+                                                        }elseif($row['place'] === "6"){
+                                                            echo "台東区";
+                                                        }elseif($row['place'] === "7"){
+                                                            echo "墨田区";
+                                                        }elseif($row['place'] === "8"){
+                                                            echo "江東区";
+                                                        }elseif($row['place'] === "9"){
+                                                            echo "品川区";
+                                                        }elseif($row['place'] === "10"){
+                                                            echo "目黒区";
+                                                        }elseif($row['place'] === "11"){
+                                                            echo "大田区";
+                                                        }elseif($row['place'] === "12"){
+                                                            echo "世田谷区";
+                                                        }elseif($row['place'] === "13"){
+                                                            echo "渋谷区";
+                                                        }elseif($row['place'] === "14"){
+                                                            echo "中野区";
+                                                        }elseif($row['place'] === "15"){
+                                                            echo "杉並区";
+                                                        }elseif($row['place'] === "16"){
+                                                            echo "豊島区";
+                                                        }elseif($row['place'] === "17"){
+                                                            echo "北区";
+                                                        }elseif($row['place'] === "18"){
+                                                            echo "荒川区";
+                                                        }elseif($row['place'] === "19"){
+                                                            echo "板橋区";
+                                                        }elseif($row['place'] === "20"){
+                                                            echo "練馬区";
+                                                        }elseif($row['place'] === "21"){
+                                                            echo "足立区";
+                                                        }elseif($row['place'] === "22"){
+                                                            echo "葛飾区";
+                                                        }elseif($row['place'] === "23"){
+                                                            echo "江戸川区";
+                                                        }?></b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <b>価格帯：
+                                                <?php if($row['price'] === "1"){
+                                                    echo "0円〜500円";
+                                                }elseif($row['price'] === "2"){
+                                                    echo "500円〜1000円";
+                                                }elseif($row['price'] === "3"){
+                                                    echo "1000円〜1500円";
+                                                }elseif($row['price'] === "4"){
+                                                    echo "1500円〜2000円";
+                                                }elseif($row['price'] === "5"){
+                                                    echo "2000円〜";
+                                                }?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="width:300px;">
+                                                <?php echo $row['comment'];?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <form class = "good_count" action = "post_list.php" method ="POST">
+                                                    <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>
+                                                    <input type = "hidden" name = "list_good" value="list_good">
+                                                    <input type="hidden" name="search" value="search0">
+                                                    <?php
+                                                        if($user_id != ""){
+                                                            if($user_id != $row['user_id']){
+                                                                $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                                                                $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
+                                                                $stmt_like = $dbh->query($sql_like_button);
+                                                                $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+                                                                if(empty($result_like)){
+                                                                    echo "<input type = 'submit' name='button' class = 'good_btn' value = '行ってみたい（$row[like_count]）'>";
+                                                                    echo "<input type='hidden' name='button' value='行ってみたい'>";
+                                                                }else{
+                                                                    echo "<input type = 'submit' class = 'good_btn' value = '行ってみたい解除（$row[like_count]）'>";
+                                                                    echo "<input type='hidden' name='button' value='行ってみたい解除'>";
+                                                                }
                                                             }else{
-                                                                echo "<input type = 'submit' class = 'good_btn' value = '行ってみたい解除（$row[like_count]）'>";
-                                                                echo "<input type='hidden' name='button' value='行ってみたい解除'>";
+                                                                echo "<p>お気に入り件数:$row[like_count]</p>";
                                                             }
                                                         }else{
                                                             echo "<p>お気に入り件数:$row[like_count]</p>";
                                                         }
-                                                    }else{
-                                                        echo "<p>お気に入り件数:$row[like_count]</p>";
-                                                    }
-                                                ?>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </table>
+                                                    ?>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
+                        <?php }?>
+                        
+                    <!--検索結果がない場合-->    
+                    <?php elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $count['cnt'] === "0"):?>
+                        <div class="no_search">
+                            <h1 style="font-size: xx-large;">該当の投稿がありません。</h1>
                         </div>
-                    <?php }?>
-                    
-                <!--検索結果がない場合-->    
-                <?php elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $count['cnt'] === "0"):?>
-                    <h1>該当の投稿がありません。</h1>
-                
-                <!--検索結果がある場合--> 
-                <?php elseif(($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $count['cnt'] > 0) || ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $count['cnt'] > 0)):?>
-                    <?php foreach($stmt_search as $row){?>
-                        <div class="post">
-                            <div class="post_img">
-                                <div class="post_img1">
-                                    <?php 
-                                        if(!empty($row['first_file_name'])){
-                                            $first_file_name = $row['first_file_name'];
-                                            echo "<a href='post_medias/$first_file_name' rel='lightbox'><img src='post_medias/$first_file_name' width='250' height='250'></a>";
-                                        }elseif(!empty($row['second_file_name'])){
-                                            $second_file_name = $row['second_file_name'];
-                                            echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' width='250' height='250'></a>";
-                                        }elseif(!empty($row['third_file_name'])){
-                                            $third_file_name = $row['third_file_name'];
-                                            echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' width='250' height='250'></a>";
-                                        }elseif(!empty($row['fourth_file_name'])){
-                                            $fourth_file_name = $row['fourth_file_name'];
-                                            echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' width='250' height='250'></a>";
-                                        }
-                                    ?>
+                    <!--検索結果がある場合--> 
+                    <?php elseif(($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $count['cnt'] > 0) || ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $count['cnt'] > 0)):?>
+                        <?php foreach($stmt_search as $row){?>
+                            <?php if($count['cnt'] === "1"){
+                                echo "<div class='one' style='height: 680px;'>";
+                            }?>
+                            <div class="post">
+                                <div class="post_img">
+                                    <div class="post_img1">
+                                        <?php 
+                                            if(!empty($row['first_file_name'])){
+                                                $first_file_name = $row['first_file_name'];
+                                                echo "<a href='post_medias/$first_file_name' rel='lightbox'><img src='post_medias/$first_file_name' width='250' height='250'></a>";
+                                            }elseif(!empty($row['second_file_name'])){
+                                                $second_file_name = $row['second_file_name'];
+                                                echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' width='250' height='250'></a>";
+                                            }elseif(!empty($row['third_file_name'])){
+                                                $third_file_name = $row['third_file_name'];
+                                                echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' width='250' height='250'></a>";
+                                            }elseif(!empty($row['fourth_file_name'])){
+                                                $fourth_file_name = $row['fourth_file_name'];
+                                                echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' width='250' height='250'></a>";
+                                            }
+                                        ?>
+                                    </div>
+                                    <div class="post_img2">
+                                        <?php 
+                                            if(!empty($row['first_file_name']) && !empty($row['second_file_name'])){
+                                                $second_file_name = $row['second_file_name'];
+                                                echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' class='post_img_img' width='80' height='80'></a>";
+                                            }
+                                            if((!empty($row['first_file_name']) && !empty($row['third_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']))){
+                                                $third_file_name = $row['third_file_name'];
+                                                echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' class='post_img_img' width='80' height='80'></a>";
+                                            }
+                                            if((!empty($row['first_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && empty($row['third_file_name']) && !empty($row['fourth_file_name']))){
+                                                $fourth_file_name = $row['fourth_file_name'];
+                                                echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' class='post_img_img' width='80' height='80'></a>";
+                                            }
+                                        ?>
+                                    </div>
                                 </div>
-                                <div class="post_img2">
-                                    <?php 
-                                        if(!empty($row['first_file_name']) && !empty($row['second_file_name'])){
-                                            $second_file_name = $row['second_file_name'];
-                                            echo "<a href='post_medias/$second_file_name' rel='lightbox'><img src='post_medias/$second_file_name' class='post_img_img' width='80' height='80'></a>";
-                                        }
-                                        if((!empty($row['first_file_name']) && !empty($row['third_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']))){
-                                            $third_file_name = $row['third_file_name'];
-                                            echo "<a href='post_medias/$third_file_name' rel='lightbox'><img src='post_medias/$third_file_name' class='post_img_img' width='80' height='80'></a>";
-                                        }
-                                        if((!empty($row['first_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && empty($row['third_file_name']) && !empty($row['fourth_file_name']))){
-                                            $fourth_file_name = $row['fourth_file_name'];
-                                            echo "<a href='post_medias/$fourth_file_name' rel='lightbox'><img src='post_medias/$fourth_file_name' class='post_img_img' width='80' height='80'></a>";
-                                        }
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="post_content">
-                                <table class="top_table">
-                                    <tr>
-                                        <th>
-                                            <?php if($user_id != $row['user_id']):?>
-                                                <a href="profile_someone.php?user_id=<?php echo $row['user_id'];?>">
-                                                    <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
-                                                </a>
-                                            <?php else:?>
-                                                <a href="profile.php">
-                                                    <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
-                                                </a>
-                                            <?php endif;?>
-                                        </th>
-                                        <th>
-                                            <?php echo $row['users_name'];?>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <b>店名：<?php echo $row['posts_name'];?></b>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <b>場所：
-                                            <?php if($row['place'] === "1"){
-                                                        echo "千代田区";
-                                                    }elseif($row['place'] === "2"){
-                                                        echo "中央区";
-                                                    }elseif($row['place'] === "3"){
-                                                        echo "港区";
-                                                    }elseif($row['place'] === "4"){
-                                                        echo "新宿区";
-                                                    }elseif($row['place'] === "5"){
-                                                        echo "文京区";
-                                                    }elseif($row['place'] === "6"){
-                                                        echo "台東区";
-                                                    }elseif($row['place'] === "7"){
-                                                        echo "墨田区";
-                                                    }elseif($row['place'] === "8"){
-                                                        echo "江東区";
-                                                    }elseif($row['place'] === "9"){
-                                                        echo "品川区";
-                                                    }elseif($row['place'] === "10"){
-                                                        echo "目黒区";
-                                                    }elseif($row['place'] === "11"){
-                                                        echo "大田区";
-                                                    }elseif($row['place'] === "12"){
-                                                        echo "世田谷区";
-                                                    }elseif($row['place'] === "13"){
-                                                        echo "渋谷区";
-                                                    }elseif($row['place'] === "14"){
-                                                        echo "中野区";
-                                                    }elseif($row['place'] === "15"){
-                                                        echo "杉並区";
-                                                    }elseif($row['place'] === "16"){
-                                                        echo "豊島区";
-                                                    }elseif($row['place'] === "17"){
-                                                        echo "北区";
-                                                    }elseif($row['place'] === "18"){
-                                                        echo "荒川区";
-                                                    }elseif($row['place'] === "19"){
-                                                        echo "板橋区";
-                                                    }elseif($row['place'] === "20"){
-                                                        echo "練馬区";
-                                                    }elseif($row['place'] === "21"){
-                                                        echo "足立区";
-                                                    }elseif($row['place'] === "22"){
-                                                        echo "葛飾区";
-                                                    }elseif($row['place'] === "23"){
-                                                        echo "江戸川区";
-                                                    }?></b>
-                                        </td>    
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <b>価格帯：
-                                            <?php if($row['price'] === "1"){
-                                                echo "0円〜500円";
-                                            }elseif($row['price'] === "2"){
-                                                echo "500円〜1000円";
-                                            }elseif($row['price'] === "3"){
-                                                echo "1000円〜1500円";
-                                            }elseif($row['price'] === "4"){
-                                                echo "1500円〜2000円";
-                                            }elseif($row['price'] === "5"){
-                                                echo "2000円〜";
-                                            }?></b>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" style="width:300px;">
-                                            <?php echo $row['comment'];?></li>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <form class = "good_count" action = "post_list.php?name=<?php echo $name_search;?>&place=<?php echo $place_search;?>&price=<?php echo $price_search;?>" method ="POST">
-                                                <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>
-                                                <input type = "hidden" name = "search_good" value="search_good">
-                                                <input type="hidden" name="search" value="search2">
-                                                <?php
-                                                    if($user_id != ""){
-                                                        if($user_id != $row['user_id']){
-                                                            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
-                                                            $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
-                                                            $stmt_like = $dbh->query($sql_like_button);
-                                                            $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
-                                                            if(empty($result_like)){
-                                                                echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい（$row[like_count]）'>";
-                                                                echo "<input type='hidden' name='button' value='行ってみたい'>";
+                                <div class="post_content">
+                                    <table class="top_table">
+                                        <tr>
+                                            <th>
+                                                <?php if($user_id != $row['user_id']):?>
+                                                    <a href="profile_someone.php?user_id=<?php echo $row['user_id'];?>">
+                                                        <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
+                                                    </a>
+                                                <?php else:?>
+                                                    <a href="profile.php">
+                                                        <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
+                                                    </a>
+                                                <?php endif;?>
+                                            </th>
+                                            <th>
+                                                <?php echo $row['users_name'];?>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <b>店名：<?php echo $row['posts_name'];?></b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <b>場所：
+                                                <?php if($row['place'] === "1"){
+                                                            echo "千代田区";
+                                                        }elseif($row['place'] === "2"){
+                                                            echo "中央区";
+                                                        }elseif($row['place'] === "3"){
+                                                            echo "港区";
+                                                        }elseif($row['place'] === "4"){
+                                                            echo "新宿区";
+                                                        }elseif($row['place'] === "5"){
+                                                            echo "文京区";
+                                                        }elseif($row['place'] === "6"){
+                                                            echo "台東区";
+                                                        }elseif($row['place'] === "7"){
+                                                            echo "墨田区";
+                                                        }elseif($row['place'] === "8"){
+                                                            echo "江東区";
+                                                        }elseif($row['place'] === "9"){
+                                                            echo "品川区";
+                                                        }elseif($row['place'] === "10"){
+                                                            echo "目黒区";
+                                                        }elseif($row['place'] === "11"){
+                                                            echo "大田区";
+                                                        }elseif($row['place'] === "12"){
+                                                            echo "世田谷区";
+                                                        }elseif($row['place'] === "13"){
+                                                            echo "渋谷区";
+                                                        }elseif($row['place'] === "14"){
+                                                            echo "中野区";
+                                                        }elseif($row['place'] === "15"){
+                                                            echo "杉並区";
+                                                        }elseif($row['place'] === "16"){
+                                                            echo "豊島区";
+                                                        }elseif($row['place'] === "17"){
+                                                            echo "北区";
+                                                        }elseif($row['place'] === "18"){
+                                                            echo "荒川区";
+                                                        }elseif($row['place'] === "19"){
+                                                            echo "板橋区";
+                                                        }elseif($row['place'] === "20"){
+                                                            echo "練馬区";
+                                                        }elseif($row['place'] === "21"){
+                                                            echo "足立区";
+                                                        }elseif($row['place'] === "22"){
+                                                            echo "葛飾区";
+                                                        }elseif($row['place'] === "23"){
+                                                            echo "江戸川区";
+                                                        }?></b>
+                                            </td>    
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <b>価格帯：
+                                                <?php if($row['price'] === "1"){
+                                                    echo "0円〜500円";
+                                                }elseif($row['price'] === "2"){
+                                                    echo "500円〜1000円";
+                                                }elseif($row['price'] === "3"){
+                                                    echo "1000円〜1500円";
+                                                }elseif($row['price'] === "4"){
+                                                    echo "1500円〜2000円";
+                                                }elseif($row['price'] === "5"){
+                                                    echo "2000円〜";
+                                                }?></b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="width:300px;">
+                                                <?php echo $row['comment'];?></li>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <form class = "good_count" action = "post_list.php?name=<?php echo $name_search;?>&place=<?php echo $place_search;?>&price=<?php echo $price_search;?>" method ="POST">
+                                                    <input type = "hidden" name = "post_id" value = <?php  echo $row['post_id']; ?>>
+                                                    <input type = "hidden" name = "search_good" value="search_good">
+                                                    <input type="hidden" name="search" value="search2">
+                                                    <?php
+                                                        if($user_id != ""){
+                                                            if($user_id != $row['user_id']){
+                                                                $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                                                                $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
+                                                                $stmt_like = $dbh->query($sql_like_button);
+                                                                $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+                                                                if(empty($result_like)){
+                                                                    echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい（$row[like_count]）'>";
+                                                                    echo "<input type='hidden' name='button' value='行ってみたい'>";
+                                                                }else{
+                                                                    echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除（$row[like_count]）'>";
+                                                                    echo "<input type='hidden' name='button' value='行ってみたい解除'>";
+                                                                }
                                                             }else{
-                                                                echo "<input type = 'submit' name = 'button' class = 'good_btn' value = '行ってみたい解除（$row[like_count]）'>";
-                                                                echo "<input type='hidden' name='button' value='行ってみたい解除'>";
+                                                                echo "<p>お気に入り件数:$row[like_count]</p>";
                                                             }
                                                         }else{
                                                             echo "<p>お気に入り件数:$row[like_count]</p>";
                                                         }
-                                                    }else{
-                                                        echo "<p>お気に入り件数:$row[like_count]</p>";
-                                                    }
-                                                ?>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </table>
+                                                    ?>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                    <?php }?>
-                    
-
-            <?php endif; ?>
-            </div>
+                            </div>
+                        <?php }?>
+                    <?php endif; ?>
+                </div>
             </div>
         </main>  
         <footer class="footer">

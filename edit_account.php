@@ -146,6 +146,16 @@
                                 ham.classList.toggle('active');
                                 nav.classList.toggle('active');
                             });
+
+                            $(document).ready(function() {
+                            $(window).scroll(function() {
+                                if ($(this).scrollTop() > 0) {
+                                $('header').css('opacity', 0.8);
+                                } else {
+                                $('header').css('opacity', 1);
+                                }
+                                });
+                            });
                         </script>
                     </button>
                 </div>
@@ -155,12 +165,6 @@
             <div class="main2">
                 <div class="box_con07">
                     <h1 class="heading-lv10 text-center">アカウント編集</h1>
-                    <?php
-                     if($_SERVER['REQUEST_METHOD'] === 'POST'){
-                        var_dump($count['cnt']);
-                        var_dump($_POST['deselect1']);
-                     }
-                     ?>
 
                     <form method="post" action = "?" enctype='multipart/form-data'>
                         <ul class="formTable">

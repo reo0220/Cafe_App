@@ -86,6 +86,15 @@
                             post_likes.registered_time DESC";
             
             $stmt_post = $dbh->query($sql_post);
+
+            $sql_counts = "SELECT
+                                COUNT(*) as cnt
+                            FROM 
+                                post_likes
+                            WHERE
+                             user_id = $user_id";
+            $counts = $dbh->query($sql_counts);
+            $count = $counts->fetch();
     }
 ?>
 
@@ -152,6 +161,16 @@
                                 ham.classList.toggle('active');
                                 nav.classList.toggle('active');
                             });
+
+                            $(document).ready(function() {
+                            $(window).scroll(function() {
+                                if ($(this).scrollTop() > 0) {
+                                $('header').css('opacity', 0.8);
+                                } else {
+                                $('header').css('opacity', 1);
+                                }
+                                });
+                            });
                         </script>
                     </button>
                 </div>
@@ -159,18 +178,18 @@
         </div>
         <main class = "main1">
             <div class="main2">
-            <h1 class="heading-lv10 text-center">Profile</h1>
+               <h1 class="heading-lv10 text-center">Profile</h1>
                 <figure class="profile-image">
                     <a href="user_medias/<?php echo $result_user_media['file_name']; ?>" rel='lightbox'><img src="user_medias/<?php echo $result_user_media['file_name']; ?>" width="300" height="300"></a>
                 </figure>
                 <h2 class="heading-lv2 text-center"><?php echo $result_user['name'];?></h2>
 
-                <h3 class="heading-lv3 text-center">好きなジャンル</h3>
+                <h3 class="heading-lv3 text-center">【好きなジャンル】</h3>
                 <p class="text text-center"><?php echo $result_user['favorite_genre'];?></p>
 
-                <h3 class="heading-lv3 text-center">好きなメニュー</h3>
+                <h3 class="heading-lv3 text-center">【好きなメニュー】</h3>
                 <p class="text text-center"><?php echo $result_user['favorite_menu'];?></p>
-                <h3 class="heading-lv3 text-center">自己紹介</h3>
+                <h3 class="heading-lv3 text-center">【自己紹介】</h3>
                 <p class="text text-center"><?php echo $result_user['about_me'];?></p>
 
                 <div class="top_post1">
@@ -178,6 +197,11 @@
                         <h1 class="heading-lv1 text-center3">行ってみたいリスト</h1>
                         <a class="pro_link_a" href="profile.php"><h2 class="pro_link_h2">自分の投稿一覧へ</h2></a>
                     </div>
+                    <?php 
+                        if($count['cnt'] === 0){
+                            echo "<div class='zero1'>まだ行ってみたいリストに追加された投稿がありません。</div>";
+                        }
+                    ?>
                     <?php foreach($stmt_post as $row){?>
                         <div class="post">
                             <div class="post_img">
@@ -219,7 +243,9 @@
                                 <table class="top_table">
                                     <tr>
                                         <th>
-                                            <img src="user_medias/<?php echo $row['user_medias_file_name']; ?>" class="profile_img" alt="プロフィール写真" width="100" height="100">
+                                            <a href="profile_someone.php?user_id=<?php echo $row['user_id'];?>">
+                                                <img src="user_medias/<?php echo $row['user_medias_file_name']; ?>" class="profile_img" alt="プロフィール写真" width="100" height="100">
+                                            </a>
                                         </th>
                                         <th>
                                             <?php echo $row['users_name'];?>
