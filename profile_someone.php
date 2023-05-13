@@ -10,9 +10,10 @@
     }
 
     if(empty($_GET['user_id'])){
-        $er_user = "";
+        $er_user = 1;
     }elseif(!empty($_GET['user_id'])){
         $user_someone_id = $_GET['user_id'];
+        $er_user = 2;
 
         //お気に入り機能
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -102,27 +103,11 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
+        <script>
+            const er_user = '<?=$er_user?>';
+        </script>
+        <script src="pro_some_er.js"></script>
     </head>
-    <script>
-        //プロフィール画像から遷移していない時
-        const er_user = '<?=$er_user?>';
-        window.onload = function(){
-            if(er_user == ""){
-                Swal.fire({
-                    title: '表示したいアカウントのプロフィール画像をクリックしてください。',
-                    type : 'warning',
-                    bottons:true,
-                    grow : 'fullscreen',
-                    confirmButtonText:"アカウントを選択",
-                    allowOutsideClick:false
-                }).then((result) =>{
-                    if(result.value){
-                        window.location.href ="./post_list.php";
-                    }
-                });
-            }
-        }
-    </script>
     <body>
         <div class="container">
             <header class="header">
@@ -152,25 +137,7 @@
                         <span></span>
                         <span></span>
                         <span></span>
-                        <script>
-                            const ham = document.querySelector('#js-hamburger');
-                            const nav = document.querySelector('#js-nav');
-
-                            ham.addEventListener('click', function () {
-                                ham.classList.toggle('active');
-                                nav.classList.toggle('active');
-                            });
-
-                            $(document).ready(function() {
-                            $(window).scroll(function() {
-                                if ($(this).scrollTop() > 0) {
-                                $('header').css('opacity', 0.8);
-                                } else {
-                                $('header').css('opacity', 1);
-                                }
-                                });
-                            });
-                        </script>
+                        <script src="header.js"></script>
                     </button>
                 </div>
             </header>

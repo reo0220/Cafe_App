@@ -3,10 +3,12 @@
     
     if(!empty($_SESSION['user_id_log'])){
         $user_id = $_SESSION['user_id_log'];
+        $param_json = 1;
     }elseif(!empty($_SESSION['user_id_sign'])){
         $user_id = $_SESSION['user_id_sign'];
+        $param_json = 1;
     }else{
-        $param_json = "";
+        $param_json = 2;
     }
     if(empty($_GET['post_id']) && !empty($user_id)){
         $er_delete_post = "del";
@@ -14,6 +16,7 @@
 
     if(!empty($user_id) && !empty($_GET['post_id'])){
         $post_id = $_GET['post_id'];
+        $er_delete_post = "del1";
 
         if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['post_id'])){
             $post_id_delete = $_POST['post_id'];
@@ -46,47 +49,15 @@
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>投稿削除画面</title>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+        <script>
+            const param = '<?=$param_json?>';
+        </script>
+        <script src="login_er.js"></script>
+        <script>
+            const del = '<?=$er_delete_post?>';
+        </script>
+        <script src="delete_post_er.js"></script>
     </head>
-    <script>
-        //ログインまたはアカウント登録していない場合
-        const param = '<?=$param_json?>';
-        window.onload = function(){
-            if(param == ""){
-                Swal.fire({
-                    title: 'ログインか新規登録を行ってください。',
-                    type : 'warning',
-                    bottons:true,
-                    grow : 'fullscreen',
-                    confirmButtonText:"ログインまたは新規登録",
-                    allowOutsideClick:false
-                }).then((result) =>{//「ログインまたは新規登録」ボタンをクリックした時、ログイン画面へ遷移
-                    if(result.value){
-                        window.location.href ="./login.php";
-                    }
-                });
-            }
-        }
-    </script>
-    <script>
-        //ログインはしているけど、「削除」ボタンから遷移していない時
-        const del = '<?=$er_delete_post?>';
-        window.onload = function(){
-            if(del == "del"){
-                Swal.fire({
-                    title: '削除する投稿を選択してください。',
-                    type : 'warning',
-                    bottons:true,
-                    grow : 'fullscreen',
-                    confirmButtonText:"投稿を選択",
-                    allowOutsideClick:false
-                }).then((result) =>{
-                    if(result.value){
-                        window.location.href ="./profile.php";
-                    }
-                });
-            }
-        }
-    </script>
     <body>
         <div class="container">
             <header class="header">
@@ -112,15 +83,7 @@
                         <span></span>
                         <span></span>
                         <span></span>
-                        <script>
-                            const ham = document.querySelector('#js-hamburger');
-                            const nav = document.querySelector('#js-nav');
-
-                            ham.addEventListener('click', function () {
-                                ham.classList.toggle('active');
-                                nav.classList.toggle('active');
-                            });
-                        </script>
+                        <script src="header.js"></script>
                     </button>
                 </div>
             </header>

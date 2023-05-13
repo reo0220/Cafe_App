@@ -2,10 +2,12 @@
     session_start();
     if(!empty($_SESSION['user_id_log'])){
         $user_id = $_SESSION['user_id_log'];
+        $param_json = 1;
     }elseif(!empty($_SESSION['user_id_sign'])){
         $user_id = $_SESSION['user_id_sign'];
+        $param_json = 1;
     }else{
-        $param_json = "";
+        $param_json = 2;
     }
 
     if(!empty($user_id)){
@@ -91,28 +93,14 @@
     <head>
         <meta charset="UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
+        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
         <title>アカウント編集画面</title>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-    </head>
-    <script>
+        <script>
             const param = '<?=$param_json?>';
-            window.onload = function(){
-                        if(param == ""){
-                            Swal.fire({
-                                title: 'ログインか新規登録を行ってください。',
-                                type : 'warning',
-                                bottons:true,
-                                grow : 'fullscreen',
-                                confirmButtonText:"ログインまたは新規登録",
-                                allowOutsideClick:false
-                            }).then((result) =>{//「ログイン」ボタンをクリックした時、ログイン画面へ遷移
-                                if(result.value){
-                                        window.location.href ="./login.php";
-                                    }
-                            });
-                    }
-                }
-    </script>
+        </script>
+        <script src="login_er.js"></script>
+    </head>
     <body>
         <div class="container">
             <header class="header">
@@ -138,25 +126,7 @@
                         <span></span>
                         <span></span>
                         <span></span>
-                        <script>
-                            const ham = document.querySelector('#js-hamburger');
-                            const nav = document.querySelector('#js-nav');
-
-                            ham.addEventListener('click', function () {
-                                ham.classList.toggle('active');
-                                nav.classList.toggle('active');
-                            });
-
-                            $(document).ready(function() {
-                            $(window).scroll(function() {
-                                if ($(this).scrollTop() > 0) {
-                                $('header').css('opacity', 0.8);
-                                } else {
-                                $('header').css('opacity', 1);
-                                }
-                                });
-                            });
-                        </script>
+                        <script src="header.js"></script>
                     </button>
                 </div>
             </header>
@@ -180,7 +150,7 @@
                                     <figure class="profile-image" id="preview2" >
                                         <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="300" height="300">
                                     </figure>
-                                    <input type="file" name="image" id="file1" accept='image/*' onchange="previewImage(this);" onclick="deselect1_0()"/>
+                                    <input type="file" name="image" id="file1" accept='image/*' onchange="previewImage(this);"/>
                                     <input type="button" id="deselect1" value="選択解除" onclick="deselect1_1()">
                                     <input type="hidden" name="deselect1" id="deselect1_2">
                                 </div>
@@ -219,7 +189,11 @@
                             <li>
                                 <p class="title"><em>パスワード</em></p>
                                 <div class="box_det">
-                                    <input type = "password" class="wide" name = "password" size="20">
+                                    <div style="display: flex;">
+                                        <input type = "password" id="textPassword" class="wide" name = "password" size="20" style="border:none;">
+                                        <span id="buttonEye" class="fa fa-eye" onclick="pushHideButton()" style="padding-top: 15px;"></span>
+                                        <script src="pas_eye.js"></script>
+                                    </div>
                                     <?php if(!empty($error_pas)):?>
                                         <p class="text-danger"><?php echo $error_pas;?></p>
                                     <?php endif; ?>
@@ -266,40 +240,7 @@
                             <input type="submit" name="_method" class="button1" value="キャンセル" formaction="profile.php"></input>
                         </div>
                     </form>
-                    <script>
-                        document.getElementById("preview2").style.display = "none";
-                            function previewImage(obj){
-                                var fileReader = new FileReader();
-                                fileReader.onload = (function() {
-                                    document.getElementById("preview").style.visibility = "visible";
-                                    document.getElementById('preview').src = fileReader.result;
-                                });
-                                fileReader.readAsDataURL(obj.files[0]);
-                                //imageの非表示処理
-                                const image = document.getElementById("image");
-                                image.style.display ="none";
-                            }
-                            function deselect1_1(){
-                                document.getElementById("image").style.visibility ="hidden";
-                                document.getElementById("preview").style.visibility = "hidden";
-                                document.getElementById("preview2").style.visibility = "hidden";
-                                document.getElementById("file1").value = "";
-                                //ファイルが選択されていないとき、０をvalueに渡す
-                                document.getElementById("deselect1_2").value = "2";
-                            } 
-                            const fileInput = document.getElementById("file1");
-                            //ファイルが選択されているとき、１をvalueに渡す
-                            const handleFileSelect = () => {
-                                const files = fileInput.files;
-                                if(files.length === 1){
-                                    document.getElementById("deselect1_2").value = "1";
-                                    document.getElementById("preview2").style.display = "block";
-                                    document.getElementById("preview").style.visibility = "visible";
-                                    
-                                }
-                            }
-                            fileInput.addEventListener('change', handleFileSelect);
-                    </script>
+                    <script src="edit_account.js"></script>
                 </div>       
             </div>
         </main>  

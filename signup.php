@@ -89,15 +89,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         <span></span>
                         <span></span>
                         <span></span>
-                        <script>
-                            const ham = document.querySelector('#js-hamburger');
-                            const nav = document.querySelector('#js-nav');
-
-                            ham.addEventListener('click', function () {
-                                ham.classList.toggle('active');
-                                nav.classList.toggle('active');
-                            });
-                        </script>
+                        <script src="header.js"></script>
                     </button>
                 </div>
             </header>
@@ -156,19 +148,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     </div>
                 </div>
             </div>
-            <script language="javascript">
-                function pushHideButton() {
-                    var txtPass = document.getElementById("textPassword");
-                    var btnEye = document.getElementById("buttonEye");
-                    if (txtPass.type === "text") {
-                    txtPass.type = "password";
-                    btnEye.className = "fa fa-eye";
-                    } else {
-                    txtPass.type = "text";
-                    btnEye.className = "fa fa-eye-slash";
-                    }
-                }
-            </script>
+            <script src="pas_eye.js"></script>
         </main>  
         <footer class="footer">
             <div>

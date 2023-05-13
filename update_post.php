@@ -2,17 +2,20 @@
     session_start();
     if(!empty($_SESSION['user_id_log'])){
         $user_id = $_SESSION['user_id_log'];
+        $param_json = 1;
     }elseif(!empty($_SESSION['user_id_sign'])){
         $user_id = $_SESSION['user_id_sign'];
+        $param_json = 1;
     }else{
-        $param_json = "";
+        $param_json = 2;
     }
 
     if(empty($_GET['post_id']) && !empty($user_id)){
-        $er_update_post = "";
+        $er_update_post = 1;
     }
 
     if(!empty($user_id) && !empty($_GET['post_id'])){
+        $er_update_post = 2;
         $post_id = $_GET['post_id'];
         $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
         $sql_post = "SELECT 
@@ -159,47 +162,15 @@
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>投稿編集</title>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+        <script>
+            const param = '<?=$param_json?>';
+        </script>
+        <script src="login_er.js"></script>
+        <script>
+            const er_update = '<?=$er_update_post?>';
+        </script>
+        <script src="update_post_er.js"></script>
     </head>
-    <script>
-        //ログインまたはアカウント登録していない場合
-        const param = '<?=$param_json?>';
-        window.onload = function(){
-            if(param == ""){
-                Swal.fire({
-                    title: 'ログインか新規登録を行ってください。',
-                    type : 'warning',
-                    bottons:true,
-                    grow : 'fullscreen',
-                    confirmButtonText:"ログインまたは新規登録",
-                    allowOutsideClick:false
-                }).then((result) =>{//「ログインまたは新規登録」ボタンをクリックした時、ログイン画面へ遷移
-                    if(result.value){
-                        window.location.href ="./login.php";
-                    }
-                });
-            }
-        }
-    </script>
-    <script>
-        //ログインはしているけど、「編集」ボタンから遷移していない時
-        const er_update = '<?=$er_update_post?>';
-        window.onload = function(){
-            if(er_update == ""){
-                Swal.fire({
-                    title: '編集する投稿を選択してください。',
-                    type : 'warning',
-                    bottons:true,
-                    grow : 'fullscreen',
-                    confirmButtonText:"投稿を選択",
-                    allowOutsideClick:false
-                }).then((result) =>{
-                    if(result.value){
-                        window.location.href ="./profile.php";
-                    }
-                });
-            }
-        }
-    </script>
     </script>
     <body>
         <div class="container">
@@ -226,15 +197,7 @@
                         <span></span>
                         <span></span>
                         <span></span>
-                        <script>
-                            const ham = document.querySelector('#js-hamburger');
-                            const nav = document.querySelector('#js-nav');
-
-                            ham.addEventListener('click', function () {
-                                ham.classList.toggle('active');
-                                nav.classList.toggle('active');
-                            });
-                        </script>
+                        <script src="header.js"></script>
                     </button>
                 </div>
             </header>
@@ -492,38 +455,6 @@
                                     <img id='preview' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='160' height='160'></br>
                                     <input type="button" id="deselect1" value="選択解除" onclick="deselect1_1()">
                                     <input type="hidden" name="deselect1" id="deselect1_2">
-                                    <script>
-                                        document.getElementById("preview").style.display ="none";
-                                        function previewImage(obj){
-                                            var fileReader = new FileReader();
-                                            fileReader.onload = (function() {
-                                                document.getElementById("preview").style.visibility = "visible";
-                                                document.getElementById('preview').src = fileReader.result;
-                                            });
-                                            fileReader.readAsDataURL(obj.files[0]);
-                                            //imageの非表示処理
-                                            const image = document.getElementById("image");
-                                            image.style.display ="none";
-                                        }
-                                        function deselect1_1(){
-                                            document.getElementById("image").style.visibility ="hidden";
-                                            document.getElementById("preview").style.visibility = "hidden";
-                                            document.getElementById("file1").value = "";
-                                            //ファイルが選択されていないとき、０をvalueに渡す
-                                            document.getElementById("deselect1_2").value = "0";
-
-                                        } 
-                                        const fileInput = document.getElementById("file1");
-                                        //ファイルが選択されているとき、１をvalueに渡す
-                                        const handleFileSelect = () => {
-                                            const files = fileInput.files;
-                                            if(files.length === 1){
-                                                document.getElementById("deselect1_2").value = "1";
-                                                document.getElementById("preview").style.display ="block";
-                                            }
-                                        }
-                                        fileInput.addEventListener('change', handleFileSelect);
-                                    </script>
                                 </div>
                             </li>
                             <li>
@@ -538,35 +469,6 @@
                                     <img id='preview2' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='160' height='160'></br>
                                     <input type="button" id="deselect2" value="選択解除" onclick="deselect2_1()">
                                     <input type="hidden" name="deselect2" id="deselect2_2">
-                                    <script>
-                                        document.getElementById("preview2").style.display ="none";
-                                        function previewImage2(obj){
-                                            var fileReader2 = new FileReader();
-                                            fileReader2.onload = (function() {
-                                                document.getElementById("preview2").style.visibility = "visible";
-                                                document.getElementById('preview2').src = fileReader2.result;
-                                            });
-                                            fileReader2.readAsDataURL(obj.files[0]);
-                                            //imageの非表示処理
-                                            const image2 = document.getElementById("image2");
-                                            image2.style.display ="none";
-                                        }
-                                        function deselect2_1(){
-                                            document.getElementById("image2").style.visibility = "hidden";
-                                            document.getElementById("preview2").style.visibility = "hidden";
-                                            document.getElementById("file2").value = "";
-                                            document.getElementById("deselect2_2").value = "0";
-                                        } 
-                                        const fileInput2 = document.getElementById("file2");
-                                        const handleFileSelect2 = () => {
-                                            const files2 = fileInput2.files;
-                                            if(files2.length === 1){
-                                                document.getElementById("preview2").style.display ="block";
-                                                document.getElementById("deselect2_2").value = "1";
-                                            }
-                                        }
-                                        fileInput2.addEventListener('change', handleFileSelect2);
-                                    </script>
                                 </div>
                             </li>
                             <li>
@@ -581,35 +483,6 @@
                                     <img id='preview3' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='160' height='160'></br>
                                     <input type="button" id="deselect3" value="選択解除" onclick="deselect3_1()">
                                     <input type="hidden" name="deselect3" id="deselect3_2">
-                                    <script>
-                                        document.getElementById("preview3").style.display ="none";
-                                        function previewImage3(obj){
-                                            var fileReader3 = new FileReader();
-                                            fileReader3.onload = (function() {
-                                                document.getElementById("preview3").style.visibility = "visible";
-                                                document.getElementById('preview3').src = fileReader3.result;
-                                            });
-                                            fileReader3.readAsDataURL(obj.files[0]);
-                                            //imageの非表示処理
-                                            const image3 = document.getElementById("image3");
-                                            image3.style.display ="none";
-                                        }
-                                        function deselect3_1(){
-                                            document.getElementById("image3").style.visibility = "hidden";
-                                            document.getElementById("preview3").style.visibility = "hidden";
-                                            document.getElementById("file3").value = "";
-                                            document.getElementById("deselect3_2").value = "0";
-                                        }
-                                        const fileInput3 = document.getElementById("file3");
-                                        const handleFileSelect3 = () => {
-                                            const files3 = fileInput3.files;
-                                            if(files3.length === 1){
-                                                document.getElementById("preview3").style.display ="block";
-                                                document.getElementById("deselect3_2").value = "1";
-                                            }
-                                        }
-                                        fileInput3.addEventListener('change', handleFileSelect3);
-                                    </script>
                                 </div>
                             </li>
                             <li>
@@ -624,35 +497,7 @@
                                     <img id='preview4' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='160' height='160'></br>
                                     <input type="button" id="deselect4" value="選択解除" onclick="deselect4_1()">
                                     <input type="hidden" name="deselect4" id="deselect4_2">
-                                    <script>
-                                        document.getElementById("preview4").style.display ="none";
-                                        function previewImage4(obj){
-                                            var fileReader4 = new FileReader();
-                                            fileReader4.onload = (function() {
-                                                document.getElementById("preview4").style.visibility = "visible";
-                                                document.getElementById('preview4').src = fileReader4.result;
-                                            });
-                                            fileReader4.readAsDataURL(obj.files[0]);
-                                            //imageの非表示処理
-                                            const image4 = document.getElementById("image4");
-                                            image4.style.display ="none";
-                                        }
-                                        function deselect4_1(){
-                                            document.getElementById("image4").style.visibility ="hidden";
-                                            document.getElementById("preview4").style.visibility = "hidden";
-                                            document.getElementById("file4").value = "";
-                                            document.getElementById("deselect4_2").value = "0";
-                                        }
-                                        const fileInput4 = document.getElementById("file4");
-                                        const handleFileSelect4 = () => {
-                                            const files4 = fileInput4.files;
-                                            if(files4.length === 1){
-                                                document.getElementById("preview4").style.display ="block";
-                                                document.getElementById("deselect4_2").value = "1";
-                                            }
-                                        }
-                                        fileInput4.addEventListener('change', handleFileSelect4);
-                                    </script>
+                                    <script src="update_post.js"></script>
                                 </div>
                             </li>
                         </ul>

@@ -2,10 +2,12 @@
     session_start();
     if(!empty($_SESSION['user_id_log'])){
         $user_id = $_SESSION['user_id_log'];
+        $param_json = 1;
     }elseif(!empty($_SESSION['user_id_sign'])){
         $user_id = $_SESSION['user_id_sign'];
+        $param_json = 1;
     }else{
-        $param_json = "";
+        $param_json = 2;
     }
 
     if(!empty($user_id)){
@@ -108,26 +110,11 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
-    </head>
-    <script>
+        <script>
             const param = '<?=$param_json?>';
-            window.onload = function(){
-                if(param == ""){
-                    Swal.fire({
-                        title: 'ログインか新規登録を行ってください。',
-                        type : 'warning',
-                        bottons:true,
-                        grow : 'fullscreen',
-                        confirmButtonText:"ログインまたは新規登録",
-                        allowOutsideClick:false
-                    }).then((result) =>{//「ログイン」ボタンをクリックした時、ログイン画面へ遷移
-                        if(result.value){
-                            window.location.href ="./login.php";
-                        }
-                    });
-                }   
-            }
-    </script>
+        </script>
+        <script src="login_er.js"></script>
+    </head>
     <body>
         <div class="container">
             <header class="header">
@@ -153,25 +140,7 @@
                         <span></span>
                         <span></span>
                         <span></span>
-                        <script>
-                            const ham = document.querySelector('#js-hamburger');
-                            const nav = document.querySelector('#js-nav');
-
-                            ham.addEventListener('click', function () {
-                                ham.classList.toggle('active');
-                                nav.classList.toggle('active');
-                            });
-
-                            $(document).ready(function() {
-                            $(window).scroll(function() {
-                                if ($(this).scrollTop() > 0) {
-                                $('header').css('opacity', 0.8);
-                                } else {
-                                $('header').css('opacity', 1);
-                                }
-                                });
-                            });
-                        </script>
+                        <script src="header.js"></script>
                     </button>
                 </div>
             </header>
@@ -191,6 +160,18 @@
                 <p class="text text-center"><?php echo $result_user['favorite_menu'];?></p>
                 <h3 class="heading-lv3 text-center">【自己紹介】</h3>
                 <p class="text text-center"><?php echo $result_user['about_me'];?></p>
+                
+                <script src="account_pull.js"></script>
+                <div class="cp_ipselect cp_sl01">
+                    <form name="pullForm">
+                        <select name="pullMenu" onChange="screenChange()">
+                            <option>アカウント操作</option>
+                            <option value= "edit_account.php">アカウント編集</option>
+                            <option value="delete_account.php">アカウント削除</option>
+                            <option value="logout.php">ログアウト</option>
+                        </select>
+                    </form>
+                </div>
 
                 <div class="top_post1">
                     <div class="pro_link">

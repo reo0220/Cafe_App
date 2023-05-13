@@ -2,10 +2,12 @@
     session_start();
     if(!empty($_SESSION['user_id_log'])){
         $user_id = $_SESSION['user_id_log'];
+        $param_json = 1;
     }elseif(!empty($_SESSION['user_id_sign'])){
         $user_id = $_SESSION['user_id_sign'];
+        $param_json = 1;
     }else{
-        $param_json = "";
+        $param_json = 2;
     }
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -30,26 +32,11 @@
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>アカウント削除画面</title>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-    </head>
-    <script>
+        <script>
             const param = '<?=$param_json?>';
-            window.onload = function(){
-                        if(param == ""){
-                            Swal.fire({
-                                title: 'ログインか新規登録を行ってください。',
-                                type : 'warning',
-                                bottons:true,
-                                grow : 'fullscreen',
-                                confirmButtonText:"ログインまたは新規登録",
-                                allowOutsideClick:false
-                            }).then((result) =>{//「ログインまたは新規登録」ボタンをクリックした時、ログイン画面へ遷移
-                                if(result.value){
-                                        window.location.href ="./login.php";
-                                    }
-                            });
-                    }
-                }
-    </script>
+        </script>
+        <script src="login_er.js"></script>
+    </head>
     <body>
          <div class="container">
             <header class="header">
@@ -75,15 +62,7 @@
                         <span></span>
                         <span></span>
                         <span></span>
-                        <script>
-                            const ham = document.querySelector('#js-hamburger');
-                            const nav = document.querySelector('#js-nav');
-
-                            ham.addEventListener('click', function () {
-                                ham.classList.toggle('active');
-                                nav.classList.toggle('active');
-                            });
-                        </script>
+                        <script src="header.js"></script>
                     </button>
                 </div>
             </header>

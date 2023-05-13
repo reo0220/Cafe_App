@@ -231,6 +231,9 @@ a {
     border: none; /* デフォルトの枠線を消す */
     border-bottom: 2px solid #e9e9e9;
   }
+  #textPassword1 {
+    border: none; /* デフォルトの枠線を消す */
+  }
   
 
 
