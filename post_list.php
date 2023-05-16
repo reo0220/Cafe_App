@@ -292,13 +292,13 @@
                     <form method = "POST" action = "post_list.php">
                         <input type="hidden" name="search" value="search1">
                         <label>店名</label>
-                        <input type = "text" name = "name_search" value=<?php //検索条件を入力して検索を行った時、検索条件をそのまま表示
-                                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1"){
-                                                                                echo $_POST['name_search'];
-                                                                            }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2"){
-                                                                                echo $_GET['name'];
-                                                                            }
-                                                                        ?>>
+                        <input type = "text" name = "name_search" pattern=".*\S+.*" title="スペースを削除してください。" value=<?php //検索条件を入力して検索を行った時、検索条件をそのまま表示
+                                                                                                                                if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1"){
+                                                                                                                                    echo $_POST['name_search'];
+                                                                                                                                }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2"){
+                                                                                                                                    echo $_GET['name'];
+                                                                                                                                }
+                                                                                                                            ?>>
                         <label>場所</label>
                         <select name="place_search">
                             <option value="0"></option>
@@ -686,10 +686,12 @@
                         </div>
                     <!--検索結果がある場合--> 
                     <?php elseif(($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $count['cnt'] > 0) || ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $count['cnt'] > 0)):?>
-                        <?php foreach($stmt_search as $row){?>
-                            <?php if($count['cnt'] === "1"){
+                        <?php 
+                            if($count['cnt'] === "1"){
                                 echo "<div class='one' style='height: 680px;'>";
-                            }?>
+                            }
+                        ?>
+                        <?php foreach($stmt_search as $row){?>
                             <div class="post">
                                 <div class="post_img">
                                     <div class="post_img1">
@@ -855,8 +857,12 @@
                                     </table>
                                 </div>
                             </div>
-                            </div>
                         <?php }?>
+                        <?php 
+                            if($count['cnt'] === "1"){
+                                echo "</div>";
+                            }
+                        ?>
                     <?php endif; ?>
                 </div>
             </div>

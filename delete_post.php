@@ -42,6 +42,19 @@
     }
 ?>
 
+<!--エラー表示-->
+<?php if(!empty($_SESSION['user_id_log']) || !empty($_SESSION['user_id_sign'])):?>
+    <script>
+        const del = '<?=$er_delete_post?>';
+    </script>
+    <script src="delete_post_er.js"></script>
+<?php elseif(empty($_SESSION['user_id_log']) || empty($_SESSION['user_id_sign'])):?>
+    <script>
+        const param = '<?=$param_json?>';
+    </script>
+    <script src="login_er.js"></script>
+<?php endif;?>
+
 <!DOCTYPE html>
 <html lang="ja">
     <head>
@@ -49,14 +62,6 @@
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>投稿削除画面</title>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-        <script>
-            const param = '<?=$param_json?>';
-        </script>
-        <script src="login_er.js"></script>
-        <script>
-            const del = '<?=$er_delete_post?>';
-        </script>
-        <script src="delete_post_er.js"></script>
     </head>
     <body>
         <div class="container">

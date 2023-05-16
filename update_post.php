@@ -154,6 +154,19 @@
     }
 ?>
 
+<!--エラー表示-->
+<?php if(!empty($_SESSION['user_id_log']) || !empty($_SESSION['user_id_sign'])):?>
+    <script>
+        const er_update = '<?=$er_update_post?>';
+    </script>
+    <script src="update_post_er.js"></script>
+<?php elseif(empty($_SESSION['user_id_log']) || empty($_SESSION['user_id_sign'])):?>
+    <script>
+        const param = '<?=$param_json?>';
+    </script>
+    <script src="login_er.js"></script>
+<?php endif;?>
+
 <!DOCTYPE html>
 <html lang="ja">
     <head>
@@ -162,16 +175,7 @@
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>投稿編集</title>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-        <script>
-            const param = '<?=$param_json?>';
-        </script>
-        <script src="login_er.js"></script>
-        <script>
-            const er_update = '<?=$er_update_post?>';
-        </script>
-        <script src="update_post_er.js"></script>
     </head>
-    </script>
     <body>
         <div class="container">
             <header class="header">

@@ -139,7 +139,15 @@
             <div class="main3">
                 <div class="back_img">
                     <div class="back_img_text">
-                        <h1 class="back_img_text1">東京23区のカフェを投稿・検索できるアプリ</br><a class="top_a" href="signup.php">アカウント登録はこちら</a></h1>
+                        <h1 class="back_img_text1">東京23区のカフェを投稿・検索できるアプリ</br>
+                            <?php
+                                if(!empty($_SESSION['user_delete']) || !empty($_SESSION['user_id_log'])){
+                                    echo "";
+                                }else{
+                                    echo "<a class='top_a' href='signup.php'>アカウント登録はこちら</a>";
+                                }
+                            ?>
+                        </h1>
                     </div>
                 </div>
                 <div class="top_post">

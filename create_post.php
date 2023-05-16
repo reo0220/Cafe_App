@@ -157,7 +157,7 @@
             <div class="main2">
                 <div class="box_con07">
                     <h1 class="heading-lv10 text-center">投稿作成</h1>
-                    <form method="post" action = "create_post.php" enctype='multipart/form-data'>
+                    <form method="post" action = "?" enctype='multipart/form-data'>
                         <ul class="formTable">
                             <li>
                                 <p class="title"><em>店名</em></p>
@@ -368,8 +368,8 @@
                             </li>
                         </ul>
                         <div class="button-panel">
-                            <input type="submit" class="button1" value="投稿"></input>
-                            <button type="button" class="button1" onclick="history.back()">キャンセル</button>
+                            <input type="submit" name="_method" class="button1" formaction="create_post.php" value="投稿"></input>
+                            <input type="submit" name="_method" class="button1" value="キャンセル" formaction="profile.php"></input>
                         </div>
                     </form>
                 </div>
