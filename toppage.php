@@ -141,7 +141,7 @@
                     <div class="back_img_text">
                         <h1 class="back_img_text1">東京23区のカフェを投稿・検索できるアプリ</br>
                             <?php
-                                if(!empty($_SESSION['user_delete']) || !empty($_SESSION['user_id_log'])){
+                                if(!empty($_SESSION['user_id_sign']) || !empty($_SESSION['user_id_log'])){
                                     echo "";
                                 }else{
                                     echo "<a class='top_a' href='signup.php'>アカウント登録はこちら</a>";

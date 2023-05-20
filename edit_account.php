@@ -159,13 +159,13 @@
                             <li>
                                 <p class="title"><em>ニックネーム</em></p>
                                 <div class="box_det">
-                                    <input type = "text" class="wide" name = "name" size="20" value = <?php 
-                                                                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
-                                                                                                                echo $_POST['name'];
-                                                                                                            }else{
-                                                                                                                echo $result['name'];
-                                                                                                            }
-                                                                                                        ?>>
+                                    <input type = "text" class="wide" name = "name" size="20" pattern=".*\S+.*" title="スペースを削除してください。" value = <?php 
+                                                                                                                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
+                                                                                                                                                                echo $_POST['name'];
+                                                                                                                                                            }else{
+                                                                                                                                                                echo $result['name'];
+                                                                                                                                                            }
+                                                                                                                                                        ?>>
                                     <?php if(!empty($error_name)):?>
                                         <p class="text-danger"><?php echo $error_name;?></p>
                                     <?php endif; ?>

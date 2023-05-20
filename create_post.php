@@ -162,11 +162,11 @@
                             <li>
                                 <p class="title"><em>店名</em></p>
                                 <div class="box_det">
-                                    <input size="20" type="text" class="wide" name="name" value = <?php 
-                                                                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
-                                                                                                                echo $_POST['name'];
-                                                                                                        }
-                                                                                                    ?>>
+                                    <input size="20" type="text" class="wide" name="name"  pattern=".*\S+.*" title="スペースを削除してください。" value = <?php 
+                                                                                                                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
+                                                                                                                                                                    echo $_POST['name'];
+                                                                                                                                                            }
+                                                                                                                                                        ?>>
                                     <?php if(!empty($er_name)):?>
                                         <p class="text-danger"><?php echo $er_name;?></p>
                                     <?php endif; ?>

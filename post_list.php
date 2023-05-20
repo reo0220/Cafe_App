@@ -450,14 +450,14 @@
                                                         }
                                                 ?>>足立区</option>
                             <option value="22" <?php 
-                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "23"){
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "22"){
                                                                 echo "selected";
                                                         }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="22"){
                                                             echo "selected";
                                                         }
                                                 ?>>葛飾区</option>
                             <option value="23" <?php 
-                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "24"){
+                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $_POST['place_search'] === "23"){
                                                                 echo "selected";
                                                         }elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search2" && $_GET['place'] ==="23"){
                                                             echo "selected";

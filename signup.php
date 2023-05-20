@@ -102,11 +102,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     <form class = "form" method='POST' action='signup.php'>
                         <div class="form-item">
                             <label for="name"></label>
-                            <input type ="text" name = "name" placeholder="ニックネーム" value=<?php 
-                                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
-                                                                        echo $_POST['name'];
-                                                                    }
-                                                                ?>>
+                            <input type ="text" name = "name" placeholder="ニックネーム" pattern=".*\S+.*" title="スペースを削除してください。" value=<?php 
+                                                                                                                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])){
+                                                                                                                                                        echo $_POST['name'];
+                                                                                                                                                    }
+                                                                                                                                                ?>>
                             </input>
                             <?php if(!empty($error1)):?>
                                 <p class="text-danger"><?php echo $error1 ?></p>
@@ -114,11 +114,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         </div>
                         <div class="form-item">
                             <label for="mail"></label> 
-                            <input type ="text" name = "mail" placeholder="メールアドレス" value=<?php 
-                                                                    if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mail'])){
-                                                                        echo $_POST['mail'];
-                                                                    }
-                                                                ?>>
+                            <input type ="text" name = "mail" placeholder="メールアドレス" pattern=".*\S+.*" title="スペースを削除してください。" value=<?php 
+                                                                                                                                                        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mail'])){
+                                                                                                                                                            echo $_POST['mail'];
+                                                                                                                                                        }
+                                                                                                                                                    ?>>
                             </input>
                             <?php if(!empty($error2)):?>
                                 <p class='text-danger'><?php echo $error2;?></p>
@@ -128,11 +128,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         </div>
                         <div class="form-item">
                             <label for="password"></label> 
-                            <input type ="password" id="textPassword" name = "password" placeholder="パスワード" value=<?php 
-                                                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['password'])){
-                                                                                                echo $_POST['password'];
-                                                                                            }
-                                                                                        ?>>
+                            <input type ="password" id="textPassword" name = "password" placeholder="パスワード" pattern=".*\S+.*" title="スペースを削除してください。" value=<?php 
+                                                                                                                                                                            if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['password'])){
+                                                                                                                                                                                echo $_POST['password'];
+                                                                                                                                                                            }
+                                                                                                                                                                        ?>>
                             </input>
                             <span id="buttonEye" class="fa fa-eye" onclick="pushHideButton()"></span>
                             <?php if(!empty($error3)):?>
