@@ -19,8 +19,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if($mail === ""){
         $error2 = "メールアドレスが未入力です。";
     }elseif(!empty($mail)){//メールアドレスがデータベースに存在するかチェック
-        mb_internal_encoding("utf8");
-        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+        $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
         $sql = "SELECT * FROM users WHERE mail = '$mail' ";
         $stmt = $dbh->query($sql);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -36,8 +35,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
    
     if(!isset($error1) && !isset($error2) && !isset($error3) && !isset($error4)){
             try{
-                mb_internal_encoding("utf8");
-                $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root",//データベース接続
+                $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118',//データベース接続
                     array(
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,//SQL実行失敗の時、例外をスロー
                         PDO::ATTR_EMULATE_PREPARES => false,
@@ -53,8 +51,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     $db_error = "エラーが発生したためアカウント登録できません。";
                 }
                 $image = "1785292757643d43c85cb494.66990750.PNG";
-                mb_internal_encoding("utf8");
-                $dbh1 = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                $dbh1 = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
                 $sql_media = "INSERT INTO user_medias(file_name,user_id) VALUES ('$image','$user_id_media')";
                 $stmt1 = $dbh1->prepare($sql_media);
                 $stmt1->execute();

@@ -15,19 +15,19 @@
             if(!empty($_POST['post_id'])){
                 if($_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
                     $post_id_good = $_POST['post_id'];
-                    $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                    $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
                     $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
                     $stmt_like = $dbh->query($sql_like_button);
                     $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
                     
                     if($_POST['button'] === "行ってみたい" && empty($result_like)){
-                        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                        $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
                         $sql_like_count = "UPDATE posts SET like_count = like_count + 1 WHERE post_id = $post_id_good";
                         $sql_post_like = "INSERT INTO post_likes(user_id,post_id) VALUES($user_id,$post_id_good)";
                         $stmt = $dbh->query($sql_like_count);
                         $stmt = $dbh->query($sql_post_like);
                     }elseif($_POST['button'] === "行ってみたい解除" && !empty($result_like)){
-                        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                        $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
                         $sql_like_count = "UPDATE posts SET like_count = like_count - 1 WHERE post_id = $post_id_good";
                         $sql_post_like = "DELETE from post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
                         $stmt = $dbh->query($sql_like_count);
@@ -39,8 +39,7 @@
         
 
         try{
-            mb_internal_encoding("utf8");
-            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root",
+            $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118',
                             array(
                                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,//SQL実行失敗の時、例外をスロー
                                 PDO::ATTR_EMULATE_PREPARES => false,
@@ -316,7 +315,7 @@
                                                 <?php
                                                     if($user_id != ""){
                                                         if($user_id != $row['user_id']){
-                                                            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                                                            $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
                                                             $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
                                                             $stmt_like = $dbh->query($sql_like_button);
                                                             $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);

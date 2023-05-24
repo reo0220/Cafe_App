@@ -11,8 +11,8 @@
     }
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
-        mb_internal_encoding("utf8");
-        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+        
+        $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
         $sql = "UPDATE users SET delete_flag = 1 WHERE user_id = $user_id ";
         $stmt = $dbh->query($sql);
         

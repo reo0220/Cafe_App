@@ -22,8 +22,8 @@
         }
 
         if(empty($er_name) && empty($er_file)){
-            mb_internal_encoding("utf8");
-            $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+           
+            $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
 
             $dbh -> exec("insert into posts(user_id,name,place,price,comment,delete_flag)
                     values('".$user_id."','".$_POST['name']."','".$_POST['place']."','".$_POST['price']."','".$_POST['comment']."','0');");//postsテーブルにインサート

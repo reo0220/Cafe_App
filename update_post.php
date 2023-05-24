@@ -17,7 +17,7 @@
     if(!empty($user_id) && !empty($_GET['post_id'])){
         $er_update_post = 2;
         $post_id = $_GET['post_id'];
-        $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+        $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
         $sql_post = "SELECT 
                         posts.post_id,
                         posts.user_id,
@@ -68,8 +68,7 @@
 
             if((!empty($_POST['name'])) && (empty($er_file1) || empty($er_file2) || empty($er_file3) || empty($er_file4))){
                 $post_id_edit = $_POST['post_id'];
-                mb_internal_encoding("utf8");
-                $dbh = new PDO("mysql:dbname=cafe_app;host=localhost;","root","root");
+                $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
                 $sql_post_edit = "UPDATE posts SET name = '$_POST[name]',place='$_POST[place]',price='$_POST[price]',comment='$_POST[comment]' WHERE post_id = $post_id_edit";
                 $stmt_post_edit = $dbh->query($sql_post_edit);
 
