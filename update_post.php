@@ -173,18 +173,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>投稿編集</title>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     </head>
     <body>
         <div class="container">
             <header class="header">
                 <div class="header__inner">
                     <h1 class="header__title header-title">
-                        <a href="toppage.php">Cafe23</a>
+                        <a href="index.php">Cafe23</a>
                     </h1>
                     <nav class="header__nav nav" id="js-nav">
                         <ul class="nav__items nav-items">
-                            <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
+                            <li class="nav-items__item"><a href ="index.php">トップページ</a></li>
                             <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
                             <li class="nav-items__item"><a href="create_post.php">投稿作成</a></li>
                             <?php 

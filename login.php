@@ -52,7 +52,7 @@
                         $pas = "";
                     }elseif(password_verify($pas, $result['password']) && $mail === $result['mail']){//メールアドレスとパスワードが一致した時
                         $_SESSION['user_id_log'] = $result['user_id'];
-                        header("Location:http://localhost/cafe_app/Cafe_App/toppage.php");
+                        header("Location:http://localhost/cafe_app/Cafe_App/index.php");
                     }
                 }
             }
@@ -67,7 +67,7 @@
     <head>
         <meta charset = "UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
-        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+        <link href="//use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
         <title>ログイン画面</title>
     </head>
     <body>
@@ -75,12 +75,12 @@
             <header class="header">
                 <div class="header__inner">
                     <h1 class="header__title header-title">
-                        <a href="toppage.php">Cafe23</a>
+                        <a href="index.php">Cafe23</a>
                     </h1>
                     <nav class="header__nav nav" id="js-nav">
                         <ul class="nav__items nav-items">
                             <li class="nav-items__item"></li>
-                            <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
+                            <li class="nav-items__item"><a href ="index.php">トップページ</a></li>
                             <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
                         </ul>
                     </nav>

@@ -65,7 +65,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     <head>
         <meta charset="UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
-        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+        <link href="//use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
         <title>アカウント新規登録画面</title>
     </head>
     <body>
@@ -73,12 +73,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             <header class="header">
                 <div class="header__inner">
                     <h1 class="header__title header-title">
-                        <a href="toppage.php">Cafe23</a>
+                        <a href="index.php">Cafe23</a>
                     </h1>
                     <nav class="header__nav nav" id="js-nav">
                         <ul class="nav__items nav-items">
                             <li class="nav-items__item"></li>
-                            <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
+                            <li class="nav-items__item"><a href ="index.php">トップページ</a></li>
                             <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
                         </ul>
                     </nav>

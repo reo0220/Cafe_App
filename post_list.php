@@ -246,20 +246,20 @@
         <meta charset="UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style.css">
         <title>投稿一覧画面</title>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
+        <link href="//cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="container">
             <header class="header">
                 <div class="header__inner">
                     <h1 class="header__title header-title">
-                        <a href="toppage.php">Cafe23</a>
+                        <a href="index.php">Cafe23</a>
                     </h1>
                     <nav class="header__nav nav" id="js-nav">
                         <ul class="nav__items nav-items">
-                            <li class="nav-items__item"><a href ="toppage.php">トップページ</a></li>
+                            <li class="nav-items__item"><a href ="index.php">トップページ</a></li>
                             <li class="nav-items__item"><a href="post_list.php">投稿一覧</a></li>
                             <?php
                                 if($user_id != ""){
