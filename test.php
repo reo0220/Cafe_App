@@ -5,7 +5,7 @@
     }elseif(!empty($_SESSION['user_id_sign'])){
         $user_id = $_SESSION['user_id_sign'];
     }else{
-        $param_json = 2;
+        $user_id = "";
     }
 
     try{
