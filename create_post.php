@@ -105,7 +105,7 @@
                 }
             }
 
-                header("Location:http://localhost/cafe_app/Cafe_App/post_list.php");
+                header("Location:https://cafe23.herokuapp.com/post_list.php");
         }
     }
 ?>

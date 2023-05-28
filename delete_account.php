@@ -21,7 +21,7 @@
 
         $_SESSION['user_delete'] = "delete";
 
-        header("Location:http://localhost/cafe_app/Cafe_App/index.php");
+        header("Location:https://cafe23.herokuapp.com/index.php");
     }
 ?>
 

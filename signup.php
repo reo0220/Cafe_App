@@ -55,7 +55,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 $sql_media = "INSERT INTO user_medias(file_name,user_id) VALUES ('$image','$user_id_media')";
                 $stmt1 = $dbh1->prepare($sql_media);
                 $stmt1->execute();
-                header("Location:http://localhost/cafe_app/Cafe_App/profile.php");
+                header("Location:https://cafe23.herokuapp.com/profile.php");
     }
 }
 ?>
