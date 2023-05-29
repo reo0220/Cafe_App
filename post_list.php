@@ -57,6 +57,7 @@
         $dbh_search = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
         if((!empty($name_search) && $place_search != "0" && $price_search != "0") || (empty($name_search) && $place_search != "0" && $price_search != "0")){
             $sql_search = "SELECT
+                            DISTINCT 
                                 posts.post_id,
                                 posts.user_id,
                                 posts.name AS posts_name,
@@ -94,6 +95,7 @@
             $count = $counts->fetch();
         }elseif(!empty($name_search) && $place_search === "0" && $price_search === "0"){//店名のみ入力されている場合
             $sql_search = "SELECT
+                            DISTINCT 
                                 posts.post_id,
                                 posts.user_id,
                                 posts.name AS posts_name,
@@ -130,6 +132,7 @@
             $count = $counts->fetch();
         }elseif((!empty($name_search) && $place_search != "0" && $price_search === "0") || (empty($name_search) && $place_search != "0" && $price_search === "0")){//店名と場所のみ、選択入力されている場合か、場所のみ選択している場合
             $sql_search = "SELECT
+                            DISTINCT 
                                 posts.post_id,
                                 posts.user_id,
                                 posts.name AS posts_name,
@@ -166,6 +169,7 @@
             $count = $counts->fetch();
         }elseif((!empty($name_search) && $place_search === "0" && $price_search != "0") || (empty($name_search) && $place_search === "0" && $price_search != "0")){//店名と価格帯のみ選択入力されている場合か、価格帯のみ選択している場合
             $sql_search = "SELECT
+                            DISTINCT 
                                 posts.post_id,
                                 posts.user_id,
                                 posts.name AS posts_name,
@@ -211,31 +215,32 @@
     $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
     //usersテーブルとpostsテーブルとuser_mediasテーブルとpost_mediasテーブルを結合
     $sql_post = "SELECT
-                posts.post_id,
-                posts.user_id,
-                posts.name AS posts_name,
-                posts.place,
-                posts.price,
-                posts.comment,
-                posts.like_count,
-                post_medias.first_file_name,
-                post_medias.second_file_name,
-                post_medias.third_file_name,
-                post_medias.fourth_file_name,
-                users.name AS users_name,
-                user_medias.file_name AS user_medias_file_name
-            FROM 
-                posts
-            INNER JOIN
-                post_medias ON posts.post_id = post_medias.post_id
-            LEFT JOIN 
-                users ON posts.user_id = users.user_id
-            LEFT JOIN
-                user_medias ON users.user_id = user_medias.user_id
-            WHERE
-                posts.delete_flag = '0'
-            ORDER BY 
-                posts.registered_time DESC";
+                DISTINCT 
+                    posts.post_id,
+                    posts.user_id,
+                    posts.name AS posts_name,
+                    posts.place,
+                    posts.price,
+                    posts.comment,
+                    posts.like_count,
+                    post_medias.first_file_name,
+                    post_medias.second_file_name,
+                    post_medias.third_file_name,
+                    post_medias.fourth_file_name,
+                    users.name AS users_name,
+                    user_medias.file_name AS user_medias_file_name
+                FROM 
+                    posts
+                INNER JOIN
+                    post_medias ON posts.post_id = post_medias.post_id
+                LEFT JOIN 
+                    users ON posts.user_id = users.user_id
+                LEFT JOIN
+                    user_medias ON users.user_id = user_medias.user_id
+                WHERE
+                    posts.delete_flag = '0'
+                ORDER BY 
+                    posts.registered_time DESC";
         
     $stmt = $dbh->query($sql_post);
 ?>

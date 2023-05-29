@@ -53,6 +53,7 @@
                 )   
             );
         $sql_post = "SELECT
+                    DISTINCT 
                         posts.post_id,
                         posts.user_id,
                         posts.name AS posts_name,

@@ -57,6 +57,7 @@
             $result_user_media = $stmt_user_media->fetch(PDO::FETCH_ASSOC);
 
             $sql_post = "SELECT
+                        DISTINCT 
                             post_likes.user_id,
                             posts.post_id,
                             posts.user_id,

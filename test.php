@@ -12,6 +12,7 @@
         $dbh=new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
 
         $sql_post = "SELECT
+                    DISTINCT 
                         posts.post_id,
                         posts.user_id,
                         posts.name AS posts_name,
