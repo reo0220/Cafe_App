@@ -14,7 +14,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": "~7.3.22",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "ext-exif":"*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
