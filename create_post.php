@@ -56,13 +56,8 @@
                 }
                 $stmt2 = $dbh->prepare($sql2);
                 $stmt2->bindValue(':file2', $image2, PDO::PARAM_STR);
+                $stmt2->execute();
                 move_uploaded_file($_FILES['file2']['tmp_name'], './post_medias/' . $image2);
-                if (exif_imagetype($file2)) {
-                        $message2 = '画像をアップロードしました';
-                        $stmt2->execute();
-                } else {
-                        $message2 = '画像ファイルではありません';
-                }
             }
 
             if(!empty($_FILES['file3']['name'])){
@@ -76,13 +71,8 @@
                 }
                 $stmt3 = $dbh->prepare($sql3);
                 $stmt3->bindValue(':file3', $image3, PDO::PARAM_STR);
+                $stmt3->execute();
                 move_uploaded_file($_FILES['file3']['tmp_name'], './post_medias/' . $image3);
-                if (exif_imagetype($file3)) {
-                        $message3 = '画像をアップロードしました';
-                        $stmt3->execute();
-                } else {
-                        $message3 = '画像ファイルではありません';
-                }
             }
 
             if(!empty($_FILES['file4']['name'])){
@@ -96,13 +86,8 @@
                 }
                 $stmt4 = $dbh->prepare($sql4);
                 $stmt4->bindValue(':file4', $image4, PDO::PARAM_STR);
+                $stmt4->execute();
                 move_uploaded_file($_FILES['file4']['tmp_name'], './post_medias/' . $image4);
-                if (exif_imagetype($file4)) {
-                        $message4 = '画像をアップロードしました';
-                        $stmt4->execute();
-                } else {
-                        $message4 = '画像ファイルではありません';
-                }
             }
 
                 header("Location:https://cafe23.herokuapp.com/post_list.php");
