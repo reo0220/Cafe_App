@@ -29,9 +29,8 @@
             $post_comment = $_POST['comment'];
 
             $dbh = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
-
-            $dbh -> exec("insert into posts(user_id,name,place,price,comment,delete_flag)
-                    values($user_id,$post_name,$post_place,$post_price,$post_comment,0);");//postsテーブルにインサート
+            $sql_post = "INSERT INTO posts(user_id,name,place,price,comment,delete_flag) VALUES ('$user_id','$post_name','$post_place','$post_price','$post_comment','0')";
+            $dbh->prepare($sql_post);
             $post_id = $dbh->lastInsertId();//post_idを変数に代入        
 
             if(!empty($_FILES['file1']['name'])){//file1の登録処理
