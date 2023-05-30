@@ -41,13 +41,8 @@
                 $sql1 = "INSERT INTO post_medias(first_file_name,post_id) VALUES (:file1,$post_id)";
                 $stmt1 = $dbh->prepare($sql1);
                 $stmt1->bindValue(':file1', $image1, PDO::PARAM_STR);
+                $stmt1->execute();
                 move_uploaded_file($_FILES['file1']['tmp_name'], './post_medias/' . $image1);//post_mediasディレクトリにファイル保存
-                if (exif_imagetype($file1)) {//画像ファイルかのチェック
-                        $message1 = '画像をアップロードしました';
-                        $stmt1->execute();
-                } else {
-                        $message1 = '画像ファイルではありません';
-                }
             }
 
             if(!empty($_FILES['file2']['name'])){//file2が選択されているとき、登録処理を行う
@@ -110,7 +105,7 @@
                 }
             }
 
-                header("Location:https://cafe23.herokuapp.com/create_post.php");
+                header("Location:https://cafe23.herokuapp.com/post_list.php");
         }
     }
 ?>
@@ -162,12 +157,6 @@
             <div class="main2">
                 <div class="box_con07">
                     <h1 class="heading-lv10 text-center">投稿作成</h1>
-                    <?php
-                    echo $message1;
-                    echo $message2;
-                    echo $message3;
-                    echo $message4;
-                    ?>
                     <form method="post" action = "?" enctype='multipart/form-data'>
                         <ul class="formTable">
                             <li>
