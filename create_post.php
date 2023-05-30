@@ -110,7 +110,7 @@
                 }
             }
 
-                header("Location:https://cafe23.herokuapp.com/post_list.php");
+                header("Location:https://cafe23.herokuapp.com/create_post.php");
         }
     }
 ?>
@@ -162,6 +162,12 @@
             <div class="main2">
                 <div class="box_con07">
                     <h1 class="heading-lv10 text-center">投稿作成</h1>
+                    <?php
+                    echo $message1;
+                    echo $message2;
+                    echo $message3;
+                    echo $message4;
+                    ?>
                     <form method="post" action = "?" enctype='multipart/form-data'>
                         <ul class="formTable">
                             <li>
