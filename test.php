@@ -40,7 +40,7 @@
             <input type="submit" value="テスト">
         </div>
 
-        <img src="data:image/png;base64,<?php echo $result_like['first_file_name'];?>" >
+        <img src="data:image/jpeg;base64,<?php echo $result_like['first_file_name'];?>" >
     </form>
 
     </body>
