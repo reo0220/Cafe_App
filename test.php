@@ -18,7 +18,10 @@
         $sql_post = "INSERT INTO post_medias(first_file_name) VALUES ('$binary_image')";
         $stmt_post = $dbh->prepare($sql_post);
         $stmt_post->execute();
-            
+
+        $sql = "SELECT * FROM post_medias WHERE media_id = 394";
+        $stmt_like = $dbh->query($sql);
+        $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
     }
 ?>
 
@@ -36,6 +39,8 @@
             <br>
             <input type="submit" value="テスト">
         </div>
+
+        <img src="data:image/png;base64,<?php echo $result_like['first_file_name'];?>" >
     </form>
 
     </body>
