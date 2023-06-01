@@ -19,9 +19,7 @@
         $stmt_post = $dbh->prepare($sql_post);
         $stmt_post->execute();
 
-        $sql = "SELECT * FROM post_medias WHERE media_id = 394";
-        $stmt_like = $dbh->query($sql);
-        $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+       
     }
 ?>
 
@@ -39,8 +37,16 @@
             <br>
             <input type="submit" value="テスト">
         </div>
+        <?php
+            $dbh1=new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
+             $sql = "SELECT * FROM post_medias WHERE media_id = 394";
+             $stmt_like = $dbh1->query($sql);
+             $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
+        ?>
 
         <img src="data:image/jpeg;base64,<?php echo $result_like['first_file_name'];?>" >
+        <img src="data:image/png;base64,<?php echo $result_like['first_file_name'];?>" >
+        <img src="data:image/jpg;base64,<?php echo $result_like['first_file_name'];?>" >
     </form>
 
     </body>
