@@ -15,7 +15,7 @@
         $image = file_get_contents($_FILES['image']['tmp_name']);
         $binary_image = base64_encode($image);
 
-        $sql_post = "INSERT INTO post_medias(first_file_name) VALUES ('$binary_image')";
+        $sql_post = "UPDATE post_medias SET first_file_name = '$binary_image' WHERE media_id = 394";
         $stmt_post = $dbh->prepare($sql_post);
         $stmt_post->execute();
 
