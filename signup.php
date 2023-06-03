@@ -50,10 +50,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 catch(PDOException $e){//DB接続エラーが発生した時$db_errorを定義
                     $db_error = "エラーが発生したためアカウント登録できません。";
                 }
-                $image = "1785292757643d43c85cb494.66990750.PNG";
-                $binary_image = base64_encode($image);
+                
                 $dbh1 = new PDO('mysql:dbname=heroku_f42c30f1b2af6d1;host=us-cdbr-east-06.cleardb.net;charset=utf8','bc9c8df67ff0e5','10b87118');
-                $sql_media = "INSERT INTO user_medias(file_name,user_id) VALUES ('$binary_image','$user_id_media')";
+                $sql_df = "SELECT * FROM user_medias WHERE media_id = 94";
+                $stmt_df = $dbh1->query($sql_df);
+                $result_df = $stmt_df->fetch(PDO::FETCH_ASSOC);
+                $media_df = $result_df['file_name'];
+                
+                $sql_media = "INSERT INTO user_medias(file_name,user_id) VALUES ('$media_df','$user_id_media')";
                 $stmt1 = $dbh1->prepare($sql_media);
                 $stmt1->execute();
                 header("Location:https://cafe23.herokuapp.com/profile.php");
