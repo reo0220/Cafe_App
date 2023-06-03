@@ -149,7 +149,7 @@
             <div class="main2">
                <h1 class="heading-lv10 text-center">Profile</h1>
                 <figure class="profile-image">
-                    <a href="data:image/jpeg;base64,<?php echo $result_user_media['file_name']; ?>" rel='lightbox'><img src="user_medias/<?php echo $result_user_media['file_name']; ?>" width="300" height="300"></a>
+                    <a href="data:image/jpeg;base64,<?php echo $result_user_media['file_name']; ?>" rel='lightbox'><img src="data:image/jpeg;base64,<?php echo $result_user_media['file_name']; ?>" width="300" height="300"></a>
                 </figure>
                 <h2 class="heading-lv2 text-center"><?php echo $result_user['name'];?></h2>
 
@@ -214,7 +214,7 @@
                                     <tr>
                                         <th>
                                             <a href="profile_someone.php?user_id=<?php echo $row['user_id'];?>">
-                                                <img src="user_medias/<?php echo $row['user_medias_file_name']; ?>" class="profile_img" alt="プロフィール写真" width="100" height="100">
+                                                <img src="data:image/jpeg;base64,<?php echo $row['user_medias_file_name']; ?>" class="profile_img" alt="プロフィール写真" width="100" height="100">
                                             </a>
                                         </th>
                                         <th>
