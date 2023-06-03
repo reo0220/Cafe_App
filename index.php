@@ -162,7 +162,7 @@
                 <div class="top_post">
                     <h2 class="heading-lv1 text-center1">人気投稿</h2>
                     <?php 
-                        if($count['cnt']==="0"){
+                        if($count['cnt']=== 0){
                             echo "<div class='one' style='height: 680px;'>";
                         }
                     ?>          
@@ -322,7 +322,7 @@
                     </div>
                     <?php }?>
                     <?php 
-                        if($count['cnt'] === "0"){
+                        if($count['cnt'] === 0){
                             echo "</div>";
                         }
                     ?>
