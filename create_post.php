@@ -35,14 +35,11 @@
             $post_id = $dbh->lastInsertId();//post_idを変数に代入        
 
             if(!empty($_FILES['file1']['name'])){//file1の登録処理
-                $image1 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-                $image1 .= '.' . substr(strrchr($_FILES['file1']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
-                $file1 = "post_medias/$image1";
-                $sql1 = "INSERT INTO post_medias(first_file_name,post_id) VALUES (:file1,$post_id)";
-                $stmt1 = $dbh->prepare($sql1);
-                $stmt1->bindValue(':file1', $image1, PDO::PARAM_STR);
-                $stmt1->execute();
-                move_uploaded_file($_FILES['file1']['tmp_name'], './post_medias/' . $image1);//post_mediasディレクトリにファイル保存
+                $image1 = file_get_contents($_FILES['file1']['tmp_name']);
+                $binary_image1 = base64_encode($image1);
+                $sql_media1 = "INSERT INTO post_medias(first_file_name,post_id)VALUES($binary_image1,$post_id)";
+                $stmt_media1 = $dbh->prepare($sql_media1);
+                $stmt_media1->execute();
             }
 
             if(!empty($_FILES['file2']['name'])){//file2が選択されているとき、登録処理を行う
