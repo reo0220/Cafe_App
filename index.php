@@ -185,11 +185,11 @@
                                     <th>
                                         <?php if($user_id != $row['user_id']):?>
                                             <a href="profile_someone.php?user_id=<?php echo $row['user_id'];?>">
-                                                <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
+                                                <img class="profile_img" src="data:image/jpeg;base64,<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
                                             </a>
                                         <?php else:?>
                                             <a href="profile.php">
-                                                <img class="profile_img" src="user_medias/<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
+                                                <img class="profile_img" src="data:image/jpeg;base64,<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
                                             </a>
                                         <?php endif; ?>
                                     </th>
