@@ -83,6 +83,15 @@
                         5";
             
             $stmt = $dbh->query($sql_post);
+
+            $sql_count = "SELECT
+                                COUNT(*) as cnt
+                            FROM 
+                                posts
+                            WHERE
+                                delete_flag = '0'";
+            $counts = $dbh->query($sql_count);
+            $count = $counts->fetch();
         }
         catch(PDOException $e){//DB接続エラーが発生した時$db_errorを定義
             $db_error = "エラーが発生したためアカウント登録できません。";
@@ -152,6 +161,11 @@
                 </div>
                 <div class="top_post">
                     <h2 class="heading-lv1 text-center1">人気投稿</h2>
+                    <?php 
+                        if($count['cnt']==="0"){
+                            echo "<div class='one' style='height: 680px;'>";
+                        }
+                    ?>          
                     <?php foreach($stmt as $row){?>
                     <div class="post">
                         <div class="post_img">
@@ -307,6 +321,11 @@
                         </div>
                     </div>
                     <?php }?>
+                    <?php 
+                        if($count['cnt'] === "0"){
+                            echo "</div>";
+                        }
+                    ?>
                 </div>
             </div>
         </main>  

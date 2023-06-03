@@ -526,7 +526,7 @@
                     <!-- 投稿一覧画面のデフォルト表示 -->  
                     <?php if((empty($_POST['search']) && empty($_POST['search_good'])) || ($_POST['search'] === "search0") || (!empty($search_er))):?>
                         <?php 
-                            if($count1['cnt'] === "1"){
+                            if($count1['cnt'] === "1" || $count1['cnt']==="0"){
                                 echo "<div class='one' style='height: 680px;'>";
                             }
                         ?>                      
@@ -687,7 +687,7 @@
                             </div>
                         <?php }?>
                         <?php 
-                            if($count1['cnt'] === "1"){
+                            if($count1['cnt'] === "1" || $count1['cnt'] === "0"){
                                 echo "</div>";
                             }
                         ?>
