@@ -37,54 +37,45 @@
             if(!empty($_FILES['file1']['name'])){//file1の登録処理
                 $image1 = file_get_contents($_FILES['file1']['tmp_name']);
                 $binary_image1 = base64_encode($image1);
-                $sql_media1 = "INSERT INTO post_medias(first_file_name,post_id)VALUES($binary_image1,$post_id)";
+                $sql_media1 = "INSERT INTO post_medias(first_file_name,post_id)VALUES('$binary_image1',$post_id)";
                 $stmt_media1 = $dbh->prepare($sql_media1);
                 $stmt_media1->execute();
             }
 
             if(!empty($_FILES['file2']['name'])){//file2が選択されているとき、登録処理を行う
-                $image2 = uniqid(mt_rand(), true);
-                $image2 .= '.' . substr(strrchr($_FILES['file2']['name'], '.'), 1);
-                $file2 = "post_medias/$image2";
+                $image2 = file_get_contents($_FILES['file2']['tmp_name']);
+                $binary_image2 = base64_encode($image2);
                 if(empty($_FILES['file1']['name'])){
-                    $sql2 = "INSERT INTO post_medias(second_file_name,post_id) VALUES (:file2,$post_id)";
+                    $sql_media2 = "INSERT INTO post_medias(second_file_name,post_id) VALUES ('$binary_image2',$post_id)";
                 }else{
-                    $sql2 = "UPDATE post_medias SET second_file_name = :file2 WHERE post_id = $post_id";
+                    $sql_media2 = "UPDATE post_medias SET second_file_name = '$binary_image2' WHERE post_id = $post_id";
                 }
-                $stmt2 = $dbh->prepare($sql2);
-                $stmt2->bindValue(':file2', $image2, PDO::PARAM_STR);
-                $stmt2->execute();
-                move_uploaded_file($_FILES['file2']['tmp_name'], './post_medias/' . $image2);
+                $stmt_media2 = $dbh->prepare($sql_media2);
+                $stmt_media2->execute();
             }
 
             if(!empty($_FILES['file3']['name'])){
-                $image3 = uniqid(mt_rand(), true);
-                $image3 .= '.' . substr(strrchr($_FILES['file3']['name'], '.'), 1);
-                $file3 = "post_medias/$image3";
+                $image3 = file_get_contents($_FILES['file3']['tmp_name']);
+                $binary_image3 = base64_encode($image3);
                 if(empty($_FILES['file1']['name']) && empty($_FILES['file2']['name'])){
-                    $sql3 = "INSERT INTO post_medias(third_file_name,post_id) VALUES (:file3,$post_id)";
+                    $sql_media3 = "INSERT INTO post_medias(third_file_name,post_id) VALUES ('$binary_image3',$post_id)";
                 }else{
-                    $sql3 = "UPDATE post_medias SET third_file_name = :file3 WHERE post_id = $post_id";
+                    $sql_media3 = "UPDATE post_medias SET third_file_name = '$binary_image3' WHERE post_id = $post_id";
                 }
-                $stmt3 = $dbh->prepare($sql3);
-                $stmt3->bindValue(':file3', $image3, PDO::PARAM_STR);
-                $stmt3->execute();
-                move_uploaded_file($_FILES['file3']['tmp_name'], './post_medias/' . $image3);
+                $stmt_media3 = $dbh->prepare($sql_media3);
+                $stmt_media3->execute();
             }
 
             if(!empty($_FILES['file4']['name'])){
-                $image4 = uniqid(mt_rand(), true);
-                $image4 .= '.' . substr(strrchr($_FILES['file4']['name'], '.'), 1);
-                $file4 = "post_medias/$image4";
+                $image4 = file_get_contents($_FILES['file4']['tmp_name']);
+                $binary_image4 = base64_encode($image4);
                 if(empty($_FILES['file1']['name']) && empty($_FILES['file2']['name']) && empty($_FILES['file3']['name'])){
-                    $sql4 = "INSERT INTO post_medias(fourth_file_name,post_id) VALUES (:file4,$post_id)";
+                    $sql_media4 = "INSERT INTO post_medias(fourth_file_name,post_id) VALUES ('$binary_image4',$post_id)";
                 }else{
-                    $sql4 = "UPDATE post_medias SET fourth_file_name = :file4 WHERE post_id = $post_id";
+                    $sql_media4 = "UPDATE post_medias SET fourth_file_name = '$binary_image4' WHERE post_id = $post_id";
                 }
-                $stmt4 = $dbh->prepare($sql4);
-                $stmt4->bindValue(':file4', $image4, PDO::PARAM_STR);
-                $stmt4->execute();
-                move_uploaded_file($_FILES['file4']['tmp_name'], './post_medias/' . $image4);
+                $stmt_media4 = $dbh->prepare($sql_media4);
+                $stmt_media4->execute();
             }
 
                 header("Location:https://cafe23.herokuapp.com/post_list.php");
