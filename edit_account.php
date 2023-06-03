@@ -47,21 +47,11 @@
                 }
 
                 if($_POST['deselect1'] === "1"){
-                    $image = uniqid(mt_rand(), true);
-                    $image .= '.' . substr(strrchr($_FILES['image']['name'], '.'), 1);
-                    $file = "user_medias/$image";
-                    $sql_media = "UPDATE user_medias SET file_name = :image WHERE user_id = $user_id ";
-                    $stmt = $dbh->prepare($sql_media);
-                    $stmt->bindValue(':image', $image, PDO::PARAM_STR);
-                    if (!empty($_FILES['image']['name'])) {
-                        move_uploaded_file($_FILES['image']['tmp_name'], './user_medias/' . $image);
-                        if (exif_imagetype($file)) {
-                            $message = '画像をアップロードしました';
-                            $stmt->execute();
-                        } else {
-                            $message = '画像ファイルではありません';
-                        }
-                    }
+                    $image = file_get_contents($_FILES['image']['tmp_name']);
+                    $binary_image = base64_encode($image);
+                    $sql_media = "UPDATE user_medias SET file_name = '$binary_image' WHERE user_id = $user_id";
+                    $stmt_media = $dbh->prepare($sql_media);
+                    $stmt_media->execute();
                 }elseif($_POST['deselect1'] === "2" && $result2['file_name'] != "1785292757643d43c85cb494.66990750.PNG"){//デフォルトのプロ画ではなく、選択解除が行われた時
                     $sql_media_reset = "UPDATE user_medias SET file_name = '1785292757643d43c85cb494.66990750.PNG' WHERE user_id = $user_id";
                     $stmt_media = $dbh->prepare($sql_media_reset);
