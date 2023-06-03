@@ -243,6 +243,15 @@
                     posts.registered_time DESC";
         
     $stmt = $dbh->query($sql_post);
+
+    $sql_counts1 = "SELECT
+                        COUNT(*) as cnt
+                    FROM 
+                        posts
+                    WHERE
+                        delete_flag = '0'";
+            $counts1 = $dbh->query($sql_counts1);
+            $count1 = $counts1->fetch();
 ?>
 
 <!DOCTYPE html>
@@ -515,7 +524,12 @@
                     <?php endif; ?>
                     
                     <!-- 投稿一覧画面のデフォルト表示 -->  
-                    <?php if((empty($_POST['search']) && empty($_POST['search_good'])) || ($_POST['search'] === "search0") || (!empty($search_er))):?>                      
+                    <?php if((empty($_POST['search']) && empty($_POST['search_good'])) || ($_POST['search'] === "search0") || (!empty($search_er))):?>
+                        <?php 
+                            if($count1['cnt'] === "1"){
+                                echo "<div class='one' style='height: 680px;'>";
+                            }
+                        ?>                      
                         <?php foreach($stmt as $row){?>
                             <div class="post">
                                 <div class="post_img">
@@ -672,6 +686,11 @@
                                 </div>
                             </div>
                         <?php }?>
+                        <?php 
+                            if($count1['cnt'] === "1"){
+                                echo "</div>";
+                            }
+                        ?>
                         
                     <!--検索結果がない場合-->    
                     <?php elseif($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['search'] === "search1" && $count['cnt'] === "0"):?>

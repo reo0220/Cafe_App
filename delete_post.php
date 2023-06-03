@@ -32,6 +32,9 @@
                         );
                         $sql = "UPDATE posts SET delete_flag = 1 WHERE post_id= $post_id_delete";
                         $stmt = $dbh->query($sql);
+
+                        $sql_del = "DELETE FROM post_medias WHERE post_id= $post_id_delete";
+                        $dbh->query($sql_del);
                 }
                 catch(PDOException $e){
                     $db_error = "エラーが発生したためアカウント削除できません。";
