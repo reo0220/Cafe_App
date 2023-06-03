@@ -73,76 +73,44 @@
                 $stmt_post_edit = $dbh->query($sql_post_edit);
 
                 if(!empty($_FILES['file1']['name'])){//file1の登録処理
-                    $image1 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-                    $image1 .= '.' . substr(strrchr($_FILES['file1']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
-                    $file1 = "post_medias/$image1";
-                    $sql1 = "UPDATE post_medias SET first_file_name = :file1 WHERE post_id = $post_id_edit";
-                    $stmt1 = $dbh->prepare($sql1);
-                    $stmt1->bindValue(':file1', $image1, PDO::PARAM_STR);
-                    move_uploaded_file($_FILES['file1']['tmp_name'], './post_medias/' . $image1);//post_mediasディレクトリにファイル保存
-                    if (exif_imagetype($file1)) {//画像ファイルかのチェック
-                            $message1 = '画像をアップロードしました';
-                            $stmt1->execute();
-                    } else {
-                            $message1 = '画像ファイルではありません';
-                    }
+                    $image1 = file_get_contents($_FILES['file1']['tmp_name']);
+                    $binary_image1 = base64_encode($image1);
+                    $sql_media1 = "UPDATE post_medias SET first_file_name = '$binary_image1' WHERE post_id = $post_id_edit";
+                    $stmt_media1 = $dbh->prepare($sql_media1);
+                    $stmt_media1->execute();
                 }elseif($file1_input === "0"){
                     $sql1_file_delete = "UPDATE post_medias SET first_file_name = '' WHERE post_id = $post_id_edit";
                     $dbh->query($sql1_file_delete);
                 }
                 
                 if(!empty($_FILES['file2']['name'])){//file2が選択されているとき、登録処理を行う
-                    $image2 = uniqid(mt_rand(), true);
-                    $image2 .= '.' . substr(strrchr($_FILES['file2']['name'], '.'), 1);
-                    $file2 = "post_medias/$image2";
-                    $sql2 = "UPDATE post_medias SET second_file_name = :file2 WHERE post_id = $post_id_edit";
-                    $stmt2 = $dbh->prepare($sql2);
-                    $stmt2->bindValue(':file2', $image2, PDO::PARAM_STR);
-                    move_uploaded_file($_FILES['file2']['tmp_name'], './post_medias/' . $image2);
-                    if (exif_imagetype($file2)) {
-                            $message2 = '画像をアップロードしました';
-                            $stmt2->execute();
-                    } else {
-                            $message2 = '画像ファイルではありません';
-                    }
+                    $image2 = file_get_contents($_FILES['file2']['tmp_name']);
+                    $binary_image2 = base64_encode($image2);
+                    $sql_media2 = "UPDATE post_medias SET second_file_name = '$binary_image2' WHERE post_id = $post_id_edit";
+                    $stmt_media2 = $dbh->prepare($sql_media2);
+                    $stmt_media2->execute();
                 }elseif($file2_input === "0"){
                     $sql2_file_delete = "UPDATE post_medias SET second_file_name = '' WHERE post_id = $post_id_edit";
                     $dbh->query($sql2_file_delete);
                 }
                 
                 if(!empty($_FILES['file3']['name'])){
-                    $image3 = uniqid(mt_rand(), true);
-                    $image3 .= '.' . substr(strrchr($_FILES['file3']['name'], '.'), 1);
-                    $file3 = "post_medias/$image3";
-                    $sql3 = "UPDATE post_medias SET third_file_name = :file3 WHERE post_id = $post_id_edit";
-                    $stmt3 = $dbh->prepare($sql3);
-                    $stmt3->bindValue(':file3', $image3, PDO::PARAM_STR);
-                    move_uploaded_file($_FILES['file3']['tmp_name'], './post_medias/' . $image3);
-                    if (exif_imagetype($file3)) {
-                            $message3 = '画像をアップロードしました';
-                            $stmt3->execute();
-                    } else {
-                            $message3 = '画像ファイルではありません';
-                    }
+                    $image3 = file_get_contents($_FILES['file3']['tmp_name']);
+                    $binary_image3 = base64_encode($image3);
+                    $sql_media3 = "UPDATE post_medias SET third_file_name = '$binary_image3' WHERE post_id = $post_id_edit";
+                    $stmt_media3 = $dbh->prepare($sql_media3);
+                    $stmt_media3->execute();
                 }elseif($file3_input === "0"){
                     $sql3_file_delete = "UPDATE post_medias SET third_file_name = '' WHERE post_id = $post_id_edit";
                     $dbh->query($sql3_file_delete);
                 }
                 
                 if(!empty($_FILES['file4']['name'])){
-                    $image4 = uniqid(mt_rand(), true);
-                    $image4 .= '.' . substr(strrchr($_FILES['file4']['name'], '.'), 1);
-                    $file4 = "post_medias/$image4";
-                    $sql4 = "UPDATE post_medias SET fourth_file_name = :file4 WHERE post_id = $post_id_edit";
-                    $stmt4 = $dbh->prepare($sql4);
-                    $stmt4->bindValue(':file4', $image4, PDO::PARAM_STR);
-                    move_uploaded_file($_FILES['file4']['tmp_name'], './post_medias/' . $image4);
-                    if (exif_imagetype($file4)) {
-                            $message4 = '画像をアップロードしました';
-                            $stmt4->execute();
-                    } else {
-                            $message4 = '画像ファイルではありません';
-                    }
+                    $image4 = file_get_contents($_FILES['file4']['tmp_name']);
+                    $binary_image4 = base64_encode($image4);
+                    $sql_media4 = "UPDATE post_medias SET fourth_file_name = '$binary_image4' WHERE post_id = $post_id_edit";
+                    $stmt_media4 = $dbh->prepare($sql_media4);
+                    $stmt_media4->execute();
                 }elseif($file4_input === "0"){
                     $sql4_file_delete = "UPDATE post_medias SET fourth_file_name = '' WHERE post_id = $post_id_edit";
                     $dbh->query($sql4_file_delete);
@@ -453,7 +421,7 @@
                                     <input type="file" name="file1" id="file1" accept='image/*' onchange="previewImage(this);" onclick="deselect1_0()"/>
                                     <?php 
                                             $first_file_name = $result_post['first_file_name'];
-                                            echo "<img src='post_medias/$first_file_name' title='投稿写真' width='160' height='160' id='image'>";
+                                            echo "<img src='data:image/jpeg;base64,$first_file_name' title='投稿写真' width='160' height='160' id='image'>";
                                     ?>    
                                     <img id='preview' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='160' height='160'></br>
                                     <input type="button" id="deselect1" value="選択解除" onclick="deselect1_1()">
@@ -467,7 +435,7 @@
                                     <input type="file" name="file2" id="file2" accept='image/*' onchange="previewImage2(this);" onclick="deselect2_0()"/>
                                     <?php 
                                             $second_file_name = $result_post['second_file_name'];
-                                            echo "<img src='post_medias/$second_file_name' title='投稿写真' width='160' height='160' id='image2'>";
+                                            echo "<img src='data:image/jpeg;base64,$second_file_name' title='投稿写真' width='160' height='160' id='image2'>";
                                     ?>
                                     <img id='preview2' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='160' height='160'></br>
                                     <input type="button" id="deselect2" value="選択解除" onclick="deselect2_1()">
@@ -481,7 +449,7 @@
                                     <input name="file3" type="file" id="file3"  accept='image/*' onchange="previewImage3(this);" onclick="deselect3_0()"/>
                                     <?php 
                                             $third_file_name = $result_post['third_file_name'];
-                                            echo "<img src='post_medias/$third_file_name' title='投稿写真' width='160' height='160' id='image3'>";
+                                            echo "<img src='data:image/jpeg;base64,$third_file_name' title='投稿写真' width='160' height='160' id='image3'>";
                                     ?>
                                     <img id='preview3' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='160' height='160'></br>
                                     <input type="button" id="deselect3" value="選択解除" onclick="deselect3_1()">
@@ -495,7 +463,7 @@
                                     <input name="file4" type="file" id="file4" accept='image/*' onchange="previewImage4(this);" onclick="deselect4_0()"/>
                                     <?php 
                                             $fourth_file_name = $result_post['fourth_file_name'];
-                                            echo "<img src='post_medias/$fourth_file_name' title='投稿写真' width='160' height='160' id='image4'>";
+                                            echo "<img src='data:image/jpeg;base64,$fourth_file_name' title='投稿写真' width='160' height='160' id='image4'>";
                                     ?>
                                     <img id='preview4' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='160' height='160'></br>
                                     <input type="button" id="deselect4" value="選択解除" onclick="deselect4_1()">
