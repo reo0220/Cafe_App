@@ -20,6 +20,11 @@
         $sql2 = "SELECT * FROM user_medias WHERE user_id = $user_id";
         $stmt2 = $dbh->query($sql2);
         $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+        $sql_df = "SELECT * FROM user_medias WHERE media_id = 94";
+        $stmt_df = $dbh->query($sql_df);
+        $result_df = $stmt_df->fetch(PDO::FETCH_ASSOC);
+        $media_df = $result_df['file_name'];
     
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -52,8 +57,8 @@
                     $sql_media = "UPDATE user_medias SET file_name = '$binary_image' WHERE user_id = $user_id";
                     $stmt_media = $dbh->prepare($sql_media);
                     $stmt_media->execute();
-                }elseif($_POST['deselect1'] === "2" && $result2['file_name'] != "1785292757643d43c85cb494.66990750.PNG"){//デフォルトのプロ画ではなく、選択解除が行われた時
-                    $sql_media_reset = "UPDATE user_medias SET file_name = '1785292757643d43c85cb494.66990750.PNG' WHERE user_id = $user_id";
+                }elseif($_POST['deselect1'] === "2" && $result2['file_name'] != $media_df){//デフォルトのプロ画ではなく、選択解除が行われた時
+                    $sql_media_reset = "UPDATE user_medias SET file_name = '$media_df' WHERE user_id = $user_id";
                     $stmt_media = $dbh->prepare($sql_media_reset);
                     $stmt_media->execute();
                 }
@@ -129,7 +134,7 @@
                                 <div class="box_det2">
                                     <?php if(!empty($result2['file_name'])):?>
                                         <figure class="profile-image">
-                                            <img src='user_medias/<?php echo $result2['file_name'];?>' alt='投稿写真' width='300' height='300' id='image'>
+                                            <img src="data:image/jpeg;base64,<?php echo $result2['file_name'];?>" alt='投稿写真' width='300' height='300' id='image'>
                                         </figure>
                                     <?php endif;?>
                             
