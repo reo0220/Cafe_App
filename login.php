@@ -52,7 +52,7 @@
                         $pas = "";
                     }elseif(password_verify($pas, $result['password']) && $mail === $result['mail']){//メールアドレスとパスワードが一致した時
                         $_SESSION['user_id_log'] = $result['user_id'];
-                        header("Location:https://cafe23-169d1a25357a.herokuapp.com/profile.com");
+                        header("Location:https://cafe23-169d1a25357a.herokuapp.com/profile.php");
                     }
                 }
             }
