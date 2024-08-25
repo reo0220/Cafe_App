@@ -59,6 +59,7 @@
 
             //usersテーブルとpostsテーブルとuser_mediasテーブルとpost_mediasテーブルを結合
             $sql_post = "SELECT
+                         DISTINCT
                             posts.post_id,
                             posts.user_id,
                             posts.name AS posts_name,
@@ -71,7 +72,8 @@
                             post_medias.third_file_name,
                             post_medias.fourth_file_name,
                             users.name AS users_name,
-                            user_medias.file_name AS user_medias_file_name
+                            user_medias.file_name AS user_medias_file_name,
+                            posts.registered_time
                         FROM 
                             posts
                         INNER JOIN

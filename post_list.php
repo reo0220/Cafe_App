@@ -13,7 +13,7 @@
         if(!empty($_POST['post_id'])){
             if($_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
                 $post_id_good = $_POST['post_id'];
-                $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
+                $dbh = new PDO('mysql:dbname=cafe23;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
                 $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
                 $stmt_like = $dbh->query($sql_like_button);
                 $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
@@ -70,7 +70,8 @@
                                 post_medias.third_file_name,
                                 post_medias.fourth_file_name,
                                 users.name AS users_name,
-                                user_medias.file_name AS user_medias_file_name
+                                user_medias.file_name AS user_medias_file_name,
+                                posts.registered_time
                             FROM 
                                 posts
                             INNER JOIN
@@ -108,7 +109,8 @@
                                 post_medias.third_file_name,
                                 post_medias.fourth_file_name,
                                 users.name AS users_name,
-                                user_medias.file_name AS user_medias_file_name
+                                user_medias.file_name AS user_medias_file_name,
+                                posts.registered_time
                             FROM 
                                 posts
                             INNER JOIN
@@ -145,7 +147,8 @@
                                 post_medias.third_file_name,
                                 post_medias.fourth_file_name,
                                 users.name AS users_name,
-                                user_medias.file_name AS user_medias_file_name
+                                user_medias.file_name AS user_medias_file_name,
+                                posts.registered_time
                             FROM 
                                 posts
                             INNER JOIN
@@ -182,7 +185,8 @@
                                 post_medias.third_file_name,
                                 post_medias.fourth_file_name,
                                 users.name AS users_name,
-                                user_medias.file_name AS user_medias_file_name
+                                user_medias.file_name AS user_medias_file_name,
+                                posts.registered_time
                             FROM 
                                 posts
                             INNER JOIN
@@ -215,6 +219,7 @@
     $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
     //usersテーブルとpostsテーブルとuser_mediasテーブルとpost_mediasテーブルを結合
     $sql_post = "SELECT
+                 DISTINCT 
                     posts.post_id,
                     posts.user_id,
                     posts.name AS posts_name,
@@ -227,7 +232,8 @@
                     post_medias.third_file_name,
                     post_medias.fourth_file_name,
                     users.name AS users_name,
-                    user_medias.file_name AS user_medias_file_name
+                    user_medias.file_name AS user_medias_file_name,
+                    posts.registered_time
                 FROM 
                     posts
                 INNER JOIN
@@ -238,20 +244,6 @@
                     user_medias ON users.user_id = user_medias.user_id
                 WHERE
                     posts.delete_flag = '0'
-                GROUP BY
-                    posts.post_id,
-                    posts.user_id,
-                    posts.name AS posts_name,
-                    posts.place,
-                    posts.price,
-                    posts.comment,
-                    posts.like_count,
-                    post_medias.first_file_name,
-                    post_medias.second_file_name,
-                    post_medias.third_file_name,
-                    post_medias.fourth_file_name,
-                    users.name AS users_name,
-                    user_medias.file_name AS user_medias_file_name
                 ORDER BY 
                     posts.registered_time DESC";
         
