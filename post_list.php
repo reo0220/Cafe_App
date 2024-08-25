@@ -238,6 +238,20 @@
                     user_medias ON users.user_id = user_medias.user_id
                 WHERE
                     posts.delete_flag = '0'
+                GROUP BY
+                    posts.post_id,
+                    posts.user_id,
+                    posts.name AS posts_name,
+                    posts.place,
+                    posts.price,
+                    posts.comment,
+                    posts.like_count,
+                    post_medias.first_file_name,
+                    post_medias.second_file_name,
+                    post_medias.third_file_name,
+                    post_medias.fourth_file_name,
+                    users.name AS users_name,
+                    user_medias.file_name AS user_medias_file_name
                 ORDER BY 
                     posts.registered_time DESC";
         
