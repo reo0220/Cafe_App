@@ -72,7 +72,7 @@
                     $sql2 = "UPDATE users SET name = '$name',mail = '$mail',password  = '$password',favorite_genre ='$favorite_genre',favorite_menu = '$favorite_menu',about_me = '$about_me' WHERE user_id = '$user_id'";
                     $dbh -> exec($sql2);
 
-                    header("Location:https://cafe23.herokuapp.com/profile.php");
+                    header("Location:https://cafe23-169d1a25357a.herokuapp.com/profile.php");
             }
         }
     }

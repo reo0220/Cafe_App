@@ -78,7 +78,7 @@
                 $stmt_media4->execute();
             }
 
-                header("Location:https://cafe23.herokuapp.com/post_list.php");
+                header("Location:https://cafe23-169d1a25357a.herokuapp.com/post_list.php");
         }
     }
 ?>

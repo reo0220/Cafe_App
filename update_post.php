@@ -115,7 +115,7 @@
                     $sql4_file_delete = "UPDATE post_medias SET fourth_file_name = '' WHERE post_id = $post_id_edit";
                     $dbh->query($sql4_file_delete);
                 }
-                header("Location:https://cafe23.herokuapp.com/profile.php");
+                header("Location:https://cafe23-169d1a25357a.herokuapp.com/profile.php");
             }
         }
     }

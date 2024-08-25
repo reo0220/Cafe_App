@@ -58,7 +58,8 @@
             
 
             //usersテーブルとpostsテーブルとuser_mediasテーブルとpost_mediasテーブルを結合
-            $sql_post = "SELECT 
+            $sql_post = "SELECT
+                         DISTINCT 
                             posts.post_id,
                             posts.user_id,
                             posts.name AS posts_name,

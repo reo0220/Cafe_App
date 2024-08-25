@@ -39,7 +39,7 @@
                 catch(PDOException $e){
                     $db_error = "エラーが発生したためアカウント削除できません。";
                 }
-                header("Location:https://cafe23.herokuapp.com/profile.php");
+                header("Location:https://cafe23-169d1a25357a.herokuapp.com/");
         }
     }
 ?>
