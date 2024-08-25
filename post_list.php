@@ -132,7 +132,7 @@
             $count = $counts->fetch();
         }elseif((!empty($name_search) && $place_search != "0" && $price_search === "0") || (empty($name_search) && $place_search != "0" && $price_search === "0")){//店名と場所のみ、選択入力されている場合か、場所のみ選択している場合
             $sql_search = "SELECT
-                            DISTINCT 
+                            DISTINCT
                                 posts.post_id,
                                 posts.user_id,
                                 posts.name AS posts_name,
@@ -215,7 +215,6 @@
     $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
     //usersテーブルとpostsテーブルとuser_mediasテーブルとpost_mediasテーブルを結合
     $sql_post = "SELECT
-                DISTINCT 
                     posts.post_id,
                     posts.user_id,
                     posts.name AS posts_name,
