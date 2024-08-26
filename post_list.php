@@ -13,7 +13,7 @@
         if(!empty($_POST['post_id'])){
             if($_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
                 $post_id_good = $_POST['post_id'];
-                $dbh = new PDO('mysql:dbname=cafe23;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
+                $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
                 $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
                 $stmt_like = $dbh->query($sql_like_button);
                 $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
@@ -219,7 +219,7 @@
     $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
     //usersテーブルとpostsテーブルとuser_mediasテーブルとpost_mediasテーブルを結合
     $sql_post = "SELECT
-                 DISTINCT 
+                DISTINCT 
                     posts.post_id,
                     posts.user_id,
                     posts.name AS posts_name,
@@ -527,6 +527,7 @@
                     <?php if(!empty($search_er)):?>
                         <p class="text-danger"><?php echo $search_er;?></p>
                     <?php endif; ?>
+                    <a href="data:image/png;base64,319293493646223e37619b3.43737218.jpg" rel="lightbox"><img src="data:image/jpeg;base64,319293493646223e37619b3.43737218.jpg" width="250" height="250"></a>
                     
                     <!-- 投稿一覧画面のデフォルト表示 -->  
                     <?php if((empty($_POST['search']) && empty($_POST['search_good'])) || ($_POST['search'] === "search0") || (!empty($search_er))):?>
