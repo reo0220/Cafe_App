@@ -275,7 +275,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="2">
-                                                    <b>店名：<?php if($row['price'] === 1){
+                                                    <b>価格帯：<?php if($row['price'] === 1){
                                                                 echo "0円〜500円";
                                                                 }elseif($row['price'] === 2){
                                                                     echo "500円〜1000円";
