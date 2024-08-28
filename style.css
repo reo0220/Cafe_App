@@ -888,13 +888,11 @@ i {
 }
 
 .top_post{
-  text-align: center;
   display: grid;
   place-items: center;
 }
 
 .top_post1{
-  text-align: center;
   display: grid;
   place-items: center;
   margin-top: 50px;

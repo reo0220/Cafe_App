@@ -137,7 +137,7 @@
         </main>  
         <footer class="footer">
             <div>
-                <p>&copy; ReoKodama. 2023.</p>
+                <p>&copy; ReoKodama. 2024.</p>
             </div>
         </footer>  
     </body>
