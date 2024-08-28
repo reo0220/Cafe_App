@@ -110,7 +110,7 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
     </head>
-    <body>
+    <body style = "min-width: fit-content;">
         <div class="container">
             <header class="header">
                 <div class="header__inner">
@@ -144,7 +144,7 @@
                 </div>
             </header>
         </div>
-        <main class = "main1">
+        <main>
             <div class="main3">
                 <div class="back_img">
                     <div class="back_img_text">
