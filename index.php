@@ -171,24 +171,24 @@
                         <div class="post_img">
                             <div class="post_img1"><!--1枚目の投稿写真がなかった時-->
                                 <?php if(!empty($row['first_file_name'])):?>
-                                    <a href="data:image/jpeg;base64,<?php echo $row['first_file_name'];?>" rel="lightbox"><img src="data:image/jpeg;base64,<?php echo $row['first_file_name'];?>" width="250" height="250"></a>
+                                    <a href="data:image/png;base64,<?php echo $row['first_file_name'];?>" rel="lightbox"><img src="data:image/png;base64,<?php echo $row['first_file_name'];?>" width="250" height="250"></a>
                                 <?php elseif(!empty($row['second_file_name'])):?>
-                                    <a href="data:image/jpeg;base64,<?php echo $row['second_file_name'];?>" rel="lightbox"><img src="data:image/jpeg;base64,<?php echo $row['second_file_name'];?>" width="250" height="250"></a>
+                                    <a href="data:image/png;base64,<?php echo $row['second_file_name'];?>" rel="lightbox"><img src="data:image/png;base64,<?php echo $row['second_file_name'];?>" width="250" height="250"></a>
                                 <?php elseif(!empty($row['third_file_name'])):?>
-                                    <a href="data:image/jpeg;base64,<?php echo $row['third_file_name'];?>" rel="lightbox"><img src="data:image/jpeg;base64,<?php echo $row['third_file_name'];?>" width="250" height="250"></a>
+                                    <a href="data:image/png;base64,<?php echo $row['third_file_name'];?>" rel="lightbox"><img src="data:image/png;base64,<?php echo $row['third_file_name'];?>" width="250" height="250"></a>
                                 <?php elseif(!empty($row['fourth_file_name'])):?>
-                                    <a href="data:image/jpeg;base64,<?php echo $row['fourth_file_name'];?>" rel="lightbox"><img src="data:image/jpeg;base64,<?php echo $row['fourth_file_name'];?>" width="250" height="250"></a>
+                                    <a href="data:image/png;base64,<?php echo $row['fourth_file_name'];?>" rel="lightbox"><img src="data:image/png;base64,<?php echo $row['fourth_file_name'];?>" width="250" height="250"></a>
                                 <?php endif;?>
                             </div>
                             <div class="post_img2">
                                 <?php if(!empty($row['first_file_name']) && !empty($row['second_file_name'])):?>
-                                    <a href="data:image/jpeg;base64,<?php echo $row['second_file_name'];?>" rel="lightbox"><img src="data:image/jpeg;base64,<?php echo $row['second_file_name'];?>" class='post_img_img' width="80" height="80"></a>
+                                    <a href="data:image/png;base64,<?php echo $row['second_file_name'];?>" rel="lightbox"><img src="data:image/png;base64,<?php echo $row['second_file_name'];?>" class='post_img_img' width="80" height="80"></a>
                                 <?php endif;?> 
                                 <?php if((!empty($row['first_file_name']) && !empty($row['third_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']))):?>
-                                    <a href="data:image/jpeg;base64,<?php echo $row['third_file_name'];?>" rel="lightbox"><img src="data:image/jpeg;base64,<?php echo $row['third_file_name'];?>" class='post_img_img' width="80" height="80"></a>
+                                    <a href="data:image/png;base64,<?php echo $row['third_file_name'];?>" rel="lightbox"><img src="data:image/png;base64,<?php echo $row['third_file_name'];?>" class='post_img_img' width="80" height="80"></a>
                                 <?php endif;?>
                                 <?php if((!empty($row['first_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && empty($row['second_file_name']) && !empty($row['third_file_name']) && !empty($row['fourth_file_name'])) || (empty($row['first_file_name']) && !empty($row['second_file_name']) && empty($row['third_file_name']) && !empty($row['fourth_file_name']))):?>
-                                    <a href="data:image/jpeg;base64,<?php echo $row['fourth_file_name'];?>" rel="lightbox"><img src="data:image/jpeg;base64,<?php echo $row['fourth_file_name'];?>" class='post_img_img' width="80" height="80"></a>
+                                    <a href="data:image/png;base64,<?php echo $row['fourth_file_name'];?>" rel="lightbox"><img src="data:image/png;base64,<?php echo $row['fourth_file_name'];?>" class='post_img_img' width="80" height="80"></a>
                                 <?php endif;?>
                             </div>
                         </div>
@@ -199,11 +199,11 @@
                                     <th>
                                         <?php if($user_id != $row['user_id']):?>
                                             <a href="profile_someone.php?user_id=<?php echo $row['user_id'];?>">
-                                                <img class="profile_img" src="data:image/jpeg;base64,<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
+                                                <img class="profile_img" src="data:image/png;base64,<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
                                             </a>
                                         <?php else:?>
                                             <a href="profile.php">
-                                                <img class="profile_img" src="data:image/jpeg;base64,<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
+                                                <img class="profile_img" src="data:image/png;base64,<?php echo $row['user_medias_file_name']; ?>" alt="プロフィール写真" width="100" height="100">
                                             </a>
                                         <?php endif; ?>
                                     </th>
