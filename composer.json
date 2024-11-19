@@ -1,5 +1,6 @@
 {
     "require": {
+      "aws/aws-sdk-php": "3.*",
       "php": "~7.3.22",
       "ext-mbstring": "*",
       "ext-exif":"*"
