@@ -28,7 +28,7 @@
             $post_price = $_POST['price'];
             $post_comment = $_POST['comment'];
 
-            $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
+            $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
             $sql_post = "INSERT INTO posts(user_id,name,place,price,comment,delete_flag) VALUES ('$user_id','$post_name','$post_place','$post_price','$post_comment','0')";
             $stmt_post = $dbh->prepare($sql_post);
             $stmt_post->execute();

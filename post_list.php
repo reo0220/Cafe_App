@@ -13,19 +13,19 @@
         if(!empty($_POST['post_id'])){
             if($_POST['button'] === "行ってみたい" || $_POST['button'] === "行ってみたい解除"){
                 $post_id_good = $_POST['post_id'];
-                $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
+                $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
                 $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
                 $stmt_like = $dbh->query($sql_like_button);
                 $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
                 
                 if($_POST['button'] === "行ってみたい" && empty($result_like)){
-                    $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
+                    $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
                     $sql_like_count = "UPDATE posts SET like_count = like_count + 1 WHERE post_id = $post_id_good";
                     $sql_post_like = "INSERT INTO post_likes(user_id,post_id) VALUES($user_id,$post_id_good)";
                     $stmt = $dbh->query($sql_like_count);
                     $stmt = $dbh->query($sql_post_like);
                 }elseif($_POST['button'] === "行ってみたい解除" && !empty($result_like)){
-                    $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
+                    $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
                     $sql_like_count = "UPDATE posts SET like_count = like_count - 1 WHERE post_id = $post_id_good";
                     $sql_post_like = "DELETE from post_likes WHERE user_id = $user_id AND post_id = $post_id_good";
                     $stmt = $dbh->query($sql_like_count);
@@ -54,7 +54,7 @@
             $place_search = $_GET['place'];
             $price_search = $_GET['price'];
         }
-        $dbh_search = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
+        $dbh_search = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
         if((!empty($name_search) && $place_search != "0" && $price_search != "0") || (empty($name_search) && $place_search != "0" && $price_search != "0")){
             $sql_search = "SELECT
                             DISTINCT 
@@ -216,7 +216,7 @@
 }
     //デフォルト表示のsql
     mb_internal_encoding("utf8");
-    $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
+    $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
     //usersテーブルとpostsテーブルとuser_mediasテーブルとpost_mediasテーブルを結合
     $sql_post = "SELECT
                 DISTINCT 
@@ -666,7 +666,7 @@
                                                     <?php
                                                         if($user_id != ""){
                                                             if($user_id != $row['user_id']){
-                                                                $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
+                                                                $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
                                                                 $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
                                                                 $stmt_like = $dbh->query($sql_like_button);
                                                                 $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
@@ -840,7 +840,7 @@
                                                     <?php
                                                         if($user_id != ""){
                                                             if($user_id != $row['user_id']){
-                                                                $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
+                                                                $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
                                                                 $sql_like_button = "SELECT * FROM post_likes WHERE user_id = $user_id AND post_id = $row[post_id]";
                                                                 $stmt_like = $dbh->query($sql_like_button);
                                                                 $result_like = $stmt_like->fetch(PDO::FETCH_ASSOC);
