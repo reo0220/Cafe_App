@@ -19,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if($mail === ""){
         $error2 = "メールアドレスが未入力です。";
     }elseif(!empty($mail)){//メールアドレスがデータベースに存在するかチェック
-        $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
+        $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1','ck3eakt3fp2npl6a');
         $sql = "SELECT * FROM users WHERE mail = '$mail' ";
         $stmt = $dbh->query($sql);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -35,7 +35,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
    
     if(!isset($error1) && !isset($error2) && !isset($error3) && !isset($error4)){
             try{
-                $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a',//データベース接続
+                $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1','ck3eakt3fp2npl6a',//データベース接続
                     array(
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,//SQL実行失敗の時、例外をスロー
                         PDO::ATTR_EMULATE_PREPARES => false,
@@ -51,7 +51,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     $db_error = "エラーが発生したためアカウント登録できません。";
                 }
                 
-                $dbh1 = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
+                $dbh1 = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1','ck3eakt3fp2npl6a');
                 $sql_df = "SELECT * FROM user_medias WHERE media_id = 94";
                 $stmt_df = $dbh1->query($sql_df);
                 $result_df = $stmt_df->fetch(PDO::FETCH_ASSOC);
