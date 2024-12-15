@@ -12,7 +12,7 @@
 
     if(!empty($user_id)){
         
-        $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
+        $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1','ck3eakt3fp2npl6a');
         $sql = "SELECT * FROM users WHERE user_id = $user_id ";//パラメータに渡された[user_id]のidの情報を取り出す
         $stmt = $dbh->query($sql);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);//カラム名で添字付けた配列を返す
@@ -46,7 +46,7 @@
             if(empty($error_name) && empty($error_mail) && empty($error_pas)){
 
                 try {
-                    $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
+                    $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1','ck3eakt3fp2npl6a');
                 } catch (PDOException $e) {
                     echo $e->getMessage();
                 }

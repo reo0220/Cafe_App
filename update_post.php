@@ -17,7 +17,7 @@
     if(!empty($user_id) && !empty($_GET['post_id'])){
         $er_update_post = 2;
         $post_id = $_GET['post_id'];
-        $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
+        $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1','ck3eakt3fp2npl6a');
         $sql_post = "SELECT 
                         posts.post_id,
                         posts.user_id,
@@ -68,7 +68,7 @@
 
             if((!empty($_POST['name'])) && (empty($er_file1) || empty($er_file2) || empty($er_file3) || empty($er_file4))){
                 $post_id_edit = $_POST['post_id'];
-                $dbh = new PDO('mysql:dbname=heroku_a8ae41c85a24286;host=us-cluster-east-01.k8s.cleardb.net;charset=utf8','b5d8de2f7148b2','1bf59141');
+                $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1','ck3eakt3fp2npl6a');
                 $sql_post_edit = "UPDATE posts SET name = '$_POST[name]',place='$_POST[place]',price='$_POST[price]',comment='$_POST[comment]' WHERE post_id = $post_id_edit";
                 $stmt_post_edit = $dbh->query($sql_post_edit);
 

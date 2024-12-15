@@ -12,7 +12,7 @@
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         
-        $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
+        $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1','ck3eakt3fp2npl6a');
         $sql = "UPDATE users SET delete_flag = 1 WHERE user_id = $user_id ";
         $stmt = $dbh->query($sql);
         

@@ -19,7 +19,7 @@
                     $mail = $_POST['mail'];
                     $pas = $_POST['password'];       
         
-                    $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a',
+                    $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1','ck3eakt3fp2npl6a',
                         array(
                             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,//SQL実行失敗の時、例外をスロー
                             PDO::ATTR_EMULATE_PREPARES => false,
