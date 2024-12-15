@@ -19,7 +19,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if($mail === ""){
         $error2 = "メールアドレスが未入力です。";
     }elseif(!empty($mail)){//メールアドレスがデータベースに存在するかチェック
-        $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
+        $url = getenv('mysql://yao2hpzrt6mfkfn1:ck3eakt3fp2npl6a@lmag6s0zwmcswp5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/aebifro9tkb2dfum');
+        $dbparts = parse_url($url);
+        $hostname = $dbparts['lmag6s0zwmcswp5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'];
+        $username = $dbparts['yao2hpzrt6mfkfn1'];
+        $password = $dbparts['ck3eakt3fp2npl6a'];
+        $database = ltrim($dbparts['aebifro9tkb2dfum'],'/');
+        $dbh = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
         $sql = "SELECT * FROM users WHERE mail = '$mail' ";
         $stmt = $dbh->query($sql);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -35,7 +41,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
    
     if(!isset($error1) && !isset($error2) && !isset($error3) && !isset($error4)){
             try{
-                $dbh = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a',//データベース接続
+                $url = getenv('mysql://yao2hpzrt6mfkfn1:ck3eakt3fp2npl6a@lmag6s0zwmcswp5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/aebifro9tkb2dfum');
+                $dbparts = parse_url($url);
+                $hostname = $dbparts['lmag6s0zwmcswp5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'];
+                $username = $dbparts['yao2hpzrt6mfkfn1'];
+                $password = $dbparts['ck3eakt3fp2npl6a'];
+                $database = ltrim($dbparts['aebifro9tkb2dfum'],'/');
+                $dbh = new PDO("mysql:host=$hostname;dbname=$database", $username, $password,
                     array(
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,//SQL実行失敗の時、例外をスロー
                         PDO::ATTR_EMULATE_PREPARES => false,
@@ -51,7 +63,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     $db_error = "エラーが発生したためアカウント登録できません。";
                 }
                 
-                $dbh1 = new PDO('mysql:host=lmag6s0zwmcswp5w.cbetxkdyhwsb.us-;dbname=aebifro9tkb2dfum','yao2hpzrt6mfkfn1', 'ck3eakt3fp2npl6a');
+                $url = getenv('mysql://yao2hpzrt6mfkfn1:ck3eakt3fp2npl6a@lmag6s0zwmcswp5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/aebifro9tkb2dfum');
+                $dbparts = parse_url($url);
+                $hostname = $dbparts['lmag6s0zwmcswp5w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'];
+                $username = $dbparts['yao2hpzrt6mfkfn1'];
+                $password = $dbparts['ck3eakt3fp2npl6a'];
+                $database = ltrim($dbparts['aebifro9tkb2dfum'],'/');
+                $dbh = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
                 $sql_df = "SELECT * FROM user_medias WHERE media_id = 94";
                 $stmt_df = $dbh1->query($sql_df);
                 $result_df = $stmt_df->fetch(PDO::FETCH_ASSOC);
@@ -60,7 +78,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 $sql_media = "INSERT INTO user_medias(file_name,user_id) VALUES ('$media_df','$user_id_media')";
                 $stmt1 = $dbh1->prepare($sql_media);
                 $stmt1->execute();
-                header("Location:https://cafe23-169d1a25357a.herokuapp.com//profile.php");
+                header("Location:https://cafe23-169d1a25357a.herokuapp.com/profile.php");
     }
 }
 ?>
