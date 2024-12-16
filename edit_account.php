@@ -134,7 +134,7 @@
                                 <div class="box_det2">
                                     <?php if(!empty($result2['file_name'])):?>
                                         <figure class="profile-image">
-                                            <img src="data:image/jpeg;base64,<?php echo $result2['file_name'];?>" alt='投稿写真' width='300' height='300' id='image'>
+                                            <img src="data:image/jpeg;base64,<?php echo $result2['file_name'];?>" alt='プロフィール写真' width='300' height='300' id='image'>
                                         </figure>
                                     <?php endif;?>
                             

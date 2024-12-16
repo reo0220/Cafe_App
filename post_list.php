@@ -587,51 +587,51 @@
                                         <tr>
                                             <td colspan="2">
                                                 <b>場所：
-                                                <?php if($row['place'] === "1"){
+                                                <?php if($row['place'] === 1){
                                                             echo "千代田区";
-                                                        }elseif($row['place'] === "2"){
+                                                        }elseif($row['place'] === 2){
                                                             echo "中央区";
-                                                        }elseif($row['place'] === "3"){
+                                                        }elseif($row['place'] === 3){
                                                             echo "港区";
-                                                        }elseif($row['place'] === "4"){
+                                                        }elseif($row['place'] === 4){
                                                             echo "新宿区";
-                                                        }elseif($row['place'] === "5"){
+                                                        }elseif($row['place'] === 5){
                                                             echo "文京区";
-                                                        }elseif($row['place'] === "6"){
+                                                        }elseif($row['place'] === 6){
                                                             echo "台東区";
-                                                        }elseif($row['place'] === "7"){
+                                                        }elseif($row['place'] === 7){
                                                             echo "墨田区";
-                                                        }elseif($row['place'] === "8"){
+                                                        }elseif($row['place'] === 8){
                                                             echo "江東区";
-                                                        }elseif($row['place'] === "9"){
+                                                        }elseif($row['place'] === 9){
                                                             echo "品川区";
-                                                        }elseif($row['place'] === "10"){
+                                                        }elseif($row['place'] === 10){
                                                             echo "目黒区";
-                                                        }elseif($row['place'] === "11"){
+                                                        }elseif($row['place'] === 11){
                                                             echo "大田区";
-                                                        }elseif($row['place'] === "12"){
+                                                        }elseif($row['place'] === 12){
                                                             echo "世田谷区";
-                                                        }elseif($row['place'] === "13"){
+                                                        }elseif($row['place'] === 13){
                                                             echo "渋谷区";
-                                                        }elseif($row['place'] === "14"){
+                                                        }elseif($row['place'] === 14){
                                                             echo "中野区";
-                                                        }elseif($row['place'] === "15"){
+                                                        }elseif($row['place'] === 15){
                                                             echo "杉並区";
-                                                        }elseif($row['place'] === "16"){
+                                                        }elseif($row['place'] === 16){
                                                             echo "豊島区";
-                                                        }elseif($row['place'] === "17"){
+                                                        }elseif($row['place'] === 17){
                                                             echo "北区";
-                                                        }elseif($row['place'] === "18"){
+                                                        }elseif($row['place'] === 18){
                                                             echo "荒川区";
-                                                        }elseif($row['place'] === "19"){
+                                                        }elseif($row['place'] === 19){
                                                             echo "板橋区";
-                                                        }elseif($row['place'] === "20"){
+                                                        }elseif($row['place'] === 20){
                                                             echo "練馬区";
-                                                        }elseif($row['place'] === "21"){
+                                                        }elseif($row['place'] === 21){
                                                             echo "足立区";
-                                                        }elseif($row['place'] === "22"){
+                                                        }elseif($row['place'] === 22){
                                                             echo "葛飾区";
-                                                        }elseif($row['place'] === "23"){
+                                                        }elseif($row['place'] === 23){
                                                             echo "江戸川区";
                                                         }?></b>
                                             </td>
@@ -639,15 +639,15 @@
                                         <tr>
                                             <td colspan="2">
                                                 <b>価格帯：
-                                                <?php if($row['price'] === "1"){
+                                                <?php if($row['price'] === 1){
                                                     echo "0円〜500円";
-                                                }elseif($row['price'] === "2"){
+                                                }elseif($row['price'] === 2){
                                                     echo "500円〜1000円";
-                                                }elseif($row['price'] === "3"){
+                                                }elseif($row['price'] === 3){
                                                     echo "1000円〜1500円";
-                                                }elseif($row['price'] === "4"){
+                                                }elseif($row['price'] === 4){
                                                     echo "1500円〜2000円";
-                                                }elseif($row['price'] === "5"){
+                                                }elseif($row['price'] === 5){
                                                     echo "2000円〜";
                                                 }?>
                                             </td>
